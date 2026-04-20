@@ -156,6 +156,7 @@ export default function Home() {
           <h3 className="font-outfit font-black text-xl uppercase tracking-[0.4em] text-[#5a4838]">Curated Archive</h3>
           <Link href="/shop" className="font-outfit text-[10px] font-black tracking-[0.4em] text-[#FD2F79] uppercase border-b border-[#FD2F79]/20 pb-1">View All Collection</Link>
         </div>
+        <div className="flex flex-wrap justify-center gap-12 px-8 pb-10">
           {[
             { id: '01', name: 'Wani Collectible Box', price: '₩42,000', thumb: '/thumb1.jpg' },
             { id: '02', name: 'Wani Digital Clock', price: '₩35,000', thumb: '/thumb2.jpg' },
