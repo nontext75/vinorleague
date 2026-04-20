@@ -158,19 +158,19 @@ export default function Home() {
         </div>
         <div className="flex flex-wrap justify-center gap-10 px-8 pb-10">
           {[1,2,3,4,1,2].map((i, idx) => (
-            <div key={idx} className="w-[280px] group cursor-pointer transition-all duration-1000 ease-in-out hover:-translate-y-3">
-              <div className="relative aspect-square overflow-hidden rounded-[40px] transition-all duration-1000 ease-in-out shadow-sm group-hover:shadow-2xl">
+            <div key={idx} className="w-[280px] group cursor-pointer">
+              <div className="relative aspect-square overflow-hidden rounded-[40px] transition-all duration-1000 ease-in-out shadow-sm group-hover:shadow-2xl mb-6">
                 <Image 
                   src={`/thumb${(idx % 4) + 1}.png`} 
                   alt="Goods" 
                   fill 
                   className="object-cover transition-transform duration-1000 ease-in-out group-hover:scale-110" 
                 />
-                {/* Text Overlay */}
-                <div className="absolute inset-x-0 bottom-0 p-8 pt-12 bg-gradient-to-t from-[#5a4838]/40 to-transparent flex flex-col items-start text-left opacity-90 group-hover:opacity-100 transition-opacity duration-700">
-                  <p className="font-outfit text-[10px] font-black tracking-[0.4em] text-white/90 uppercase mb-2">Object 0{idx+1}</p>
-                  <h4 className="font-outfit font-bold text-white text-lg">Archive Item Title</h4>
-                </div>
+              </div>
+              <div className="flex flex-col items-start px-2">
+                <p className="font-outfit text-[9px] font-black tracking-[0.4em] text-[#FD2F79] uppercase mb-2">Object 0{(idx % 4) + 1}</p>
+                <h4 className="font-outfit font-black text-[#5a4838] text-lg leading-tight mb-2 group-hover:text-[#FD2F79] transition-colors">와니 패밀리 아카이브 상품 0{(idx % 4) + 1}</h4>
+                <p className="font-outfit text-xs font-bold text-[#5a4838]/40">₩4,500</p>
               </div>
             </div>
           ))}
