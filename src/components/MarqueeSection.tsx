@@ -20,24 +20,24 @@ const items = [
 function Card({ src, tag, label, offset }: { src: string; tag: string; label: string; offset: boolean }) {
   return (
     <div
-      className="relative shrink-0 w-[360px] mx-4 rounded-[32px] overflow-hidden bg-white border-[10px] border-white shadow-[0_16px_48px_-10px_rgba(90,72,56,0.20)] group cursor-pointer"
+      className="relative shrink-0 w-[360px] mx-4 rounded-[32px] overflow-hidden border-[10px] border-white shadow-[0_16px_48px_-10px_rgba(90,72,56,0.20)] group cursor-pointer aspect-[3/4]"
       style={{ transform: offset ? "translateY(32px)" : "translateY(-32px)" }}
     >
-      <div className="relative w-full aspect-[3/4] overflow-hidden">
-        <Image
-          src={src}
-          alt={label}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-700"
-        />
-        <div className="absolute top-4 left-4 z-10">
-          <span className="font-outfit text-[8px] font-black tracking-[0.25em] bg-white/90 backdrop-blur-sm text-[#FD2F79] px-3 py-1.5 rounded-full uppercase shadow-sm">
-            {tag}
-          </span>
-        </div>
+      <Image
+        src={src}
+        alt={label}
+        fill
+        className="object-cover group-hover:scale-105 transition-transform duration-700"
+      />
+      {/* Chip */}
+      <div className="absolute top-4 left-4 z-10">
+        <span className="font-outfit text-[8px] font-black tracking-[0.25em] bg-white/90 backdrop-blur-sm text-[#FD2F79] px-3 py-1.5 rounded-full uppercase shadow-sm">
+          {tag}
+        </span>
       </div>
-      <div className="px-5 py-4">
-        <p className="font-outfit text-xs font-black tracking-[0.2em] text-[#5a4838] uppercase truncate">{label}</p>
+      {/* Label below chip */}
+      <div className="absolute top-12 left-4 z-10 mt-2">
+        <p className="font-outfit text-sm font-black tracking-[0.2em] text-white uppercase drop-shadow-md">{label}</p>
       </div>
     </div>
   );
