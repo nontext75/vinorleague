@@ -1,18 +1,9 @@
 // src/app/shop/page.tsx
 import Image from "next/image";
+import Link from "next/link";
+import { PRODUCTS } from "@/lib/constants";
 
 export default function ShopPage() {
-  const products = [
-    { id: '01', name: 'Vinor league Collectible Box', price: '₩42,000', thumb: '/thumb1.jpg' },
-    { id: '02', name: 'Vinor league Digital Clock', price: '₩35,000', thumb: '/thumb2.jpg' },
-    { id: '03', name: 'Vinor league Pattern Phone Case', price: '₩18,000', thumb: '/thumb3.jpg' },
-    { id: '04', name: 'Vinor league Embroidered Pouch', price: '₩12,000', thumb: '/thumb4.jpg' },
-    { id: '05', name: 'Vinor league Family Duck Toy', price: '₩24,000', thumb: '/thumb5.png' },
-    { id: '06', name: 'Travel with Vinor league (Map)', price: '₩48,000', thumb: '/thumb6.jpg' },
-    { id: '07', name: 'Good Sports Talk (Car)', price: '₩39,000', thumb: '/thumb7.jpg' },
-    { id: '08', name: 'Vinus: The Forest Spirit', price: '₩55,000', thumb: '/thumb8.png' },
-  ];
-
   return (
     <div className="min-h-screen bg-mesh relative font-sans selection:bg-[#FD2F79]/10 selection:text-[#FD2F79]">
       <div className="container mx-auto px-8 pt-40 pb-24 relative z-10 text-[#5a4838]">
@@ -33,8 +24,8 @@ export default function ShopPage() {
 
         {/* Premium Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-12 gap-y-20">
-          {products.map((item) => (
-            <div key={item.id} className="group cursor-pointer">
+          {PRODUCTS.map((item) => (
+            <Link key={item.id} href={`/shop/${item.id}`} className="group cursor-pointer block">
               <div className="relative aspect-square overflow-hidden rounded-[48px] transition-all duration-1000 ease-in-out shadow-sm group-hover:shadow-2xl mb-8 sticker-card bg-white/40">
                 <Image 
                   src={item.thumb} 
@@ -57,7 +48,7 @@ export default function ShopPage() {
                   <p className="font-outfit text-[9px] font-black tracking-widest text-[#5a4838]/30 uppercase">In Stock</p>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
         

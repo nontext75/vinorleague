@@ -50,7 +50,7 @@ export default function CharactersPage() {
           {family.map((char, idx) => (
             <div key={char.engName} className={`flex flex-col ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-16 md:gap-32`}>
               {/* Character Card (Sticker Style) */}
-              <div className="relative w-full max-w-[450px] aspect-square flex items-center justify-center">
+              <div className="relative w-full max-w-[450px] aspect-square flex items-center justify-center group">
                 <div 
                   className="relative w-full h-full sticker-card bg-white p-8 soft-shadow transition-transform duration-1000 group-hover:scale-105"
                   style={{ transform: `rotate(${char.rotate})` }}

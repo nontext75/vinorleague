@@ -1,7 +1,37 @@
+"use client";
+
 import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (searchOpen) inputRef.current?.focus();
+  }, [searchOpen]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { setSearchOpen(false); setQuery(""); }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+    setSearchOpen(false);
+    router.push(`/shop?q=${encodeURIComponent(query.trim())}`);
+    setQuery("");
+  };
+
   return (
+    <>
     <header className="fixed w-full bg-white/5 backdrop-blur-md top-0 z-50 py-3 transition-all duration-1000 ease-in-out hover:bg-white/20 border-b border-black/5">
       <div className="navbar max-w-[1400px] mx-auto px-8">
         <div className="navbar-start">
@@ -73,7 +103,10 @@ export default function Header() {
         </div>
         
         <div className="navbar-end gap-6">
-          <button className="hidden lg:block font-outfit text-base font-black tracking-[0.4em] text-[#5a4838] opacity-40 hover:opacity-100 transition-all uppercase">
+          <button
+            onClick={() => setSearchOpen(true)}
+            className="hidden lg:block font-outfit text-base font-black tracking-[0.4em] text-[#5a4838] opacity-40 hover:opacity-100 transition-all uppercase"
+          >
             Search
           </button>
           <button className="relative group">
@@ -87,5 +120,39 @@ export default function Header() {
         </div>
       </div>
     </header>
+
+    {/* Search Overlay */}
+    <div
+      className={`fixed inset-0 z-40 transition-all duration-500 ${
+        searchOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+      }`}
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-white/80 backdrop-blur-xl" onClick={() => { setSearchOpen(false); setQuery(""); }} />
+
+      {/* Search Box */}
+      <div className={`absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl px-8 transition-all duration-500 ${
+        searchOpen ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"
+      }`}>
+        <p className="font-outfit text-[10px] font-black tracking-[0.4em] text-[#FD2F79] uppercase mb-6 text-center">Search</p>
+        <form onSubmit={handleSubmit} className="relative">
+          <input
+            ref={inputRef}
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="상품명을 입력하세요..."
+            className="w-full bg-transparent border-b-2 border-[#5a4838]/20 focus:border-[#FD2F79] outline-none font-outfit text-3xl font-black text-[#5a4838] placeholder:text-[#5a4838]/20 pb-4 transition-all"
+          />
+          <button type="submit" className="absolute right-0 bottom-4 font-outfit text-[10px] font-black tracking-[0.4em] text-[#5a4838]/40 hover:text-[#FD2F79] uppercase transition-all">
+            Go →
+          </button>
+        </form>
+        <button onClick={() => { setSearchOpen(false); setQuery(""); }} className="mt-8 block mx-auto font-outfit text-[9px] font-black tracking-[0.3em] text-[#5a4838]/30 hover:text-[#5a4838] uppercase transition-all">
+          ESC to close
+        </button>
+      </div>
+    </div>
+    </>
   );
 }

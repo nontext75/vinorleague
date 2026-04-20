@@ -50,7 +50,7 @@
   }
 
   .sticker-card {
-    @apply border-[12px] border-white shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] transition-all duration-1000 ease-in-out rounded-[40px];
+    @apply border-[8px] border-white shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] transition-all duration-1000 ease-in-out rounded-[40px];
     background-color: white;
   }
 }

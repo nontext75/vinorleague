@@ -95,12 +95,13 @@ export default function Home() {
             { id: '08', name: 'Vinus: The Forest Spirit', price: '₩55,000', thumb: '/thumb8.png' },
           ].map((item) => (
             <div key={item.id} className="group cursor-pointer min-w-0">
-              <div className="relative aspect-square overflow-hidden rounded-[40px] transition-all duration-1000 ease-in-out shadow-sm group-hover:shadow-2xl mb-8">
-                <Image 
+              <div className="relative aspect-square overflow-hidden rounded-[40px] transition-all duration-1000 ease-in-out shadow-sm group-hover:shadow-2xl mb-8 bg-[#f0ece8]">
+                <Image
                   src={item.thumb}
-                  alt={item.name} 
-                  fill 
-                  className="object-cover transition-transform duration-1000 ease-in-out group-hover:scale-110" 
+                  alt={item.name}
+                  fill
+                  className="object-contain p-4 transition-transform duration-1000 ease-in-out group-hover:scale-110"
+                  unoptimized={item.thumb.endsWith('.png')}
                 />
               </div>
               <div className="flex flex-col items-start px-2 pt-4 gap-2">

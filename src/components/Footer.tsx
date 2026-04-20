@@ -21,7 +21,7 @@ export default function Footer() {
             <div className="flex flex-col gap-4">
               <a className="link link-hover font-bold text-sm opacity-70 hover:opacity-100 transition-opacity cursor-pointer">FAQ</a>
               <a className="link link-hover font-bold text-sm opacity-70 hover:opacity-100 transition-opacity cursor-pointer">Shipping & Returns</a>
-              <a className="link link-hover font-bold text-sm opacity-70 hover:opacity-100 transition-opacity cursor-pointer">Contact Us</a>
+              <Link href="/contact" className="link link-hover font-bold text-sm opacity-70 hover:opacity-100 transition-opacity">Contact Us</Link>
             </div>
           </div>
 
