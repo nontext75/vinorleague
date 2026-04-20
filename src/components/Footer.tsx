@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 mb-20">
           {/* Shop Column */}
           <div className="flex flex-col">
-            <h6 className="font-outfit text-xs font-black tracking-[0.4em] text-[#FD2F79] mb-6 uppercase">Wani Shop</h6>
+            <h6 className="font-outfit text-xs font-black tracking-[0.4em] text-[#FD2F79] mb-6 uppercase">Vinor league</h6>
             <div className="flex flex-col gap-4">
               <Link href="/about" className="link link-hover font-bold text-sm opacity-70 hover:opacity-100 transition-opacity">About Us</Link>
               <Link href="/shop" className="link link-hover font-bold text-sm opacity-70 hover:opacity-100 transition-opacity">Shop</Link>
@@ -57,7 +57,7 @@ export default function Footer() {
             <a href="https://github.com/nontext75/vinorleague" target="_blank" rel="noopener noreferrer" className="font-outfit text-[10px] font-black tracking-[0.3em] uppercase opacity-40 hover:opacity-100 hover:text-[#FD2F79] transition-all">Github</a>
           </div>
           <p className="font-outfit text-[10px] font-black tracking-[0.5em] uppercase opacity-20 text-center">
-            © 2024 WANI FAMILY COLL. ALL RIGHTS RESERVED.
+            © 2024 VINOR LEAGUE COLL. ALL RIGHTS RESERVED.
           </p>
         </div>
       </div>

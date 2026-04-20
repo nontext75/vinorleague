@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Outfit, Cormorant_Garamond } from "next/font/google";
+import { Geist, Geist_Mono, Outfit } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -22,8 +22,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
- title: "Wani Family Shop",
- description: "Official Character Goods Shop for Wani Family",
+  title: "Vinor league Official",
+  description: "바이너리그 공식 스토어",
 };
 
 export default function RootLayout({
