@@ -156,15 +156,17 @@ export default function Home() {
           <h3 className="font-outfit font-black text-xl uppercase tracking-[0.4em] text-[#5a4838]">Curated Archive</h3>
           <Link href="/shop" className="font-outfit text-[10px] font-black tracking-[0.4em] text-[#FD2F79] uppercase border-b border-[#FD2F79]/20 pb-1">View All Collection</Link>
         </div>
-        <div className="flex flex-wrap justify-center gap-12 px-8 pb-10">
           {[
             { id: '01', name: 'Wani Collectible Box', price: '₩42,000', thumb: '/thumb1.jpg' },
             { id: '02', name: 'Wani Digital Clock', price: '₩35,000', thumb: '/thumb2.jpg' },
             { id: '03', name: 'Wani Pattern Phone Case', price: '₩18,000', thumb: '/thumb3.jpg' },
             { id: '04', name: 'Wani Embroidered Pouch', price: '₩12,000', thumb: '/thumb4.jpg' },
             { id: '05', name: 'Wani Family Duck Toy', price: '₩24,000', thumb: '/thumb5.png' },
+            { id: '06', name: 'Travel with Wani (Map)', price: '₩48,000', thumb: '/thumb6.jpg' },
+            { id: '07', name: 'Good Sports Talk (Car)', price: '₩39,000', thumb: '/thumb7.jpg' },
+            { id: '08', name: 'Vinus: The Forest Spirit', price: '₩55,000', thumb: '/thumb8.png' },
           ].map((item) => (
-            <div key={item.id} className="w-[300px] group cursor-pointer">
+            <div key={item.id} className="w-[280px] group cursor-pointer">
               <div className="relative aspect-square overflow-hidden rounded-[40px] transition-all duration-1000 ease-in-out shadow-sm group-hover:shadow-2xl mb-8">
                 <Image 
                   src={item.thumb}
@@ -175,7 +177,7 @@ export default function Home() {
               </div>
               <div className="flex flex-col items-start px-4">
                 <p className="font-outfit text-[9px] font-black tracking-[0.4em] text-[#FD2F79] uppercase mb-2">Object {item.id}</p>
-                <h4 className="font-outfit font-black text-[#5a4838] text-lg leading-tight mb-2 group-hover:text-[#FD2F79] transition-colors">{item.name}</h4>
+                <h4 className="font-outfit font-black text-[#5a4838] text-[15px] leading-tight mb-2 group-hover:text-[#FD2F79] transition-colors">{item.name}</h4>
                 <p className="font-outfit text-xs font-bold text-[#5a4838]/40">{item.price}</p>
               </div>
             </div>
