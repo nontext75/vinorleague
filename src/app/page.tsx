@@ -100,7 +100,7 @@ export default function Home() {
                   src={item.thumb}
                   alt={item.name}
                   fill
-                  className="object-contain p-4 transition-transform duration-1000 ease-in-out group-hover:scale-110"
+                  className="object-cover transition-transform duration-1000 ease-in-out group-hover:scale-110"
                   unoptimized={item.thumb.endsWith('.png')}
                 />
               </div>
