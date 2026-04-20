@@ -74,7 +74,7 @@ export default function HeroCarousel() {
   const slide = slides[current];
 
   return (
-    <section className="relative w-full h-[70vh] flex items-center justify-center pt-28 px-8">
+    <section className="relative w-full h-[70vh] flex items-center justify-center mt-[88px] pt-4 px-8">
       <div className="relative w-full h-full anthology-card soft-shadow overflow-hidden">
 
         {/* Slide Images */}

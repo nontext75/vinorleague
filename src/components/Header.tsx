@@ -22,7 +22,7 @@ export default function Header() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit: React.ComponentProps<"form">["onSubmit"] = (e) => {
     e.preventDefault();
     if (!query.trim()) return;
     setSearchOpen(false);
@@ -62,7 +62,7 @@ export default function Header() {
         
         <div className="navbar-center text-center">
           <Link href="/" className="transition-all hover:scale-105 active:scale-95 block">
-            <svg width="118" height="80" viewBox="0 0 168 113" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="95" height="64" viewBox="0 0 168 113" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M27.2469 16.2853C27.2469 17.7512 26.2432 18.7678 24.6525 18.9475C23.0619 19.1272 22.0229 18.3297 22.0229 16.8638V13.6456L23.3319 13.4996V16.7178C23.3319 17.5153 23.8777 17.9366 24.6525 17.8523C25.4273 17.7681 25.9438 17.2289 25.9438 16.4257V13.2076L27.2528 13.0615V16.2797L27.2469 16.2853Z" fill="#FD2F79"/>
               <path d="M32.4709 18.0266L29.6653 14.7803V18.3355L28.415 18.4759V12.9381L29.6066 12.8089L32.4181 16.0608V12.5L33.6566 12.3652V17.903L32.4651 18.0322L32.4709 18.0266Z" fill="#FD2F79"/>
               <path d="M37.3895 11.9446C39.1856 11.748 40.43 12.7421 40.43 14.3765C40.43 16.0109 39.1622 17.2858 37.3367 17.488L34.9302 17.7519V12.2142L37.3837 11.9446H37.3895ZM36.245 16.5613L37.4248 16.4321C38.3932 16.3254 39.1035 15.5503 39.1035 14.5394C39.1035 13.5284 38.358 12.8938 37.3661 13.0061L36.2391 13.1296V16.5669L36.245 16.5613Z" fill="#FD2F79"/>
