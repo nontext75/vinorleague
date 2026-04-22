@@ -1,65 +1,116 @@
 import Link from "next/link";
+import { EXTERNAL_LINKS } from "@/lib/links";
+
+const NAV_LINKS = [
+  {
+    href: "/about",
+    label: "Our Story",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+      </svg>
+    ),
+  },
+  {
+    href: "/characters",
+    label: "Characters",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+      </svg>
+    ),
+  },
+  {
+    href: "/gallery",
+    label: "Gallery",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/>
+      </svg>
+    ),
+  },
+  {
+    href: "/wallpapers",
+    label: "Download",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+    ),
+  },
+  {
+    href: "/commission",
+    label: "Commission",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+      </svg>
+    ),
+  },
+  {
+    href: "/contact",
+    label: "Contact",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+    ),
+  },
+];
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#ebd8c5] text-[#5a4838] border-t border-white/20 font-sans pt-16 md:pt-20 pb-12 px-8">
-      <div className="container mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 mb-20">
-          {/* Shop Column */}
-          <div className="flex flex-col">
-            <h6 className="font-outfit text-xs font-black tracking-[0.4em] text-[#FD2F79] mb-6 uppercase">Vinor league</h6>
-            <div className="flex flex-col gap-4">
-              <Link href="/about" className="link link-hover font-bold text-sm opacity-70 hover:opacity-100 transition-opacity">About Us</Link>
-              <Link href="/shop" className="link link-hover font-bold text-sm opacity-70 hover:opacity-100 transition-opacity">Shop</Link>
-              <Link href="/characters" className="link link-hover font-bold text-sm opacity-70 hover:opacity-100 transition-opacity">Characters</Link>
-            </div>
-          </div>
+    <footer className="w-full bg-[#5a4838] text-white font-sans">
+      <div className="max-w-[1400px] mx-auto px-8 pt-16 pb-12">
 
-          {/* Care Column */}
-          <div className="flex flex-col">
-            <h6 className="font-outfit text-xs font-black tracking-[0.4em] text-[#FD2F79] mb-6 uppercase">Customer Care</h6>
-            <div className="flex flex-col gap-4">
-              <a className="link link-hover font-bold text-sm opacity-70 hover:opacity-100 transition-opacity cursor-pointer">FAQ</a>
-              <a className="link link-hover font-bold text-sm opacity-70 hover:opacity-100 transition-opacity cursor-pointer">Shipping & Returns</a>
-              <Link href="/contact" className="link link-hover font-bold text-sm opacity-70 hover:opacity-100 transition-opacity">Contact Us</Link>
-            </div>
-          </div>
-
-          {/* Legal Column */}
-          <div className="flex flex-col">
-            <h6 className="font-outfit text-xs font-black tracking-[0.4em] text-[#FD2F79] mb-6 uppercase">Legal</h6>
-            <div className="flex flex-col gap-4">
-              <a className="link link-hover font-bold text-sm opacity-70 hover:opacity-100 transition-opacity cursor-pointer">Terms of Service</a>
-              <a className="link link-hover font-bold text-sm opacity-70 hover:opacity-100 transition-opacity cursor-pointer">Privacy Policy</a>
-            </div>
-          </div>
-
-          {/* Newsletter Column */}
-          <div className="flex flex-col">
-            <h6 className="font-outfit text-xs font-black tracking-[0.4em] text-[#FD2F79] mb-6 uppercase">Newsletter</h6>
-            <p className="text-sm font-bold opacity-70 mb-6 leading-relaxed">매월 특별한 할인 정보를 받아보세요!</p>
-            <div className="flex w-full rounded-full border border-[#5a4838]/20 bg-white p-1">
-              <input 
-                type="text" 
-                placeholder="Email" 
-                className="input bg-transparent border-none w-full focus:outline-none placeholder:text-[#5a4838]/40 font-outfit text-xs" 
-              />
-              <button className="btn btn-sm h-10 px-6 bg-[#FD2F79] hover:bg-pink-600 text-white rounded-full border-none font-outfit font-black tracking-widest text-[9px] shadow-sm">JOIN</button>
-            </div>
-          </div>
+        {/* Nav Links */}
+        <div className="flex flex-wrap gap-x-8 gap-y-4 mb-12">
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="flex items-center gap-2 font-outfit text-[16px] font-medium tracking-normal text-white/40 hover:text-[#FD2F79] transition-all"
+            >
+              {link.icon}
+              {link.label}
+            </Link>
+          ))}
         </div>
+
+        {/* Divider */}
+        <div className="border-t border-white/10 mb-10" />
 
         {/* Bottom Bar */}
-        <div className="border-t border-[#5a4838]/10 pt-12 flex flex-col items-center gap-8">
-          <div className="flex gap-10">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="font-outfit text-[10px] font-black tracking-[0.3em] uppercase opacity-40 hover:opacity-100 hover:text-[#FD2F79] transition-all">Instagram</a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="font-outfit text-[10px] font-black tracking-[0.3em] uppercase opacity-40 hover:opacity-100 hover:text-[#FD2F79] transition-all">Twitter</a>
-            <a href="https://github.com/nontext75/vinorleague" target="_blank" rel="noopener noreferrer" className="font-outfit text-[10px] font-black tracking-[0.3em] uppercase opacity-40 hover:opacity-100 hover:text-[#FD2F79] transition-all">Github</a>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div className="flex gap-8">
+            <a
+              href={EXTERNAL_LINKS.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-outfit text-[16px] font-medium tracking-normal text-white/30 hover:text-[#FD2F79] transition-all"
+            >
+              Instagram
+            </a>
+            <a
+              href={EXTERNAL_LINKS.twitter}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-outfit text-[16px] font-medium tracking-normal text-white/30 hover:text-[#FD2F79] transition-all"
+            >
+              Twitter
+            </a>
           </div>
-          <p className="font-outfit text-[10px] font-black tracking-[0.5em] uppercase opacity-20 text-center">
-            © 2024 VINOR LEAGUE COLL. ALL RIGHTS RESERVED.
-          </p>
+
+          <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-8">
+            <p className="font-outfit text-[12px] font-medium tracking-normal text-white/20">
+              by <a href="https://vinus.co.kr" target="_blank" rel="noopener noreferrer" className="hover:text-[#FD2F79] transition-all">Vinuspread</a>
+            </p>
+            <p className="font-outfit text-[12px] font-medium tracking-normal text-white/20">
+              © 2026 Vinorleague. All rights reserved.
+            </p>
+          </div>
         </div>
+
       </div>
     </footer>
   );

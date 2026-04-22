@@ -9,8 +9,8 @@ const slides = [
     id: 1,
     label: "Volume. 01",
     title: "Simple Days,\nBeautiful Memories.",
-    sub: "Vinor league Collection",
-    image: "/hero.png",
+    sub: "Vinorleague Collection",
+    image: "/hero-wassup.png",
     cta: { text: "Explore Collection", href: "/shop" },
     accent: "from-transparent via-[#5a4838]/5 to-[#5a4838]/30",
   },
@@ -19,7 +19,7 @@ const slides = [
     label: "Volume. 02",
     title: "Coming\nSoon.",
     sub: "New Character Family",
-    image: "/scene1.jpg",
+    image: "/hero-odaeri.png",
     cta: null,
     accent: "from-transparent via-[#1a2a3a]/10 to-[#1a2a3a]/40",
     overlay: true,
@@ -29,7 +29,7 @@ const slides = [
     label: "Volume. 03",
     title: "Coming\nSoon.",
     sub: "New Character Family",
-    image: "/scene3.jpg",
+    image: "/hero-kkaktugi.png",
     cta: null,
     accent: "from-transparent via-[#2a1a3a]/10 to-[#2a1a3a]/40",
     overlay: true,
@@ -39,10 +39,9 @@ const slides = [
     label: "Special",
     title: "Spring\nArchive Sale.",
     sub: "Limited Time Campaign · 2026",
-    image: "/scene4.jpg",
+    image: "/hero-product.png",
     cta: { text: "Shop the Sale", href: "/shop" },
     accent: "from-transparent via-[#FD2F79]/10 to-[#FD2F79]/30",
-    badge: "SALE",
   },
 ];
 
@@ -75,7 +74,7 @@ export default function HeroCarousel() {
 
   return (
     <section className="relative w-full h-[70vh] flex items-center justify-center mt-[88px] pt-4 px-8">
-      <div className="relative w-full h-full anthology-card soft-shadow overflow-hidden">
+      <div className="relative w-full h-full anthology-card !rounded-[36px] md:!rounded-[60px] soft-shadow overflow-hidden">
 
         {/* Slide Images */}
         {slides.map((s, i) => (
@@ -101,18 +100,9 @@ export default function HeroCarousel() {
           className={`absolute inset-0 bg-gradient-to-b ${slide.accent} transition-all duration-700`}
         />
 
-        {/* Badge (Sale etc.) */}
-        {slide.badge && (
-          <div className="absolute top-8 right-8 z-20">
-            <span className="font-outfit text-[10px] font-black tracking-[0.4em] bg-[#FD2F79] text-white px-5 py-2.5 rounded-full uppercase shadow-lg">
-              {slide.badge}
-            </span>
-          </div>
-        )}
-
         {/* Content */}
         <div
-          className={`absolute inset-0 flex flex-col items-center justify-end pb-28 z-10 transition-all duration-500 ${
+          className={`absolute inset-0 flex flex-col items-center justify-center z-10 transition-all duration-500 ${
             transitioning ? "opacity-0 translate-y-2" : "opacity-100 translate-y-0"
           }`}
         >

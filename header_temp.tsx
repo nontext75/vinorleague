@@ -1,94 +1,66 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (searchOpen) inputRef.current?.focus();
+  }, [searchOpen]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMenuOpen(false);
+      if (e.key === "Escape") { setSearchOpen(false); setQuery(""); }
     };
-    const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("keydown", onKey);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      window.removeEventListener("scroll", onScroll);
-    };
+    return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const navLinks = [
-    { 
-      label: "Characters", 
-      href: "/characters",
-      subLinks: [
-        { label: "Wassup (와썹)", href: "/characters/wassup" },
-        { label: "Oh Daeri (오대리)", href: "/characters/oh-daeri" },
-        { label: "Kkakdugi (깍두기파)", href: "/characters/kkakdugi-pa" },
-      ]
-    },
-    { href: "/gallery", label: "Gallery" },
-    { href: "/wallpapers", label: "DOWNLOAD" },
-    { href: "/about", label: "Our Story" },
-  ];
+  const handleSubmit: React.ComponentProps<"form">["onSubmit"] = (e) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+    setSearchOpen(false);
+    router.push(`/shop?q=${encodeURIComponent(query.trim())}`);
+    setQuery("");
+  };
 
   return (
     <>
-      <header className={`fixed w-full top-0 z-50 py-4 transition-all duration-500 backdrop-blur-md ${scrolled ? "bg-white/80 shadow-sm" : "bg-white/5"}`}>
-        <div className="max-w-[1500px] mx-auto px-8 flex items-center justify-between">
-
-          {/* Left */}
-          <div className="flex-1 flex items-center">
-            <div className="hidden lg:flex">
-              <ul className="flex gap-10">
-                {navLinks.map((link) => (
-                  <li key={link.label} className={link.subLinks ? "group relative" : ""}>
-                    <Link href={link.href} className="text-label !tracking-normal text-[#5a4838]/50 hover:text-[#FD2F79] hover:opacity-100 flex items-center gap-2 transition-all">
-                      {link.label}
-                      {link.subLinks && (
-                        <svg className="w-2.5 h-2.5 opacity-40 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" /></svg>
-                      )}
-                    </Link>
-
-                    {/* Desktop Submenu */}
-                    {link.subLinks && (
-                      <div className="absolute top-full left-0 pt-3 opacity-0 translate-y-1 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-50">
-                        <div className="bg-white border border-[#5a4838]/8 rounded-2xl py-2 w-52 shadow-[0_8px_32px_-8px_rgba(90,72,56,0.15)]">
-                          {link.subLinks.map((sub) => (
-                            <Link
-                              key={sub.href}
-                              href={sub.href}
-                              className="block px-5 py-3 text-[11px] font-black tracking-normal text-[#5a4838]/50 hover:text-[#FD2F79] hover:bg-[#FD2F79]/5 transition-all font-outfit"
-                            >
-                              {sub.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Mobile hamburger */}
-            <div className="lg:hidden">
-              <button
-                onClick={() => setMenuOpen(true)}
-                className="btn btn-ghost btn-sm p-0 min-h-0 h-10 w-10 flex items-center justify-center rounded-full hover:bg-[#5a4838]/5"
-                aria-label="메뉴 열기"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
-                </svg>
-              </button>
-            </div>
+    <header className="fixed w-full bg-white/5 backdrop-blur-md top-0 z-50 py-3 transition-all duration-1000 ease-in-out hover:bg-white/20 border-b border-black/5">
+      <div className="navbar max-w-[1400px] mx-auto px-8">
+        <div className="navbar-start">
+          <div className="hidden lg:flex">
+            <ul className="flex gap-10">
+              <li>
+                <Link href="/shop" className="font-outfit text-base font-black tracking-[0.4em] text-[#5a4838] opacity-40 hover:opacity-100 hover:text-[#FD2F79] uppercase transition-all">
+                  Collection
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="font-outfit text-base font-black tracking-[0.4em] text-[#5a4838] opacity-40 hover:opacity-100 hover:text-[#FD2F79] uppercase transition-all">
+                  Our Story
+                </Link>
+              </li>
+            </ul>
           </div>
-
-          {/* Center — Logo */}
+          
+          {/* Mobile menu */}
+          <div className="dropdown lg:hidden">
+            <label tabIndex={0} className="btn btn-ghost btn-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
+              </svg>
+            </label>
+          </div>
+        </div>
+        
+        <div className="navbar-center text-center">
           <Link href="/" className="transition-all hover:scale-105 active:scale-95 block">
             <svg width="95" height="64" viewBox="0 0 168 113" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M27.2469 16.2853C27.2469 17.7512 26.2432 18.7678 24.6525 18.9475C23.0619 19.1272 22.0229 18.3297 22.0229 16.8638V13.6456L23.3319 13.4996V16.7178C23.3319 17.5153 23.8777 17.9366 24.6525 17.8523C25.4273 17.7681 25.9438 17.2289 25.9438 16.4257V13.2076L27.2528 13.0615V16.2797L27.2469 16.2853Z" fill="#FD2F79"/>
@@ -128,70 +100,58 @@ export default function Header() {
               <path d="M167.994 94.4489L114.046 100.408V97.0381L167.994 91.0791V94.4489Z" fill="#FD2F79"/>
             </svg>
           </Link>
-
-          {/* Right */}
-          <div className="flex-1 flex items-center justify-end gap-10">
-            <Link href="/contact" className="hidden lg:block text-label text-[#5a4838]/40 hover:text-[#FD2F79] transition-all">
-              Contact
-            </Link>
-            <Link href="/commission" className="hidden lg:block font-outfit text-[12px] font-black tracking-normal uppercase !bg-[#FD2F79] !text-white px-6 py-3 rounded-full hover:!bg-[#5a4838] transition-all shadow-xl">
-              Commission
-            </Link>
-          </div>
         </div>
-      </header>
-
-      {/* Mobile Menu Overlay */}
-      <div
-        className={`fixed inset-0 z-[60] transition-all duration-700 ${menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
-      >
-        <div className="absolute inset-0 bg-[#5a4838]/5 backdrop-blur-3xl" onClick={() => setMenuOpen(false)} />
-        <nav className="absolute top-0 right-0 h-screen w-full md:w-[480px] bg-white p-12 flex flex-col justify-between soft-shadow">
-          <div className="flex flex-col gap-12">
-             <div className="flex justify-between items-center">
-                <span className="text-label text-[#FD2F79]">Navigation</span>
-                <button onClick={() => setMenuOpen(false)} className="text-label opacity-40">Close [X]</button>
-             </div>
-             <div className="flex flex-col gap-10">
-              {navLinks.map((link) => (
-                <div key={link.label} className="flex flex-col gap-6">
-                  <Link
-                    href={link.href}
-                    onClick={() => setMenuOpen(false)}
-                    className="text-h2 !text-6xl !tracking-tighter !leading-none hover:text-[#FD2F79] transition-all"
-                  >
-                    {link.label}
-                  </Link>
-                  
-                  {link.subLinks && (
-                    <div className="flex flex-wrap gap-4">
-                      {link.subLinks.map((sub) => (
-                        <Link
-                          key={sub.href}
-                          href={sub.href}
-                          onClick={() => setMenuOpen(false)}
-                          className="neo-chip-brown !opacity-40 hover:!opacity-100"
-                        >
-                          {sub.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-              <div className="pt-10 mt-10 border-t border-[#5a4838]/5 flex flex-col gap-6">
-                 <Link href="/contact" onClick={() => setMenuOpen(false)} className="text-label opacity-40">Contact Us</Link>
-                 <Link href="/wallpapers" onClick={() => setMenuOpen(false)} className="text-label opacity-40">Download</Link>
-                 <Link href="/commission" onClick={() => setMenuOpen(false)} className="text-h2 !text-white !bg-[#FD2F79] p-8 rounded-[40px] text-center !leading-none">Build Project</Link>
-              </div>
+        
+        <div className="navbar-end gap-6">
+          <button
+            onClick={() => setSearchOpen(true)}
+            className="hidden lg:block font-outfit text-base font-black tracking-[0.4em] text-[#5a4838] opacity-40 hover:opacity-100 transition-all uppercase"
+          >
+            Search
+          </button>
+          <button className="relative group">
+            <div className="indicator">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#5a4838] opacity-40 group-hover:opacity-100 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+              <span className="badge badge-sm bg-[#FD2F79]/20 border-none text-[#FD2F79] font-outfit text-[8px] indicator-item">0</span>
             </div>
-          </div>
-          <div className="flex justify-between items-center">
-             <p className="text-label opacity-20">© Vinorleague</p>
-             <a href="https://instagram.com" className="text-label opacity-40">IG</a>
-          </div>
-        </nav>
+          </button>
+        </div>
       </div>
+    </header>
+
+    {/* Search Overlay */}
+    <div
+      className={`fixed inset-0 z-40 transition-all duration-500 ${
+        searchOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+      }`}
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-white/80 backdrop-blur-xl" onClick={() => { setSearchOpen(false); setQuery(""); }} />
+
+      {/* Search Box */}
+      <div className={`absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl px-8 transition-all duration-500 ${
+        searchOpen ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"
+      }`}>
+        <p className="font-outfit text-[10px] font-black tracking-[0.4em] text-[#FD2F79] uppercase mb-6 text-center">Search</p>
+        <form onSubmit={handleSubmit} className="relative">
+          <input
+            ref={inputRef}
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="?곹뭹紐낆쓣 ?낅젰?섏꽭??.."
+            className="w-full bg-transparent border-b-2 border-[#5a4838]/20 focus:border-[#FD2F79] outline-none font-outfit text-3xl font-black text-[#5a4838] placeholder:text-[#5a4838]/20 pb-4 transition-all"
+          />
+          <button type="submit" className="absolute right-0 bottom-4 font-outfit text-[10px] font-black tracking-[0.4em] text-[#5a4838]/40 hover:text-[#FD2F79] uppercase transition-all">
+            Go ??          </button>
+        </form>
+        <button onClick={() => { setSearchOpen(false); setQuery(""); }} className="mt-8 block mx-auto font-outfit text-[9px] font-black tracking-[0.3em] text-[#5a4838]/30 hover:text-[#5a4838] uppercase transition-all">
+          ESC to close
+        </button>
+      </div>
+    </div>
     </>
   );
 }
