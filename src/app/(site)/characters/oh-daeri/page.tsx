@@ -18,8 +18,22 @@ export default function OhDaeriPage() {
           월요병과 야근 속에서도 내일은 진짜 다를 거라고 믿는 무한 긍정의 상사맨.
         </>
       ),
-      img: "/thumb1.png",
+      img: "/odaeri_profile.png",
       reverse: false
+    },
+    {
+      name: "박매니저",
+      engName: "MGR. PARK",
+      role: "Team Manager · 🐻 Bear",
+      desc: (
+        <>
+          겉으로는 엄격해 보이지만 속은 누구보다 따뜻한 츤데레 상사. <br/>
+          팀원들을 챙기느라 정작 본인은 항상 업무에 치여 산다. <br/>
+          퇴근 후 마시는 소주 한 잔이 인생의 유일한 낙이다.
+        </>
+      ),
+      img: "/park_profile.png",
+      reverse: true
     }
   ];
 
