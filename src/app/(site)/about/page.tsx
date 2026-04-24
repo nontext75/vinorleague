@@ -6,10 +6,10 @@ import Link from "next/link";
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-white relative font-sans selection:bg-[#FD2F79]/10 selection:text-[#FD2F79] overflow-hidden">
-      <div className="fixed inset-0 bg-mesh opacity-30 pointer-events-none z-0"></div>
+    <div className="page-wrapper">
+      <div className="mesh-overlay bg-mesh"></div>
 
-      <main className="relative z-10 pt-40 pb-80">
+      <main className="page-main">
         {/* Editorial Header System */}
         <header className="editorial-header">
           <span className="text-label text-[#FD2F79] mb-4 block tracking-[0.4em] uppercase">Our Story</span>
@@ -90,17 +90,15 @@ export default function AboutPage() {
            <p className="font-outfit text-4xl md:text-[64px] font-black text-[#FD2F79] hover:text-[#5a4838] transition-all cursor-pointer tracking-tighter leading-none lowercase">
              hello@vinorleague.com
            </p>
-           <Link href="/" className="text-label text-[#5a4838]/40 hover:text-[#FD2F79] border-b border-[#5a4838]/10 pb-2 transition-all tracking-[0.4em]">
+           <Link href="/" className="back-link">
              BACK TO INDEX →
            </Link>
         </footer>
       </main>
 
       {/* Footer System Label */}
-      <div className="fixed bottom-10 left-10 pointer-events-none opacity-5">
-         <span className="font-outfit text-[7px] font-black tracking-[1em] uppercase text-[#5a4838]">
-           Vinorleague Digital Anthology v2.0
-         </span>
+      <div className="watermark">
+        <span className="font-outfit text-[7px] font-black tracking-[1em] uppercase text-[#5a4838]">Vinorleague Digital Anthology v2.0</span>
       </div>
     </div>
   );

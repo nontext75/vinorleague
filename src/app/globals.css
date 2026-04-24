@@ -1,17 +1,31 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+@font-face {
+  font-family: 'Cafe24Surround';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
+  font-weight: normal;
+  font-display: swap;
+}
+
 @layer base {
   body {
     @apply antialiased;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    font-family: var(--font-outfit), var(--font-kr), sans-serif;
+  }
+
+  *::selection {
+    background-color: rgba(253, 47, 121, 0.1);
+    color: #FD2F79;
   }
 }
 
 @theme {
   --font-outfit: var(--font-outfit);
+  --font-cafe: 'Cafe24Surround', var(--font-outfit), sans-serif;
 }
 
 @layer utilities {
@@ -44,6 +58,14 @@
     @apply font-outfit font-black text-4xl md:text-[80px] leading-[0.9] tracking-[-0.04em] uppercase text-[#5a4838];
   }
 
+  .font-cafe {
+    font-family: var(--font-cafe);
+  }
+
+  .font-display {
+    font-family: var(--font-cafe);
+  }
+
   .text-label {
     @apply font-outfit text-[16px] font-black tracking-normal uppercase;
   }
@@ -70,6 +92,42 @@
   /* ─── Chips ─── */
   .neo-chip-brown {
     @apply font-outfit text-[10px] font-black tracking-[0.2em] uppercase px-8 py-4 rounded-full bg-[#5a4838] text-white shadow-2xl transition-all duration-500 hover:bg-[#FD2F79];
+  }
+
+  /* ─── Page Structure ─── */
+  .page-wrapper {
+    @apply min-h-screen bg-white relative font-sans overflow-hidden;
+  }
+
+  .mesh-overlay {
+    @apply fixed inset-0 opacity-30 pointer-events-none z-0;
+  }
+
+  .page-main {
+    @apply relative z-10 pt-40 pb-80;
+  }
+
+  .section-wrap {
+    @apply max-w-[1400px] mx-auto px-8 md:px-12;
+  }
+
+  /* ─── Navigation ─── */
+  .back-link {
+    @apply font-outfit text-[11px] font-black tracking-[0.4em] uppercase text-[#5a4838]/40 hover:text-[#FD2F79] border-b border-[#5a4838]/10 pb-2 transition-all;
+  }
+
+  /* ─── Watermark ─── */
+  .watermark {
+    @apply fixed bottom-10 left-10 pointer-events-none opacity-5;
+  }
+
+  /* ─── Forms ─── */
+  .form-input {
+    @apply w-full bg-transparent border-b border-[#5a4838]/10 px-5 py-4 font-outfit text-base text-[#5a4838] placeholder:text-[#5a4838]/20 focus:outline-none focus:border-[#FD2F79] transition-all;
+  }
+
+  .form-label {
+    @apply font-outfit text-[10px] font-black tracking-[0.4em] uppercase text-[#5a4838] opacity-40 mb-3 block;
   }
 
   /* ─── Editorial Layout ─── */

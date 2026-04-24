@@ -57,8 +57,8 @@ export default function GalleryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white relative font-sans selection:bg-[#FD2F79]/10 selection:text-[#FD2F79] overflow-hidden">
-      <div className="fixed inset-0 bg-mesh opacity-30 pointer-events-none z-0" />
+    <div className="page-wrapper">
+      <div className="mesh-overlay bg-mesh" />
       <main className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 pt-40 pb-80">
 
         {/* Header */}
@@ -102,9 +102,9 @@ export default function GalleryPage() {
             </span>
           </div>
         ) : (
-          <div className="columns-2 md:columns-3 lg:columns-4 gap-4">
+          <div className="columns-2 md:columns-3 lg:columns-4 gap-6 md:gap-8">
             {visible.map((item) => (
-              <div key={item.id} className="break-inside-avoid mb-4 group">
+              <div key={item.id} className="break-inside-avoid mb-6 md:mb-8 group">
                 <div className="relative overflow-hidden rounded-2xl bg-[#5a4838]/5">
                   <Image
                     src={item.src}
@@ -131,7 +131,7 @@ export default function GalleryPage() {
                   </div>
                 </div>
                 {/* Meta */}
-                <div className="flex items-center justify-between mt-2.5 px-0.5">
+                <div className="flex items-center justify-between mt-5 px-0.5">
                   <span className="font-outfit font-black text-sm text-[#5a4838] tracking-tight leading-none">
                     {item.label}
                   </span>

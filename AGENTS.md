@@ -9,10 +9,26 @@
 - **Font**: Use **Outfit** (`--font-outfit`) only.
 - **Colors**: `#FD2F79` (Pink), `#5a4838` (Brown).
 - **Core CSS Classes**:
-    - `bg-mesh`: For background gradients.
-    - `anthology-card`: Premium content containers.
-    - `soft-shadow`: Standard elevation shadows.
-    - `sticker-card`: Irregularly rotated photo cards.
+    - **Page structure** — always use these on every page:
+        - `page-wrapper`: Root div (`min-h-screen bg-white relative font-sans overflow-hidden`). Global `::selection` pink is applied automatically.
+        - `mesh-overlay`: Fixed bg-mesh overlay div, placed as first child of page-wrapper.
+        - `page-main`: Main element (`relative z-10 pt-40 pb-80`).
+        - `section-wrap`: Inner section container (`max-w-[1400px] mx-auto px-8 md:px-12`).
+    - **Navigation**:
+        - `back-link`: Standard "BACK TO INDEX →" link style.
+    - **Watermark**:
+        - `watermark`: Fixed bottom-left `Vinorleague Digital Anthology v2.0` label div.
+    - **Forms**:
+        - `form-input`: Input/textarea field style.
+        - `form-label`: Form field label style.
+    - **Content**:
+        - `bg-mesh`: Background gradient (used inside mesh-overlay).
+        - `anthology-card`: Premium content containers.
+        - `soft-shadow`: Standard elevation shadows.
+        - `sticker-card`: Irregularly rotated photo cards.
+        - `editorial-header`: Centered page header with max-width and bottom margin.
+        - `editorial-banner`: Full-width hero banner image container.
+        - `editorial-character-row` / `editorial-character-row-reverse`: Two-column character layout rows.
 - **Technology Stack**: Next.js (App Router), Tailwind CSS v4, DaisyUI v5.
 - **Design Principle**: High-density typography (Outfit), editorial layout, and vibrant micro-animations.
 

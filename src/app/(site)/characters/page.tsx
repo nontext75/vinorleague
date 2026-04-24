@@ -11,28 +11,27 @@ export default function CharactersPage() {
       name: '와썹',
       engName: 'WASSUP',
       desc: '와니와 썹의 따뜻하고 느긋한 일상 이야기. 작은 대나무통 속에서 발견한 커다란 세계.',
-      img: '/thumb3.png'
+      img: '/wani_profile.png'
     },
     {
       slug: 'oh-daeri',
       name: '오덕상사 오대리',
       engName: 'OH DAERI',
       desc: '포기를 모르는 5년차 대리님의 눈물겨운 오피스 생존기. 오늘도 맥주 한 캔으로 버팁니다.',
-      img: '/thumb1.png'
+      img: '/odaeri_profile.png'
     },
     {
       slug: 'kkakdugi-pa',
       name: '깍두기파',
       engName: 'KKAKDUGI MAFIA',
       desc: '반찬가게를 탈출한 깍두기와 파의 조폭 누아르 패러디. 상온의 세계에서 살아남아라!',
-      img: '/thumb2.png'
+      img: '/hero-kkaktugi.png'
     }
   ];
 
   return (
-    <div className="min-h-screen bg-white relative font-sans selection:bg-[#FD2F79]/10 selection:text-[#FD2F79] overflow-hidden">
-      {/* Background Mesh - Main Page Harmony */}
-      <div className="fixed inset-0 bg-mesh opacity-30 pointer-events-none z-0"></div>
+    <div className="page-wrapper">
+      <div className="mesh-overlay bg-mesh"></div>
 
       <main className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-8 pt-32 pb-60">
         

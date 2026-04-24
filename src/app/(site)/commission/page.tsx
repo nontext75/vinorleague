@@ -23,14 +23,14 @@ type FormState = "idle" | "loading" | "success" | "error";
 
 export default function CommissionPage() {
   const [formState, setFormState] = useState<FormState>("idle");
-  const inputCls = "w-full bg-transparent border-b border-[#5a4838]/10 px-5 py-4 font-outfit text-base text-[#5a4838] placeholder:text-[#5a4838]/20 focus:outline-none focus:border-[#FD2F79] transition-all";
-  const labelCls = "text-label !text-[10px] opacity-40 mb-3 block";
+  const inputCls = "form-input";
+  const labelCls = "form-label";
 
   return (
-    <div className="min-h-screen bg-white relative font-sans selection:bg-[#FD2F79]/10 selection:text-[#FD2F79] overflow-hidden">
-      <div className="fixed inset-0 bg-mesh opacity-30 pointer-events-none z-0"></div>
+    <div className="page-wrapper">
+      <div className="mesh-overlay bg-mesh"></div>
 
-      <main className="relative z-10 pt-40 pb-80">
+      <main className="page-main">
         {/* Editorial Header */}
         <header className="editorial-header">
           <span className="text-label text-[#FD2F79] mb-4 block tracking-[0.4em] uppercase">Creative Project</span>

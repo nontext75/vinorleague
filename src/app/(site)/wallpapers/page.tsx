@@ -60,8 +60,8 @@ export default function WallpapersPage() {
   const visible = WALLPAPERS.filter((w) => w.type === device);
 
   return (
-    <div className="min-h-screen bg-white relative font-sans selection:bg-[#FD2F79]/10 selection:text-[#FD2F79] overflow-hidden">
-      <div className="fixed inset-0 bg-mesh opacity-30 pointer-events-none z-0" />
+    <div className="page-wrapper">
+      <div className="mesh-overlay bg-mesh" />
       <main className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 pt-40 pb-80">
 
         {/* Header */}
@@ -100,7 +100,7 @@ export default function WallpapersPage() {
         </header>
 
         {/* Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-7">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10">
           {visible.map((wp, idx) => (
             <div
               key={wp.id}

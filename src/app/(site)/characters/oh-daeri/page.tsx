@@ -38,13 +38,12 @@ export default function OhDaeriPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white relative font-sans selection:bg-[#FD2F79]/10 selection:text-[#FD2F79] overflow-hidden">
-      <div className="fixed inset-0 bg-mesh opacity-30 pointer-events-none z-0"></div>
+    <div className="page-wrapper">
+      <div className="mesh-overlay bg-mesh"></div>
 
-      <main className="relative z-10 pt-40 pb-80">
+      <main className="page-main">
         {/* Editorial Header System */}
         <header className="editorial-header">
-          <span className="text-label text-[#FD2F79] mb-4 block tracking-[0.4em] uppercase">Family 02</span>
         <h1 className="relative w-full max-w-[400px] aspect-[1.8/1] mx-auto mb-12 animate-float">
           <Image 
             src="/logo-odaeri.png" 
@@ -78,7 +77,7 @@ export default function OhDaeriPage() {
       </header>
 
         {/* Character Display System */}
-        <section className="flex flex-col gap-60 md:gap-80">
+        <section className="flex flex-col gap-12 md:gap-16">
           {characters.map((char) => (
             <div 
               key={char.name} 
@@ -121,17 +120,15 @@ export default function OhDaeriPage() {
         </section>
 
         <section className="max-w-[1400px] mx-auto px-8 md:px-12 mt-80 flex flex-col items-center">
-           <Link href="/characters" className="text-label text-[#5a4838]/40 hover:text-[#FD2F79] border-b border-[#5a4838]/10 pb-2 transition-all tracking-[0.4em]">
+           <Link href="/characters" className="back-link">
              BACK TO INDEX →
            </Link>
         </section>
       </main>
 
       {/* Footer System Label - Fixed Branding */}
-      <div className="fixed bottom-10 left-10 pointer-events-none opacity-5">
-         <span className="font-outfit text-[7px] font-black tracking-[1em] uppercase text-[#5a4838]">
-           Vinorleague Digital Anthology v2.0
-         </span>
+      <div className="watermark">
+        <span className="font-outfit text-[7px] font-black tracking-[1em] uppercase text-[#5a4838]">Vinorleague Digital Anthology v2.0</span>
       </div>
     </div>
   );

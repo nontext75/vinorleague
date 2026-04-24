@@ -47,14 +47,13 @@
    ];
  
    return (
-     <div className="min-h-screen bg-white relative font-sans selection:bg-[#FD2F79]/10 selection:text-[#FD2F79] overflow-hidden">
-       <div className="fixed inset-0 bg-mesh opacity-30 pointer-events-none z-0"></div>
- 
-       <main className="relative z-10 pt-40 pb-80">
+     <div className="page-wrapper">
+       <div className="mesh-overlay bg-mesh"></div>
+
+       <main className="page-main">
          {/* Editorial Header System */}
          <header className="editorial-header">
-           <span className="text-label text-[#FD2F79] mb-4 block tracking-[0.4em] uppercase">Family 01</span>
-           <h1 className="relative w-full max-w-[400px] aspect-[1.45/1] mx-auto mb-12 animate-float">
+            <h1 className="relative w-full max-w-[400px] aspect-[1.45/1] mx-auto mb-12 animate-float">
              <Image 
                src="/logo-wassup.png" 
                alt="Wassup Logo" 
@@ -86,7 +85,7 @@
          </header>
  
          {/* Character Display System */}
-         <section className="flex flex-col gap-60 md:gap-80">
+         <section className="flex flex-col gap-12 md:gap-16">
            {characters.map((char) => (
              <div 
                key={char.name} 
@@ -129,90 +128,82 @@
          </section>
  
          {/* ── 관계 & 에피소드 ── */}
-         <section className="max-w-[1400px] mx-auto px-8 md:px-12 py-32 md:py-80 relative z-10">
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-20 md:gap-40 items-start">
-   
-             <div>
-               <span className="font-outfit text-[10px] font-black tracking-[0.4em] text-[#FD2F79] uppercase mb-6 block">Relationship</span>
-               <h2 className="font-outfit font-black text-5xl md:text-6xl text-[#5a4838] tracking-[-0.04em] leading-[0.85] uppercase mb-10">
-                 대등한<br />사이.
-               </h2>
-               <div className="flex flex-col gap-8">
-                 <div>
-                   <span className="font-outfit text-[10px] font-black tracking-[0.4em] text-[#FD2F79] uppercase block mb-2">썹 → 와니</span>
-                   <p className="font-outfit text-xl font-black text-[#5a4838]/60 leading-snug">
-                     말 없이 옆에 와서 그냥 앉는다.
-                   </p>
-                 </div>
-                 <div>
-                   <span className="font-outfit text-[10px] font-black tracking-[0.4em] text-[#FD2F79] uppercase block mb-2">와니 → 썹</span>
-                   <p className="font-outfit text-xl font-black text-[#5a4838]/60 leading-snug">
-                     좋아하는 걸 통 근처에 슬쩍 갖다 놓는다.
-                   </p>
-                 </div>
-               </div>
-             </div>
-   
-             <div className="bg-[#5a4838]/5 p-8 md:p-12 rounded-[40px] md:rounded-[60px]">
-               <span className="font-outfit text-[10px] font-black tracking-[0.4em] text-[#FD2F79] uppercase mb-8 block">Episode Rhythm</span>
-               <div className="flex flex-col">
-                 {RHYTHM.map((step, i) => (
-                   <div key={i} className="flex items-center gap-5 py-4 border-b border-[#5a4838]/6 group">
-                     <span className="font-outfit font-black text-[10px] text-[#5a4838]/15 tracking-widest w-7 shrink-0">
-                       {String(i + 1).padStart(2, "0")}
-                     </span>
-                     <span className={`font-outfit font-black text-lg tracking-tight transition-colors duration-300 ${
-                       i === 0 || i === 7 ? "text-[#FD2F79]" : "text-[#5a4838]/40 group-hover:text-[#5a4838]"
-                     }`}>
-                       {step}
-                     </span>
-                   </div>
-                 ))}
-               </div>
-               <p className="font-outfit text-xs text-[#5a4838]/20 italic mt-6">그 반복이 따뜻하다.</p>
-             </div>
-   
-           </div>
-         </section>
- 
-         {/* ── 갤러리 스트립 ── */}
-         <section className="max-w-[1400px] mx-auto px-8 md:px-12 pb-24 relative z-10">
-           <div className="flex gap-4 items-end overflow-hidden">
-             {[
-               { src: "/temp/Blue_bunny_chick_202604221543.jpeg",      w: "w-[22%]", aspect: "aspect-[3/4]",  offset: "" },
-               { src: "/temp/Bunny_chick_frog_202604221543.jpeg",      w: "w-[20%]", aspect: "aspect-[4/5]",  offset: "translate-y-8" },
-               { src: "/temp/Chibi_bunny_chick_202604221543.jpeg",     w: "w-[28%]", aspect: "aspect-[3/4]",  offset: "" },
-               { src: "/temp/토끼와_개구리_숲속_202604221543.jpeg",    w: "w-[18%]", aspect: "aspect-[4/5]",  offset: "translate-y-4" },
-               { src: "/temp/캐릭터와_토끼_걸어가는_202604221543.jpeg", w: "w-[22%]", aspect: "aspect-[3/4]",  offset: "translate-y-6" },
-             ].map((img, i) => (
-               <div key={i} className={`${img.w} shrink-0 ${img.aspect} relative rounded-2xl overflow-hidden soft-shadow ${img.offset}`}>
-                 <Image src={img.src} alt="" fill className="object-cover transition-transform duration-1000 hover:scale-110" />
-               </div>
-             ))}
-           </div>
-         </section>
- 
-         {/* ── 클로징 ── */}
-         <section className="text-center py-60 px-8 relative z-10">
-           <p className="font-outfit font-black text-4xl md:text-7xl text-[#5a4838] tracking-[-0.03em] leading-[1.1] max-w-3xl mx-auto">
-             오늘 하루가<br />
-             <span className="text-[#FD2F79]">조금 괜찮아지는</span><br />
-             이야기.
-           </p>
-         </section>
- 
-         <section className="max-w-[1400px] mx-auto px-8 md:px-12 flex flex-col items-center relative z-10">
-           <Link href="/characters" className="text-label text-[#5a4838]/40 hover:text-[#FD2F79] border-b border-[#5a4838]/10 pb-2 transition-all tracking-[0.4em]">
-             BACK TO INDEX →
-           </Link>
-         </section>
+        <section className="section-wrap py-24 md:py-32">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-start">
+
+            <div>
+              <span className="font-outfit text-[10px] font-black tracking-[0.4em] text-[#FD2F79] uppercase mb-6 block">Relationship</span>
+              <h2 className="font-cafe font-black text-5xl md:text-6xl text-[#5a4838] tracking-[-0.04em] leading-[0.85] uppercase mb-10">
+                대등한 사이.
+              </h2>
+              <div className="flex flex-col gap-8">
+                <div>
+                  <span className="font-outfit text-[10px] font-black tracking-[0.4em] text-[#FD2F79] uppercase block mb-2">썹 → 와니</span>
+                  <p className="font-outfit text-xl font-black text-[#5a4838]/60 leading-snug">말 없이 옆에 와서 그냥 앉는다.</p>
+                </div>
+                <div>
+                  <span className="font-outfit text-[10px] font-black tracking-[0.4em] text-[#FD2F79] uppercase block mb-2">와니 → 썹</span>
+                  <p className="font-outfit text-xl font-black text-[#5a4838]/60 leading-snug">좋아하는 걸 통 근처에 슬쩍 갖다 놓는다.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-[#5a4838]/5 p-8 md:p-10 rounded-[32px]">
+              <span className="font-outfit text-[10px] font-black tracking-[0.4em] text-[#FD2F79] uppercase mb-6 block">Episode Rhythm</span>
+              <div className="flex flex-col">
+                {RHYTHM.map((step, i) => (
+                  <div key={i} className="flex items-center gap-5 py-3.5 border-b border-[#5a4838]/6 group">
+                    <span className="font-outfit font-black text-[10px] text-[#5a4838]/15 tracking-widest w-7 shrink-0">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className={`font-outfit font-black text-base tracking-tight transition-colors duration-300 ${
+                      i === 0 || i === 7 ? "text-[#FD2F79]" : "text-[#5a4838]/40 group-hover:text-[#5a4838]"
+                    }`}>
+                      {step}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <p className="font-outfit text-xs text-[#5a4838]/20 italic mt-5">그 반복이 따뜻하다.</p>
+            </div>
+
+          </div>
+        </section>
+
+        {/* ── Application ── */}
+        <section className="section-wrap pb-24">
+          <span className="font-outfit text-[10px] font-black tracking-[0.4em] text-[#FD2F79] uppercase mb-6 block">Application</span>
+          <div className="grid grid-cols-4 gap-4 md:gap-6" style={{ gridTemplateRows: "280px 220px" }}>
+            <div className="col-span-2 row-span-2 relative rounded-2xl overflow-hidden soft-shadow">
+              <Image src="/temp/Blue_bunny_chick_202604221543.jpeg" alt="" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+            </div>
+            <div className="col-span-1 relative rounded-2xl overflow-hidden soft-shadow">
+              <Image src="/temp/Bunny_chick_frog_202604221543.jpeg" alt="" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+            </div>
+            <div className="col-span-1 relative rounded-2xl overflow-hidden soft-shadow">
+              <Image src="/temp/Chibi_bunny_chick_202604221543.jpeg" alt="" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+            </div>
+            <div className="col-span-1 relative rounded-2xl overflow-hidden soft-shadow">
+              <Image src="/temp/토끼와_개구리_숲속_202604221543.jpeg" alt="" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+            </div>
+            <div className="col-span-1 relative rounded-2xl overflow-hidden soft-shadow">
+              <Image src="/temp/캐릭터와_토끼_걸어가는_202604221543.jpeg" alt="" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+            </div>
+          </div>
+        </section>
+
+        {/* ── 클로징 + Back ── */}
+        <section className="text-center py-24 md:py-32 px-8 border-t border-[#5a4838]/8">
+          <p className="font-cafe font-black text-4xl md:text-7xl text-[#5a4838] tracking-[-0.03em] leading-[1.1] max-w-3xl mx-auto mb-16">
+            오늘 하루가 <span className="text-[#FD2F79]">조금 괜찮아지는</span> 이야기.
+          </p>
+          <Link href="/characters" className="back-link">BACK TO INDEX →</Link>
+        </section>
        </main>
  
        {/* Footer System Label */}
-       <div className="fixed bottom-10 left-10 pointer-events-none opacity-5">
-          <span className="font-outfit text-[7px] font-black tracking-[1em] uppercase text-[#5a4838]">
-            Vinorleague Digital Anthology v2.0
-          </span>
+       <div className="watermark">
+         <span className="font-outfit text-[7px] font-black tracking-[1em] uppercase text-[#5a4838]">Vinorleague Digital Anthology v2.0</span>
        </div>
      </div>
    );
