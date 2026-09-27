@@ -1,0 +1,61 @@
+/* Main-page art direction. Other routes retain their current design. */
+body:has(.editorial-home) {
+  --pink: #171717;
+  --brown: #171717;
+  --paper: #f5f5f5;
+  --muted: #666;
+  --line: #d2d2d2;
+  background: #f5f5f5;
+  color: #171717;
+}
+.editorial-home img { filter: grayscale(1); }
+.editorial-home [aria-labelledby="intro-title"] img { filter: none; }
+.editorial-home .container { max-width: 1400px; }
+body:has(.editorial-home) :focus-visible { outline-color: currentColor; }
+.concept-header { position: absolute; inset: 0 0 auto; background: transparent; color: #fff; }
+.concept-header .header-inner { border-bottom: 0; }
+.concept-header .header-contact { border: 0; padding-right: 0; border-radius: 0; }
+.concept-header .header-contact:hover { color: #ccc; background: transparent; }
+.concept-header .menu-toggle { color: #fff; background: transparent; border-color: transparent; box-shadow: none; }
+.concept-header .menu-toggle:hover { color: #fff; background: #ffffff18; }
+.concept-header .wordmark { font-weight: 600; font-size: 29px; letter-spacing: -1.8px; }
+.concept-header .wordmark span { display: none; }
+.concept-header .desktop-nav { margin-right: 65px; font-size: 14px; gap: 35px; }
+.concept-header .desktop-nav a::after { height: 1px; background: #fff; }
+.concept-header .mobile-nav { box-shadow: none; background: #f5f5f5; }
+.concept-header .mobile-nav a { color: #171717; }
+.editorial-home .text-link { font-size: 12px; gap: 25px; }
+.editorial-home .text-link:hover { color: #666; }
+.editorial-home .text-link svg { transition: transform .25s cubic-bezier(.22,1,.36,1); }
+.editorial-home .text-link:hover svg { transform: translate(3px,-3px); }
+body:has(.editorial-home) .site-footer { background: #f5f5f5; color: #171717; padding-top: 0; }
+body:has(.editorial-home) .footer-top { border-top: 1px solid #ccc; padding-top: 65px; grid-template-columns: 1fr; gap: 32px; padding-bottom: 60px; }
+body:has(.editorial-home) .footer-top > div { display: flex; justify-content: space-between; align-items: start; }
+body:has(.editorial-home) .footer-introduction { margin: 0; font-size: 12px; }
+body:has(.editorial-home) .footer-top .footer-cta { font-size: clamp(50px, 8.5vw, 130px); font-weight: 400; line-height: 1.04; padding-right: 115px; }
+body:has(.editorial-home) .footer-cta svg { color: #171717; width: 100px; height: 100px; top: 12px; }
+body:has(.editorial-home) .footer-cta > svg { display: none; }
+body:has(.editorial-home) .footer-top .footer-cta { padding-right: 0; }
+body:has(.editorial-home) .footer-contact-grid { border-color: #ccc; }
+body:has(.editorial-home) .footer-contact-grid h2,
+body:has(.editorial-home) .footer-contact-grid p { color: #666; }
+body:has(.editorial-home) .footer-contact-grid p { font-size: 13px; }
+body:has(.editorial-home) .footer-bottom { border-color: #ccc; display: grid; grid-template-columns: 1fr 1fr; }
+body:has(.editorial-home) .footer-bottom .wordmark { grid-column: 1 / -1; font-size: clamp(60px, 17vw, 250px); letter-spacing: -.075em; font-weight: 500; margin: 15px 0 20px; }
+body:has(.editorial-home) .footer-bottom .wordmark span { display: none; }
+body:has(.editorial-home) .back-top { justify-self: end; }
+@media(max-width:767px) {
+ .concept-header .wordmark { font-size: 26px; }
+ .concept-header .mobile-nav { border-top: 1px solid #ddd; padding: 16px 20px 28px; }
+ .concept-header .mobile-nav a { font-size: 35px; }
+ body:has(.editorial-home) .footer-top { padding-top: 36px; gap: 35px; padding-bottom: 36px; }
+ body:has(.editorial-home) .footer-top > div { display: block; }
+ body:has(.editorial-home) .footer-introduction { margin-top: 18px; }
+ body:has(.editorial-home) .footer-top .footer-cta { font-size: clamp(39px,10.2vw,70px); padding-right: 0; }
+ body:has(.editorial-home) .footer-cta svg { width: 35px; height: 35px; top: 4px; }
+ body:has(.editorial-home) .footer-bottom .wordmark { font-size: 16.6vw; margin-block: 10px; }
+ body:has(.editorial-home) .footer-contact-grid { grid-template-columns: 1fr 1fr; gap: 30px 22px; }
+ body:has(.editorial-home) .footer-contact-grid a { font-size: 12px; }
+ body:has(.editorial-home) .footer-contact-grid p { font-size: 11px; }
+}
+@media(prefers-reduced-motion:reduce) { .editorial-home .text-link svg { transition: none; } }

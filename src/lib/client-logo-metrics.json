@@ -1,0 +1,118 @@
+{
+  "ace": {
+    "width": 109.95,
+    "height": 29.1
+  },
+  "ajou-university": {
+    "width": 119.61,
+    "height": 26.75
+  },
+  "bnk": {
+    "width": 132.66,
+    "height": 24.12
+  },
+  "chunjae-education": {
+    "width": 98.39,
+    "height": 32.52
+  },
+  "daekyo": {
+    "width": 107.16,
+    "height": 29.86
+  },
+  "deloitte": {
+    "width": 131.27,
+    "height": 24.38
+  },
+  "gymboree": {
+    "width": 114.22,
+    "height": 28.02
+  },
+  "hankook-tire": {
+    "width": 133.47,
+    "height": 23.98
+  },
+  "hunet": {
+    "width": 96.04,
+    "height": 33.32
+  },
+  "hyundai": {
+    "width": 142,
+    "height": 19.23
+  },
+  "k-shopping": {
+    "width": 119.16,
+    "height": 26.85
+  },
+  "kepco": {
+    "width": 128.73,
+    "height": 24.86
+  },
+  "korea-federation-of-banks": {
+    "width": 86.79,
+    "height": 36.87
+  },
+  "korean-re": {
+    "width": 97.98,
+    "height": 32.66
+  },
+  "koscom": {
+    "width": 126.49,
+    "height": 25.3
+  },
+  "kt-alpha": {
+    "width": 105.38,
+    "height": 30.37
+  },
+  "lg-cns-mark": {
+    "width": 84.97,
+    "height": 37.66
+  },
+  "lg-cns-wordmark": {
+    "width": 89.92,
+    "height": 35.59
+  },
+  "lotte-rental": {
+    "width": 142,
+    "height": 20.56
+  },
+  "lotte": {
+    "width": 101.19,
+    "height": 31.62
+  },
+  "nepa": {
+    "width": 74.27,
+    "height": 38
+  },
+  "nh-bank": {
+    "width": 133.67,
+    "height": 23.94
+  },
+  "pulmuone": {
+    "width": 98.43,
+    "height": 32.51
+  },
+  "samsung-heavy-industries": {
+    "width": 112.49,
+    "height": 28.45
+  },
+  "samsung": {
+    "width": 142,
+    "height": 22.24
+  },
+  "sgi": {
+    "width": 113.14,
+    "height": 28.28
+  },
+  "shinhan-financial-group": {
+    "width": 133.87,
+    "height": 23.9
+  },
+  "think-big": {
+    "width": 108.81,
+    "height": 29.41
+  },
+  "yonsei-university-health-system": {
+    "width": 124.54,
+    "height": 25.69
+  }
+}

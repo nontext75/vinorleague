@@ -1,0 +1,86 @@
+[
+  {
+    "name": "mongdang",
+    "source": "https://vinus.co.kr/upload/work/col7_17083237720.png",
+    "file": "public/images/mongdang.webp",
+    "width": 480,
+    "height": 360
+  },
+  {
+    "name": "crowd",
+    "source": "https://vinus.co.kr/upload/work/col7_16790973350.png",
+    "file": "public/images/crowd.webp",
+    "width": 480,
+    "height": 360
+  },
+  {
+    "name": "macadamia",
+    "source": "https://vinus.co.kr/upload/work/col7_16788548210.png",
+    "file": "public/images/macadamia.webp",
+    "width": 480,
+    "height": 360
+  },
+  {
+    "name": "budongsan",
+    "source": "https://vinus.co.kr/upload/work/col7_16776534800.png",
+    "file": "public/images/budongsan.webp",
+    "width": 480,
+    "height": 360
+  },
+  {
+    "name": "donga",
+    "source": "https://vinus.co.kr/upload/work/col7_17497053330.png",
+    "file": "public/images/donga.webp",
+    "width": 480,
+    "height": 360
+  },
+  {
+    "name": "shinhan",
+    "source": "https://vinus.co.kr/upload/work/col7_16781586070.png",
+    "file": "public/images/shinhan.webp",
+    "width": 480,
+    "height": 360
+  },
+  {
+    "name": "aliot",
+    "source": "https://vinus.co.kr/upload/work/col7_16763670290.png",
+    "file": "public/images/aliot.webp",
+    "width": 480,
+    "height": 360
+  },
+  {
+    "name": "frame",
+    "source": "https://vinus.co.kr/upload/work/col7_16781520740.png",
+    "file": "public/images/frame.webp",
+    "width": 480,
+    "height": 360
+  },
+  {
+    "name": "studio",
+    "source": "https://vinuspread.vercel.app/vinus/dummy-photo/studio-wide.jpg",
+    "file": "public/images/studio.webp",
+    "width": 2560,
+    "height": 3840
+  },
+  {
+    "name": "story-colors",
+    "source": "https://vinuspread.vercel.app/vinus/stories/home-story-01.png",
+    "file": "public/images/story-colors.webp",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "name": "story-principles",
+    "source": "https://vinuspread.vercel.app/vinus/stories/home-story-02.png",
+    "file": "public/images/story-principles.webp",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "name": "story-writing",
+    "source": "https://vinuspread.vercel.app/vinus/stories/home-story-03.jpg",
+    "file": "public/images/story-writing.webp",
+    "width": 128,
+    "height": 86
+  }
+]
