@@ -34,3 +34,18 @@
 
 캡처: `output/playwright/home-desktop.png`, `home-mobile.png`, `mobile-first-screen.png`.
 최종 고해상도 작업 이미지 및 전체 글 본문 이관 범위는 `site-plan.md` 참조.
+
+## 2026-09-28 추가 피드백 반영 후 검수
+
+- Studio: 전체 폭 선언문과 한국어 단일 읽기 흐름으로 개편.
+- Experience: 제목/설명/작업 링크 위계 재설계, Explore 기본 보기 및 Overview 전환.
+- Explore: 마우스 미리보기, 방향키 포커스 이동, 다음 프로젝트, 분야 필터 6/5/1 통과. 한 분야의 결과가 1개면 이동 버튼 비활성화.
+- 모바일: 프로젝트 선택 시 미리보기가 화면으로 이동하는 것을 확인.
+- 서비스: 검정 배경 편집과 아코디언 작동 확인.
+- 메인 푸터: Contact 소개와 연락처 표가 DOM에서 제거됐으며 프로젝트 의뢰 버튼이 `/contact`로 연결됨.
+- 새 디자인 과정 영상: 데스크톱/모바일 각각 18초, 정상 재생. 일시정지/재개, 화면 밖 정지, 화면 크기에 따른 영상 전환 확인. 모션 줄이기 설정 시 소스 제거 및 포스터 표시.
+- `npm run check`, `npm run build` 통과. 26개 페이지 생성.
+- 320/390/768/1440/1917px: 가로 넘침 0, 이미지 누락 0, undefined 클래스 0.
+- 새 브라우저 세션 JavaScript 오류 0.
+- 실제 PC/모바일 화면 검수 완료. 캡처는 `output/playwright/approved-*.png`, 검사 결과는 `output/playwright/revision-report.json`에 저장.
+- 영상은 기존 프로젝트 이미지와 직접 작성한 타이포그래피/그리드 모션으로 제작. 외부 영상 생성 서비스는 사용하지 않았다. 소스 이미지의 기존 출처는 `docs/asset-sources.json`, `docs/project-image-sources.json` 참고.

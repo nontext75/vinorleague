@@ -33,7 +33,7 @@ export function Hero() {
     pointerX.set((event.clientX - box.left - box.width / 2) * .025);
     pointerY.set((event.clientY - box.top - box.height / 2) * .035);
   }} onPointerLeave={() => { pointerX.set(0); pointerY.set(0); }}>
-    <motion.div className={styles.heroSculpture} style={{ y: enabled ? scrollY : 0 }} aria-hidden="true"><motion.div style={{ x: enabled ? x : 0, y: enabled ? y : 0 }}><Image src="/images/cinematic-hero.webp" alt="" fill sizes="100vw" priority /></motion.div></motion.div>
+    <motion.div className={styles.heroSculpture} style={{ y: enabled ? scrollY : 0 }} aria-hidden="true"><motion.div style={{ x: enabled ? x : 0, y: enabled ? y : 0 }}><Image src="/images/design-story-poster.webp" alt="" fill sizes="100vw" priority /></motion.div></motion.div>
     <HeroVideo />
     <div className={`container ${styles.heroInner}`}>
       <p className={styles.heroLabel}>Independent design studio</p>

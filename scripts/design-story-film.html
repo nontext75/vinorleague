@@ -1,0 +1,64 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#121212;overflow:hidden}canvas{display:block}</style></head><body><canvas id="film" width="1600" height="1000"></canvas><script>
+const canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d');
+const ink='#171717',paper='#eae8e3',lime='#c8ed67';
+const clamp=v=>Math.max(0,Math.min(1,v));
+const ease=v=>1-Math.pow(1-clamp(v),3);
+const mix=(a,b,t)=>a+(b-a)*t;
+const assets={};
+window.ready=Promise.all(['mongdang-0','shinhan-0','macadamia-0','donga-0','crowd-0'].map(name=>new Promise(resolve=>{let im=new Image();im.onload=()=>{assets[name]=im;resolve()};im.src='/images/details/'+name+'.webp'}))).then(async()=>{const f=new FontFace('Outfit','url(/font.woff2)');await f.load();document.fonts.add(f);window.renderFrame(0)});
+function rect(x,y,w,h,color){ctx.fillStyle=color;ctx.fillRect(x,y,w,h)}
+function text(str,x,y,size,color=paper,weight=450){ctx.font=`${weight} ${size}px Outfit`;ctx.fillStyle=color;ctx.fillText(str,x,y)}
+function line(x1,y1,x2,y2,color,width=1){ctx.strokeStyle=color;ctx.lineWidth=width;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke()}
+function image(name,x,y,w,h,contain=false){let im=assets[name];if(!im)return;ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();const s=contain?Math.min(w/im.width,h/im.height):Math.max(w/im.width,h/im.height);ctx.drawImage(im,x+(w-im.width*s)/2,y+(h-im.height*s)*(contain?.5:.02),im.width*s,im.height*s);ctx.restore()}
+function corner(x,y,w,h,p){const n=22*ease(p);for(const [a,b,s,t] of [[x,y,1,1],[x+w,y,-1,1],[x,y+h,1,-1],[x+w,y+h,-1,-1]]){line(a,b,a+s*n,b,'#777');line(a,b,a,b+t*n,'#777')}}
+function scene(n,p){const e=ease(p);ctx.save();
+ if(n===0){
+  // A point becomes a gesture, then an intentional path.
+  const cx=1080,cy=470;for(let i=0;i<13;i++){line(660+i*75,80,660+i*75,920,'#292929');line(660,80+i*70,1570,80+i*70,'#292929')}
+  ctx.strokeStyle=lime;ctx.lineWidth=4;ctx.setLineDash([1700*e,1800]);ctx.beginPath();ctx.moveTo(770,710);ctx.bezierCurveTo(860,120,1460,180,1190,620);ctx.bezierCurveTo(1010,900,850,310,1430,290);ctx.stroke();ctx.setLineDash([]);
+  for(let i=0;i<4;i++){const a=i*Math.PI/2+p*.18;ctx.beginPath();ctx.arc(cx+Math.cos(a)*240*e,cy+Math.sin(a)*220*e,8,0,Math.PI*2);ctx.fillStyle=paper;ctx.fill()}
+  text('A first idea.',730,880,76);corner(720,160,740,570,p);
+ }else if(n===1){
+  // The same gesture finds a grid and a typographic language.
+  rect(690,90,840,800,paper);ctx.save();ctx.beginPath();ctx.rect(690,90,840,800);ctx.clip();
+  for(let i=0;i<8;i++){const x=710+i*112;line(x,90,x,90+800*ease(p*2-i*.06),'#b9b8b3')}
+  for(let i=0;i<9;i++)line(690,110+i*96,690+840*ease(p*2-i*.06),110+i*96,'#b9b8b3');
+  text('Aa',735,580-mix(80,0,e),410,ink,500);
+  rect(1240,140,210,210,lime);ctx.beginPath();ctx.arc(1345,245,66,0,Math.PI*2);ctx.strokeStyle=ink;ctx.lineWidth=2;ctx.stroke();
+  text('Find the',740,735,72,ink);text('right form.',740,815,72,ink);
+  ctx.restore();
+ }else if(n===2){
+  // Type becomes a coherent identity: deliberately cut editorial plates.
+  const colors=[paper,lime,'#a5bde0'];
+  for(let i=0;i<3;i++){ctx.save();ctx.translate(760+i*240,90+i*75+Math.sin(p*Math.PI+i)*24);ctx.rotate((i-1)*.06);rect(0,0,350,650,colors[i]);ctx.beginPath();ctx.rect(0,0,350,650);ctx.clip();text(['vi','no','r.'][i],-20,440,320,ink,500);text(['Strategy','Identity','Experience'][i],26,600,28,ink);ctx.restore()}
+  text('Make it mean',740,800,68);text('something.',740,875,68);
+ }else if(n===3){
+  // Structure resolves into real interfaces from the studio portfolio.
+  ctx.save();ctx.translate(1100,485);ctx.rotate(-.07+e*.04);rect(-395,-350,850,660,paper);
+  rect(-365,-315,790,35,'#d1d0cc');for(let i=0;i<3;i++){ctx.beginPath();ctx.arc(-343+i*17,-298,4,0,Math.PI*2);ctx.fillStyle='#898989';ctx.fill()}
+  image('macadamia-0',-365,-262,790,542);
+  ctx.restore();
+  ctx.save();ctx.translate(1320,575+mix(130,0,e));ctx.rotate(.09);rect(-135,-215,270,430,ink);image('shinhan-0',-125,-205,250,410);ctx.restore();
+  text('Bring it to life.',730,865,73);
+ }else if(n===4){
+  // A living body of work, with independent editorial crops and changing scale.
+  const y=mix(80,20,p);ctx.save();ctx.translate(790,20);ctx.rotate(-.08);
+  image('mongdang-0',0,y,390,360,true);rect(400,y,390,360,lime);image('crowd-0',400,y,390,360);
+  image('donga-0',0,y+372,390,370);image('macadamia-0',400,y+372,390,370);
+  ctx.restore();text('Ideas become',720,795,72);text('experiences.',720,875,72);
+ }else{
+  // The completed identity contracts back to the first point for a quiet loop.
+  const q=ease(p);ctx.save();ctx.translate(1140,470);ctx.scale(mix(1,.06,q),mix(1,.06,q));ctx.rotate(q*.25);
+  rect(-440,-350,880,700,lime);text('vinor',-380,-15,205,ink,500);text('league',-380,180,205,ink,500);ctx.restore();
+  ctx.globalAlpha=1-ease((p-.48)*2);text('And keep growing.',690,880,68);
+ }
+ ctx.restore();}
+window.renderFrame=(frame)=>{const t=(frame/24)%18;rect(0,0,1600,1000,'#141414');
+ // Subtle paper registration lines across the field tie all six scenes together.
+ for(let i=0;i<6;i++)line(90+i*280,0,90+i*280,1000,'#1e1e1e');
+ const n=Math.floor(t/3),p=t/3-n;scene(n,p);
+ // Film edits use short horizontal reveals, without white flashes.
+ if(p<.1){ctx.fillStyle='#141414';ctx.fillRect(650+950*ease(p*10),0,950,1000)}
+ const g=ctx.createLinearGradient(300,0,1150,0);g.addColorStop(0,'#141414');g.addColorStop(.42,'#141414d9');g.addColorStop(1,'#14141400');ctx.fillStyle=g;ctx.fillRect(0,0,1600,1000);
+};
+</script></body></html>

@@ -1,6 +1,11 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ArrowUpRight, ArrowUp } from '@phosphor-icons/react/dist/ssr';
 export function Footer() {
+  const pathname = usePathname();
+  if (pathname === '/') return <footer className="site-footer home-footer" id="contact"><div className="container"><div className="home-footer-invitation"><h2>Ready for your<br />next project?</h2><Link href="/contact" className="project-enquiry">프로젝트 의뢰하기</Link></div><div className="footer-bottom"><Link href="/" className="wordmark">vinorleague</Link><span>© {new Date().getFullYear()} vinorleague</span><a href="#top" className="back-top">Back to top <ArrowUp /></a></div></div></footer>;
   return <footer className="site-footer" id="contact"><div className="container">
     <div className="footer-top"><div><p>Contact</p><p className="footer-introduction">첫 아이디어부터 마지막 디테일까지.<br />다음 프로젝트를 함께 시작해볼까요?</p></div><Link href="/contact" className="footer-cta">Ready for your<br />next project?</Link></div>
     <div className="footer-contact-grid">
