@@ -1,24 +1,19 @@
-.gallery {
+.grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 72px 22px;
-  list-style: none;
-  padding-bottom: 112px;
 }
 
-.item {
-  min-width: 0;
-}
-
-.project {
+.card {
   display: block;
+  min-width: 0;
 }
 
 .visual {
   position: relative;
   aspect-ratio: 4 / 5;
   overflow: hidden;
-  background: #dedede;
+  background: #e9e5df;
 }
 
 .visual img {
@@ -27,35 +22,33 @@
   transition: transform .65s cubic-bezier(.22, 1, .36, 1);
 }
 
-.character {
-  background: #202020;
-}
-
-.character img {
-  object-fit: contain;
-  object-position: center;
-  padding: 7%;
-}
-
-.meta {
-  display: grid;
-  grid-template-columns: 28px minmax(0, 1fr) auto;
-  gap: 10px;
-  align-items: center;
+.caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
   margin-top: 16px;
-  border-top: 1px solid #bdbdbd;
+  border-top: 1px solid var(--line);
   padding-top: 11px;
 }
 
-.number,
-.category {
-  color: #777;
-  font-size: 10px;
-  font-variant-numeric: tabular-nums;
-  line-height: 1.2;
+.caption > svg {
+  flex-shrink: 0;
+  transition: transform .3s cubic-bezier(.22, 1, .36, 1);
 }
 
-.project h3 {
+.category {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .045em;
+  font-variant-numeric: tabular-nums;
+}
+
+.category span {
+  margin-inline: 5px;
+  color: #c1b7ae;
+}
+
+.caption h3 {
   min-height: 2.08em;
   margin-top: 16px;
   font-size: clamp(23px, 2.15vw, 34px);
@@ -65,51 +58,46 @@
   text-wrap: balance;
 }
 
-.arrow {
-  display: inline-flex;
-  transition: transform .3s cubic-bezier(.22, 1, .36, 1);
-}
-
-.subtitle {
+.caption p {
   margin-top: 9px;
-  color: #666;
+  color: var(--muted);
   font-size: 12px;
   line-height: 1.5;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .project:hover .visual img {
+  .card:hover .visual img {
     transform: scale(1.025);
   }
 
-  .project:hover .arrow {
+  .card:hover .caption > svg {
     transform: translate(3px, -3px);
   }
 }
 
 @media (max-width: 1099px) {
-  .gallery {
+  .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 64px 24px;
   }
-  .project h3 {
+
+  .caption h3 {
     min-height: auto;
     font-size: clamp(27px, 4.2vw, 38px);
   }
 }
 
 @media (max-width: 619px) {
-  .gallery {
+  .grid {
     grid-template-columns: 1fr;
     gap: 52px;
-    padding-bottom: 72px;
   }
 
   .visual {
     aspect-ratio: 1.08;
   }
 
-  .project h3 {
+  .caption h3 {
     margin-top: 14px;
     font-size: clamp(30px, 9vw, 43px);
   }
@@ -117,7 +105,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .visual img,
-  .arrow {
+  .caption > svg {
     transition: none;
   }
 }
