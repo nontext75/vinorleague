@@ -10,6 +10,7 @@ export function ProjectGrid({ items, home = false, className = '' }: {
 }) {
   const grid = useRef<HTMLOListElement>(null);
   useLayoutEffect(() => {
+    if (home) return;
     const list = grid.current;
     if (!list) return;
     const cards = [...list.querySelectorAll('article')];
@@ -29,7 +30,7 @@ export function ProjectGrid({ items, home = false, className = '' }: {
     measure();
     for (const card of cards) observer.observe(card);
     return () => { observer.disconnect(); cancelAnimationFrame(frame); };
-  }, [items]);
+  }, [items, home]);
 
   return <ol ref={grid} className={`${styles.gallery} ${className}`} data-home={home} aria-label={home ? '주요 프로젝트' : '프로젝트 목록'}>{items.map(project => <li key={project.slug}><article><ProjectCard project={project} /></article></li>)}</ol>;
 }

@@ -19,5 +19,5 @@ export function ProjectCard({ project }: { project: Project }) {
 export function ProjectVisual({project,hero=false}:{project:Project;hero?:boolean}) {
  const picture=pictures[project.image];
  const props={src:picture.src,alt:`${project.client} ${project.subtitle} 디자인`,sizes:hero?'(max-width:767px) 92vw, 1400px':'(max-width:619px) 92vw, (max-width:1099px) 46vw, 24vw'};
- return <div className={`${styles.visual} ${hero?styles.heroVisual:''} ${project.image==='mongdang'?styles.character:''}`}>{hero?<Image {...props} fill preload/>:<Image {...props} width={picture.width} height={picture.height}/>}</div>;
+ return <div data-image={project.image} className={`${styles.visual} ${hero?styles.heroVisual:''} ${project.image==='mongdang'?styles.character:''}`}>{hero?<Image {...props} fill preload/>:<Image {...props} width={picture.width} height={picture.height}/>}</div>;
 }

@@ -1,12 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import { ArrowUpRight } from '@phosphor-icons/react';
 import { services } from '@/lib/content';
 import styles from '@/app/home-editorial.module.css';
 import { Heading, Body } from './typography';
 import { TextLink } from './actions';
-import { AccordionItem } from './accordion-item';
 
 export function Hero() {
   return <section className={styles.intro} aria-labelledby="intro-title">
@@ -18,6 +16,9 @@ export function Hero() {
 }
 
 export function ServiceList() {
-  const [open, setOpen] = useState<number | null>(0);
-  return <div className={styles.serviceList}>{services.map((service, index) => <AccordionItem key={service.title} title={service.title} text={service.text} tags={service.tags.split(' · ')} number={index + 1} open={open === index} onToggle={() => setOpen(open === index ? null : index)} />)}</div>;
+  return <div className={styles.serviceList}>{services.map((service, index) => <section className={styles.service} key={service.title}>
+    <span className={styles.serviceNumber}>{String(index + 1).padStart(2, '0')}</span>
+    <Heading as="h3" scale="compact" language="en" className={styles.serviceName}>{service.title}</Heading>
+    <div className={styles.serviceDetail}><Body>{service.text}</Body><div className={styles.serviceTags}>{service.tags.split(' · ').map(tag => <span key={tag}>{tag}</span>)}</div></div>
+  </section>)}</div>;
 }

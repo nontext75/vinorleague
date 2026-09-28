@@ -8,7 +8,19 @@ body:has(.editorial-home) {
   background: #f5f5f5;
   color: #171717;
 }
+html:has(.editorial-home) { scroll-padding-top: 32px; }
 .editorial-home .container { max-width: 1400px; }
+body:has(.editorial-home) .container,
+body:has(.editorial-home) .header-inner { width: min(1600px, calc(100% - 64px)); max-width: 1600px; }
+body:has(.editorial-home) .home-footer { min-height: 90svh; display: flex; align-items: center; border-top: 1px solid var(--line); overflow: clip; }
+body:has(.editorial-home) .home-footer-invitation { border-top: 0; padding-block: 64px 96px; }
+body:has(.editorial-home) .footer-bottom .wordmark { font-size: clamp(60px, 18.3vw, 300px); }
+@media(max-width:767px) {
+ body:has(.editorial-home) .container,
+ body:has(.editorial-home) .header-inner { width: calc(100% - 40px); }
+ body:has(.editorial-home) .home-footer-invitation { padding-block: 48px 56px; }
+ body:has(.editorial-home) .footer-bottom .wordmark { font-size: 16.4vw; }
+}
 body:has(.editorial-home) :focus-visible { outline-color: currentColor; }
 .concept-header { position: absolute; inset: 0 0 auto; background: transparent; color: #171717; }
 .editorial-header .header-inner { border-bottom: 0; }
@@ -38,7 +50,9 @@ body:has(.editorial-home) :focus-visible { outline-color: currentColor; }
  .editorial-header .mobile-nav a { font-size: 35px; }
  .home-footer .footer-bottom .wordmark { font-size: 16.6vw; margin-block: 10px; }
 }
-@media(prefers-reduced-motion:reduce) { .editorial-home .text-link svg { transition: none; } }
+@media(prefers-reduced-motion:reduce) { html:has(.editorial-home) { scroll-snap-type: none; } .editorial-home .text-link svg { transition: none; } }
 .home-footer-invitation { border-top: 1px solid #ccc; padding: 80px 0 88px; }
 .home-footer-invitation h2 { font-size: var(--heading-section-size); font-weight: var(--heading-weight); letter-spacing: -.06em; line-height: 1.02; }
 @media(max-width:767px) { .home-footer-invitation { padding: 48px 0 56px; } .home-footer-invitation h2 { font-size: var(--heading-section-size); } }
+
+.motion-word { display: inline-block !important; will-change: transform, opacity; }
