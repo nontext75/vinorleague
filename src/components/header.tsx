@@ -12,7 +12,7 @@ export function Header() {
   const reduce = useReducedMotion();
   const toggle = useRef<HTMLButtonElement>(null);
   useEffect(() => { if (!open) return; const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setOpen(false); toggle.current?.focus(); } }; document.addEventListener('keydown', onKey); return () => document.removeEventListener('keydown', onKey); }, [open]);
-  return <header className={`site-header ${pathname === '/' ? 'concept-header' : ''}`}><div className="header-inner">
+  return <header className={`site-header editorial-header ${pathname === '/' ? 'concept-header' : ''}`}><div className="header-inner">
     <Link href="/" className="wordmark" aria-label="vinorleague 홈" onClick={() => setOpen(false)}>vinorleague<span aria-hidden="true">*</span></Link>
     <nav className="desktop-nav" aria-label="주 메뉴">{links.map(([href, label]) => <Link key={href} href={href} aria-current={pathname.startsWith(href) ? 'page' : undefined}>{label}</Link>)}</nav>
     <Link className="header-contact" href="/contact">Contact <ArrowUpRight size={18} /></Link>

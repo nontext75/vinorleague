@@ -1,0 +1,5 @@
+import type {ReactNode} from 'react';
+import { Heading,Body } from './typography';
+import { TextLink } from './actions';
+function ContactBlock({title,children}:{title:string;children:ReactNode}) { return <div className="contact-office"><Heading as="h3" scale="compact">{title}</Heading>{children}</div>; }
+export function ContactDetails(){return <aside><Heading scale="compact" language="ko">함께 만들고 싶은<br/>이야기를 들려주세요.</Heading><TextLink href="mailto:vinus@vinus.co.kr" className="contact-email">vinus@vinus.co.kr</TextLink><Body><a href="tel:0236611907">02 3661 1907</a></Body><ContactBlock title="Visit us"><Body>서울 강서구 공항대로 227<br/>마곡센트럴타워 I, 1202호 · 07802<br/>FAX 02-3661-1906</Body><TextLink href="https://maps.google.com/?q=227+Gonghang-daero+Seoul" external>지도에서 보기</TextLink></ContactBlock><ContactBlock title="Business hours"><Body>Monday to Friday<br/>10:00–18:00, GMT +9</Body></ContactBlock><ContactBlock title="Join the league"><Body>함께 일하고 싶다면, 포트폴리오와<br/>간단한 소개를 메일로 보내주세요.</Body><TextLink href="mailto:vinus@vinus.co.kr?subject=Open%20Position">채용 문의하기</TextLink></ContactBlock></aside>;}

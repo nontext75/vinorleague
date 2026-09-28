@@ -1,11 +1,23 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr';
 import type { Project } from '@/lib/content';
-
-export function ProjectCard({ project, index = 0, imageSrc, showDescription = false }: { project: Project; index?: number; imageSrc?: string; showDescription?: boolean }) {
-  return <Link href={`/work/${project.slug}`} className={`project-card project-${project.image}`}>
-    <div className="project-image anthology-card"><Image src={imageSrc || `/images/${project.image}.webp`} alt={`${project.client} ${project.subtitle} 디자인`} fill sizes="(max-width: 767px) 100vw, 50vw" /><span className="project-open" aria-hidden="true"><ArrowUpRight size={28} /></span></div>
-    <div className="project-caption"><div><span className="project-category">{project.category} <span> / </span> {String(index + 1).padStart(2, '0')}</span><h3>{project.title}</h3><p>{project.subtitle}</p>{showDescription && <p className="project-description">{project.description}</p>}</div><ArrowUpRight size={24} weight="light" /></div>
-  </Link>;
+import { Heading, Body } from './typography';
+import styles from './work-gallery.module.css';
+const pictures: Record<string,{src:string;width:number;height:number}> = {
+ mongdang:{src:'/images/details/mongdang-0.webp',width:1440,height:900},
+ shinhan:{src:'/images/details/shinhan-0.webp',width:1440,height:814},
+ crowd:{src:'/images/details/crowd-0.webp',width:1440,height:3146},
+ macadamia:{src:'/images/details/macadamia-0.webp',width:1440,height:4247},
+ donga:{src:'/images/details/donga-0.webp',width:1440,height:3383},
+ budongsan:{src:'/images/budongsan.webp',width:480,height:360},
+ aliot:{src:'/images/aliot.webp',width:480,height:360},
+ frame:{src:'/images/frame.webp',width:480,height:360},
+};
+export function ProjectCard({ project }: { project: Project }) {
+ return <Link className={styles.project} href={`/work/${project.slug}`} aria-label={`${project.title} 프로젝트 보기`}><ProjectVisual project={project}/><div className={styles.meta}><span>{project.category}</span></div><Heading as="h3" scale="compact">{project.title}</Heading><Body size="small" className={styles.subtitle}>{project.subtitle}</Body></Link>;
+}
+export function ProjectVisual({project,hero=false}:{project:Project;hero?:boolean}) {
+ const picture=pictures[project.image];
+ const props={src:picture.src,alt:`${project.client} ${project.subtitle} 디자인`,sizes:hero?'(max-width:767px) 92vw, 1400px':'(max-width:619px) 92vw, (max-width:1099px) 46vw, 24vw'};
+ return <div className={`${styles.visual} ${hero?styles.heroVisual:''} ${project.image==='mongdang'?styles.character:''}`}>{hero?<Image {...props} fill preload/>:<Image {...props} width={picture.width} height={picture.height}/>}</div>;
 }
