@@ -10,7 +10,7 @@ const values = [
 export function StudioValues() {
   return <section className="container studio-values" aria-labelledby="studio-values-title">
     <SectionHeader id="studio-values-title" kicker="How we think" title="A clear point of view." />
-    <div className="values-grid">
+    <div className="values-grid" data-reveal-children>
       {values.map(({ label, title, text, quote }) => <section key={label}>
         <Body size="small">{label}</Body>
         <Heading scale="compact" language="ko">{title}</Heading>

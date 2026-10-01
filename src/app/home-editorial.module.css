@@ -260,6 +260,8 @@
 .home[data-scroll-intro] .openingStage { position: sticky; top: var(--opening-top); height: var(--opening-height); overflow: clip; isolation: isolate; }
 .home[data-scroll-intro] .openingVisual { position: absolute; inset: 0; z-index: 3; aspect-ratio: auto; pointer-events: none; clip-path: inset(50%); }
 .home[data-scroll-intro] .openingFrame:not(:first-child) { opacity: 1; clip-path: inset(38% 50%); }
+/* Scroll-scaled full-bleed images keep their own layer instead of repainting each frame. */
+.home[data-scroll-intro] .openingFrame img, .home[data-scroll-intro] .methodBg img { will-change: transform; }
 .home[data-scroll-intro] .statementPanel { z-index: 4; margin-top: calc(-1 * var(--opening-height) - var(--scene-overlap)); background: transparent; }
 .home[data-scroll-intro] .statementPanel .philosophy { position: sticky; top: var(--opening-top); width: 100%; max-width: none; height: var(--opening-height); min-height: 0; justify-content: safe center; overflow: clip; padding: clamp(32px, 5vh, 64px) var(--scene-inset); background: var(--paper); clip-path: inset(100% 0 0); }
 .home[data-scroll-intro] [data-scene-content] { flex: 0 0 auto; min-width: 0; }
@@ -268,7 +270,7 @@
 .experienceStage { padding-block: 112px; }
 .home[data-scroll-intro] .experience { position: relative; z-index: 5; margin-top: calc(-1 * var(--opening-height) - var(--scene-overlap)); border-top: 0; padding: 0; }
 .experienceContent { width: 100%; }
-.home[data-scroll-intro] .experienceStage { position: sticky; top: var(--opening-top); height: var(--opening-height); display: flex; flex-direction: column; justify-content: safe center; overflow: clip; padding-block: clamp(24px, 3.5vh, 48px); background: var(--paper); opacity: 0; }
+.home[data-scroll-intro] .experienceStage { position: sticky; top: var(--opening-top); height: var(--opening-height); display: flex; flex-direction: column; justify-content: safe center; overflow: clip; padding-block: clamp(24px, 3.5vh, 48px); background: var(--paper); clip-path: inset(0 0 0 100%); }
 .home[data-scroll-intro] .workHeading { padding-bottom: clamp(24px, 3vh, 40px); }
 .home[data-scroll-intro] .workHeading h2, .home[data-scroll-intro] .workHeading :global(.section-header-copy), .home[data-scroll-intro] .experience :global(ol[data-home="true"]), .home[data-scroll-intro] .experience :global(ol[data-home="true"] li) { opacity: 0; }
 .home[data-scroll-intro] .experience :global(ol[data-home="true"]) { width: max-content; max-width: none; grid-auto-columns: var(--experience-card-width); margin-left: var(--scene-inset); margin-right: 0; overflow: visible; scroll-snap-type: none; padding-bottom: 0; will-change: transform; }

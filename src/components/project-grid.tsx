@@ -32,5 +32,5 @@ export function ProjectGrid({ items, home = false, className = '' }: {
     return () => { observer.disconnect(); cancelAnimationFrame(frame); };
   }, [items, home]);
 
-  return <ol ref={grid} className={`${styles.gallery} ${className}`} data-home={home} aria-label={home ? '주요 프로젝트' : '프로젝트 목록'}>{items.map(project => <li key={project.slug}><article><ProjectCard project={project} home={home} /></article></li>)}</ol>;
+  return <ol ref={grid} className={`${styles.gallery} ${className}`} data-home={home} aria-label={home ? '주요 프로젝트' : '프로젝트 목록'} data-reveal-children>{items.map(project => <li key={project.slug}><article><ProjectCard project={project} home={home} /></article></li>)}</ol>;
 }

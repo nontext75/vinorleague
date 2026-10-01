@@ -1,6 +1,30 @@
 # vinorleague 작업 인계
 
-최종 갱신: 2026-09-29 · 작업 폴더: D:\Work\Vinorleague · 브랜치: master
+최종 갱신: 2026-10-01 · 작업 폴더: E:\Work\vinorleague · 브랜치: master
+
+## 2026-10-01 — 모션 성능 수정 + 서브페이지 모션 확장 (작업 완료, 커밋 안 됨)
+
+**작업은 끝났지만 아직 커밋되지 않았습니다.** 사용자가 컴퓨터를 꺼야 해서 리뷰/커밋 전에 세션이 끊겼습니다. 재개 시 `git status`로 아래 파일들이 그대로 있는지 먼저 확인하세요. 아래 "진행 중이었던 부분"은 이후 Opus 서브에이전트가 전부 완료 보고함: 서브페이지 모션 전체, `/studio` 레이아웃 2건, `/news/brand-colors-by-instinct` 본문 — `npm run check` 통과 확인(제가 직접 재확인), diff도 직접 리뷰해서 범위(모션/간격만, 폰트 토큰·3열 구조·타이포 변경 없음) 확인 완료. 새 파일 `src/components/reveal-motion.tsx`(footer-motion.tsx와 같은 inView+animate 패턴의 공용 리빌 컴포넌트, `data-reveal`/`data-reveal-children` 속성 기반)가 추가됐고 `layout.tsx`에 연결됨. 남은 건 사람이 브라우저에서 최종 확인 후 커밋하는 것뿐입니다.
+
+### 완료되어 검증까지 끝난 부분
+- `src/components/home-scroll-motion.tsx`: 스크롤 시 "드르륵"거리던 끊김(jank)의 원인은 easing이 아니라 매 프레임마다 40개 이상 요소의 opacity/transform/clip-path를 값이 같아도 무조건 다시 쓰던 것이었음. 값이 실제로 바뀐 속성만 쓰는 캐시(`write()`)를 추가해 4배 CPU 스로틀링 기준 33ms 초과 프레임 70→9개로 감소. 장면 진행값이 스크롤을 ~110ms 지수 감쇠로 살짝 뒤따라가게 해서 "관성" 느낌 추가(사용자 요청, 바운스 없음). 등장 커브 3제곱→4제곱 ease-out, 이동 거리 확대, Experience 섹션 페이드→와이프 전환 통일, 섹션 간 빈 화면 축소. `npm run check` 통과 확인함(제가 직접 재확인).
+
+### 진행 중이었던 부분 (완료 여부 미확인 — 재개 시 git diff로 각 파일 상태 확인 필요)
+사용자 요청: "서브페이지도 동일한 느낌을 유지하면서 진행해보자" — 홈의 모션 느낌을 studio/work/news/contact 및 상세 페이지(work/[slug], news/[slug])에도 확장하는 작업을 Opus 서브에이전트에 위임했고, 작업 중간에 다음 2건을 추가로 전달함:
+1. `/studio` 레이아웃 피드백 2건: (a) `.studio-intro .section-header-copy` max-width를 560px→약 640-700px로 넓혀 영문 서브타이틀이 3줄이 되도록, (b) `studio-values.tsx`/`.values-grid` 섹션 분량을 디자인 시스템 타입 스케일 내에서 보수적으로 확대.
+2. `/news/brand-colors-by-instinct` 본문 채우기: 기존 사이트(vinuspread.vercel.app, 영문 원문)를 가져와 한국어로 번역한 본문 2섹션을 `design-principles`와 같은 조건분기 패턴으로 삽입하고, 이 slug에 대해서만 "기존 사이트에서 원문 읽기" 외부 링크를 제거하도록 지시함.
+
+수정 중이던 파일 목록(핀 위치 기준): `src/app/editorial-theme.css`, `src/app/globals.css`, `src/app/home-editorial.module.css`, `src/app/layout.tsx`, `src/app/news/[slug]/page.tsx`, `src/app/studio/page.tsx`, `src/app/work/[slug]/page.tsx`, `src/components/contact-details.tsx`, `src/components/contact-form.tsx`, `src/components/editorial-sections.tsx`, `src/components/editorial.tsx`, `src/components/filter-tabs.tsx`, `src/components/home-motion.tsx`, `src/components/project-grid.tsx`, `src/components/story-list.tsx`, `src/components/studio-values.tsx`, 그리고 신규 파일 `src/components/reveal-motion.tsx`(아직 git에 추가되지 않음, `?? ` 상태).
+
+`reveal-motion.tsx`는 footer-motion.tsx의 `inView`+`animate` 패턴을 재사용한 공용 리빌 primitive로, `data-reveal`/`data-reveal-children` 속성을 가진 요소를 관찰해 등장 모션을 적용하는 것으로 보임. `editorial-theme.css`에는 이에 대응하는 초기 opacity:0 숨김 + 3초 후 JS 미작동 시 보이게 하는 fallback keyframe이 추가됨.
+
+### 재개 시 할 일
+1. `git status` / `git diff`로 각 파일이 문법적으로 완결된 상태인지 확인 (중단된 세션이라 일부는 반쯇 적용된 상태일 수 있음).
+2. `npm run check` (tsc)로 타입 에러 확인.
+3. `scripts/verify-home-scenes.cjs` 등 기존 검증 스크립트로 breakpoint/reduced-motion/JS-disabled/키보드 포커스 확인.
+4. `/studio` 레이아웃 피드백 2건과 `/news/brand-colors-by-instinct` 본문 반영이 실제로 적용됐는지 브라우저에서 확인 (에이전트가 끝내지 못했을 수 있음).
+5. **사용자 지적**: "타이틀 폰트가 달라진 것 같다"는 피드백이 있었음 — 당시 diff 확인 결과 폰트 관련 코드 변경은 없었고 HMR 재컴파일 중 일시적 현상으로 추정됨. 재개 후 실제로 폰트가 바뀌어 보이는지 다시 확인할 것.
+6. 아직 커밋하지 않음 — 사용자 리뷰 후 커밋 여부 결정.
 
 ## 2026-09-29 — 스크롤 장면 전환 버전 저장
 

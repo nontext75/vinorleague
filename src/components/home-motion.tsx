@@ -17,7 +17,7 @@ export function Hero() {
 }
 
 export function ServiceList() {
-  return <div className={styles.serviceList}>{services.map((service, index) => <section className={styles.service} key={service.title}>
+  return <div className={styles.serviceList} data-reveal-children>{services.map((service, index) => <section className={styles.service} key={service.title}>
     <span className={styles.serviceNumber}>{String(index + 1).padStart(2, '0')}</span>
     <Heading as="h3" scale="compact" language="en" className={styles.serviceName}>{service.title}</Heading>
     <div className={styles.serviceDetail}><Body>{service.text}</Body><div className={styles.serviceTags}>{service.tags.split(' · ').map(tag => <span key={tag}>{tag}</span>)}</div></div>

@@ -5,7 +5,8 @@ import { animate } from 'motion';
 import styles from '@/app/home-editorial.module.css';
 
 const clamp = (value: number) => Math.max(0, Math.min(1, value));
-const easeOut = (value: number) => 1 - (1 - clamp(value)) ** 3;
+// Quartic ease-out: a quick start that glides to rest, never overshooting.
+const easeOut = (value: number) => 1 - (1 - clamp(value)) ** 4;
 const easeInOut = (value: number) => {
   const progress = clamp(value);
   return progress * progress * (3 - 2 * progress);
@@ -14,8 +15,11 @@ const RAIL_SPEED = 0.92;
 const RAIL_START = 1.8;
 const OVERLAP = 0.7;
 const MASK_DURATION = 0.72;
-const NEXT_CUT_START = 2.75;
-const CUT_INTERVAL = 1.85;
+const NEXT_CUT_START = 2.6;
+const CUT_INTERVAL = 1.5;
+// Scene progress trails the native scroll with exponential damping (ms), so
+// reveals and wipes keep gliding briefly after the wheel stops. The page itself stays native.
+const INERTIA = 110;
 const FINAL_CUT_HOLD = 1.1;
 const aperture = (): Keyframe[] => [
   { clipPath: 'inset(38% 50%)', easing: 'cubic-bezier(.32,0,.22,1)' },
@@ -90,10 +94,10 @@ export function HomeScrollMotion() {
         return root && stage && content ? { root, stage, content, distance, start: 0, read: 0 } : null;
       };
       const scenes = [
-        scene(home.querySelector('[data-statement-panel]'), select(styles.philosophy), 3.55),
-        scene(experience, experienceStage, 4),
-        scene(select(styles.methodPanel), select(styles.method), 3.8),
-        scene(select(styles.insightsPanel), select(styles.insights), 2.8),
+        scene(home.querySelector('[data-statement-panel]'), select(styles.philosophy), 3),
+        scene(experience, experienceStage, 3.4),
+        scene(select(styles.methodPanel), select(styles.method), 3.2),
+        scene(select(styles.insightsPanel), select(styles.insights), 2.1),
       ];
       if (scenes.some(item => !item)) return;
       const [statement, work, method, insights] = scenes as Scene[];
@@ -128,6 +132,7 @@ export function HomeScrollMotion() {
       let frame = 0;
       let previousTime = 0;
       let previousScroll = window.scrollY;
+      let smoothScroll = window.scrollY;
       let needsMeasure = true;
       let instantRail = true;
       let alive = true;
@@ -161,7 +166,7 @@ export function HomeScrollMotion() {
       hero.querySelectorAll<HTMLElement>(`.${styles.lineMask}`).forEach((line, index) => {
         openingTrack(line, [
           { transform: 'translateX(0)', easing: 'cubic-bezier(.55,0,.8,.45)' },
-          { transform: `translateX(${index % 2 ? '' : '-'}${compact.matches ? 20 : 64}px)` },
+          { transform: `translateX(${index % 2 ? '' : '-'}${compact.matches ? 48 : 160}px)` },
         ], 0.78 + index * 0.025, 1.2 + index * 0.025);
       });
       openingTrack(hero, [{ opacity: 1 }, { opacity: 0 }], 0.88, 1.2);
@@ -175,19 +180,35 @@ export function HomeScrollMotion() {
         openingTrack(picture, aperture(), start, start + MASK_DURATION);
       });
 
-      const reveal = (element: HTMLElement | null | undefined, progress: number, start: number, duration: number, kind: 'title' | 'copy' | 'card' | 'row' = 'copy', index = 0) => {
+      // Each frame only touches styles whose value actually changed. Rewriting every
+      // inline style (and the counter text) per frame forced a style recalc and layout
+      // on every scroll frame, which is what made scrolling stutter on slower machines.
+      const written = new Map<HTMLElement, Record<string, string>>();
+      const write = (element: HTMLElement | null | undefined, property: 'opacity' | 'transform' | 'clipPath' | 'pointerEvents', value: string) => {
         if (!element) return;
-        const value = easeOut((progress - start) / duration);
-        element.style.opacity = String(value);
+        let cache = written.get(element);
+        if (!cache) written.set(element, cache = {});
+        if (cache[property] === value) return;
+        cache[property] = value;
+        element.style[property] = value;
+      };
+      const round = (value: number) => Math.round(value * 100) / 100;
+
+      const reveal = (element: HTMLElement | null | undefined, progress: number, start: number, duration: number, kind: 'title' | 'copy' | 'card' | 'row' = 'copy') => {
+        if (!element) return;
+        const value = Math.round(easeOut((progress - start) / duration) * 1000) / 1000;
+        const rest = 1 - value;
+        write(element, 'opacity', String(value));
+        // Travel is large enough to read as an entrance, not a fade.
         if (kind === 'title') {
-          element.style.clipPath = `inset(0 0 ${(1 - value) * 100}% 0)`;
-          element.style.transform = `translate3d(0, ${(1 - value) * 20}px, 0)`;
+          write(element, 'clipPath', `inset(0 0 ${round(rest * 100)}% 0)`);
+          write(element, 'transform', `translate3d(0, ${round(rest * 0.55)}em, 0)`);
         } else if (kind === 'card') {
-          element.style.transform = `translate3d(0, ${(1 - value) * 28}px, 0) scale(${0.975 + value * 0.025})`;
+          write(element, 'transform', `translate3d(${round(rest * 96)}px, ${round(rest * 40)}px, 0) scale(${Math.round((0.96 + value * 0.04) * 1e4) / 1e4})`);
         } else if (kind === 'row') {
-          element.style.transform = `translate3d(${(1 - value) * (index % 2 ? -16 : 16)}px, 0, 0)`;
+          write(element, 'transform', `translate3d(${round(rest * 56)}px, 0, 0)`);
         } else {
-          element.style.transform = `translate3d(0, ${(1 - value) * 12}px, 0)`;
+          write(element, 'transform', `translate3d(0, ${round(rest * 32)}px, 0)`);
         }
       };
 
@@ -235,57 +256,64 @@ export function HomeScrollMotion() {
         const jumped = Math.abs(position - previousScroll) > viewport * 0.65;
         previousScroll = position;
         previousTime = time;
-        const openingProgress = (position - openingStart - heroRead) / viewport;
-        heroContent.style.transform = `translate3d(0, ${-Math.min(heroRead, Math.max(0, position - openingStart - viewport * 0.3))}px, 0)`;
+        // Touch scrolling already carries native momentum; focus and jumps settle instantly.
+        smoothScroll = instantRail || jumped || !finePointer.matches ? position : smoothScroll + (position - smoothScroll) * (1 - Math.exp(-elapsed / INERTIA));
+        if (Math.abs(position - smoothScroll) < 0.5) smoothScroll = position;
+        const motion = smoothScroll;
+        const openingProgress = (motion - openingStart - heroRead) / viewport;
+        write(heroContent, 'transform', `translate3d(0, ${-round(Math.min(heroRead, Math.max(0, position - openingStart - viewport * 0.3)))}px, 0)`);
         openingTracks.forEach(track => {
-          const currentTime = clamp((openingProgress - track.start) / (track.end - track.start)) * 1000;
+          const currentTime = Math.round(clamp((openingProgress - track.start) / (track.end - track.start)) * 1000);
           if (track.animation.currentTime !== currentTime) track.animation.currentTime = currentTime;
         });
-        hero.style.pointerEvents = openingProgress > 1.2 ? 'none' : '';
+        write(hero, 'pointerEvents', openingProgress > 1.2 ? 'none' : '');
 
         chapters.forEach((chapter, index) => {
-          const progress = (position - chapter.start) / viewport;
-          const cover = easeInOut(progress / OVERLAP);
-          if (chapter === work) chapter.stage.style.opacity = String(cover);
-          else if (chapter === method) chapter.stage.style.clipPath = `inset(0 0 ${(1 - cover) * 100}% 0)`;
-          else if (chapter === insights) chapter.stage.style.clipPath = `inset(${(1 - cover) * 50}% 0)`;
-          else chapter.stage.style.clipPath = `inset(${(1 - cover) * 100}% 0 0)`;
+          const progress = (motion - chapter.start) / viewport;
+          const hidden = round((1 - easeInOut(progress / OVERLAP)) * 100);
+          // Every scene arrives as a wipe; the work rail enters along its own horizontal axis.
+          if (chapter === work) write(chapter.stage, 'clipPath', `inset(0 0 0 ${hidden}%)`);
+          else if (chapter === method) write(chapter.stage, 'clipPath', `inset(0 0 ${hidden}% 0)`);
+          else if (chapter === insights) write(chapter.stage, 'clipPath', `inset(${hidden / 2}% 0)`);
+          else write(chapter.stage, 'clipPath', `inset(${hidden}% 0 0)`);
           const next = chapters[index + 1];
-          const exit = next ? easeInOut((position - next.start + viewport * 0.16) / (viewport * 0.46)) : 0;
-          chapter.content.style.opacity = String(1 - exit);
+          const exit = next ? round(easeInOut((motion - next.start + viewport * 0.16) / (viewport * 0.46)) * 1000) / 1000 : 0;
+          // Outgoing content recedes upward under the incoming wipe instead of blanking first.
+          write(chapter.content, 'opacity', String(1 - exit * 0.75));
           const read = Math.min(chapter.read, Math.max(0, position - chapter.start - viewport * 1.35));
-          chapter.content.style.transform = `translate3d(0, ${-read}px, 0)`;
-          chapter.stage.style.pointerEvents = progress < 0.45 || exit > 0.98 ? 'none' : '';
+          write(chapter.content, 'transform', `translate3d(0, ${-round(read + exit * 72)}px, 0)`);
+          write(chapter.stage, 'pointerEvents', progress < 0.45 || exit > 0.98 ? 'none' : '');
         });
 
-        const statementProgress = (position - statement.start) / viewport;
+        const statementProgress = (motion - statement.start) / viewport;
         statementLines.forEach((element, index) => reveal(element, statementProgress, 0.55 + index * 0.1, 0.4, 'title'));
         statementCopy.forEach((element, index) => reveal(element, statementProgress, 0.9 + index * 0.08, 0.35));
-        const workProgress = (position - work.start) / viewport;
+        const workProgress = (motion - work.start) / viewport;
         reveal(workTitle, workProgress, 0.24, 0.48, 'title');
         reveal(workCopy, workProgress, 0.4, 0.48);
-        gallery.style.opacity = '1';
+        write(gallery, 'opacity', '1');
         galleryCards.forEach((card, index) => reveal(card, workProgress, 0.56 + Math.min(index, 3) * 0.08, 0.46, 'card'));
         reveal(progressLabel, workProgress, 0.85, 0.35);
         const galleryTarget = Math.min(galleryTravel, Math.max(0, (position - galleryStart) * RAIL_SPEED));
         // The page remains native. Settle just this rail, and snap on touch, focus or a jump.
         galleryPosition = instantRail || jumped || !finePointer.matches ? galleryTarget : galleryPosition + (galleryTarget - galleryPosition) * (1 - Math.exp(-elapsed / 65));
         if (Math.abs(galleryTarget - galleryPosition) < 0.1) galleryPosition = galleryTarget;
-        gallery.style.transform = `translate3d(${-galleryPosition}px, 0, 0)`;
+        write(gallery, 'transform', `translate3d(${-round(galleryPosition)}px, 0, 0)`);
         const railProgress = galleryTravel ? galleryPosition / galleryTravel : 1;
-        if (progressBar) progressBar.style.transform = `scaleX(${railProgress})`;
-        if (progressCurrent) progressCurrent.textContent = String(1 + Math.round(railProgress * (galleryCards.length - 1))).padStart(2, '0');
+        write(progressBar, 'transform', `scaleX(${Math.round(railProgress * 1000) / 1000})`);
+        const current = String(1 + Math.round(railProgress * (galleryCards.length - 1))).padStart(2, '0');
+        if (progressCurrent && progressCurrent.textContent !== current) progressCurrent.textContent = current;
 
-        const methodProgress = (position - method.start) / viewport;
+        const methodProgress = (motion - method.start) / viewport;
         methodLines.forEach((element, index) => reveal(element, methodProgress, 0.3 + index * 0.14, 0.5, 'title'));
         methodCopy.forEach((element, index) => reveal(element, methodProgress, 0.68 + index * 0.12, 0.44));
-        if (methodPicture) methodPicture.style.transform = `scale(${1.06 - clamp(methodProgress / 2.8) * 0.06})`;
-        const insightsProgress = (position - insights.start) / viewport;
+        write(methodPicture, 'transform', `scale(${Math.round((1.06 - clamp(methodProgress / 2.8) * 0.06) * 1e4) / 1e4})`);
+        const insightsProgress = (motion - insights.start) / viewport;
         reveal(insightsTitle, insightsProgress, 0.24, 0.5, 'title');
         reveal(insightsCopy, insightsProgress, 0.4, 0.48);
-        stories.forEach((element, index) => reveal(element, insightsProgress, 0.5 + index * 0.12, 0.48, 'row', index));
+        stories.forEach((element, index) => reveal(element, insightsProgress, 0.5 + index * 0.12, 0.48, 'row'));
         instantRail = false;
-        if (galleryPosition !== galleryTarget) frame = requestAnimationFrame(render);
+        if (galleryPosition !== galleryTarget || smoothScroll !== position) frame = requestAnimationFrame(render);
       };
 
       const schedule = () => { if (!frame) frame = requestAnimationFrame(render); };

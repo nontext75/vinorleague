@@ -85,3 +85,10 @@ body:has(.editorial-home) :focus-visible { outline-color: currentColor; }
 @media (prefers-reduced-motion:reduce) {
  .home-footer .footer-project-link svg, .home-footer .back-top svg { transition: none; }
 }
+
+/* Subpage entrance (reveal-motion.tsx). Targets wait hidden only when scripts run; a late fallback shows them if the script never takes over. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+ #main:not(:has(.editorial-home)) :is([data-reveal], [data-reveal-children] > :not([data-reveal-children], :has([data-reveal], [data-reveal-children]))):not([data-revealed]) { opacity: 0; }
+ html:not([data-reveal-ready]) #main:not(:has(.editorial-home)) :is([data-reveal], [data-reveal-children] > *) { animation: reveal-fallback .01s 3s forwards; }
+}
+@keyframes reveal-fallback { to { opacity: 1; } }
