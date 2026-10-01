@@ -1,4 +1,5 @@
 import { Hero } from '@/components/home-motion';
+import Image from 'next/image';
 import { HomeScrollMotion } from '@/components/home-scroll-motion';
 import { WorkGallery } from '@/components/work-gallery';
 import { StatementSection, ServicesSection } from '@/components/editorial-sections';
@@ -10,8 +11,17 @@ export default function Home() {
   return (
     <div className={`editorial-home ${styles.home}`}>
       <HomeScrollMotion />
-      <Hero />
-      <StatementSection />
+      <div className={styles.opening} data-opening>
+        <div className={styles.openingStage} data-opening-stage>
+          <Hero />
+          <figure className={styles.openingVisual} data-opening-visual aria-hidden="true">
+            <Image src="/images/growth-sculpture.webp" alt="" fill sizes="100vw" preload />
+          </figure>
+        </div>
+      </div>
+      <div className={styles.statementPanel} data-statement-panel>
+        <StatementSection />
+      </div>
       <section className={styles.experience} id="work" aria-labelledby="experience-title">
         <SectionHeader
           className={`container ${styles.workHeading}`}

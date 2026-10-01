@@ -13,11 +13,11 @@ const pictures: Record<string,{src:string;width:number;height:number}> = {
  aliot:{src:'/images/aliot.webp',width:480,height:360},
  frame:{src:'/images/frame.webp',width:480,height:360},
 };
-export function ProjectCard({ project }: { project: Project }) {
- return <Link className={styles.project} href={`/work/${project.slug}`} aria-label={`${project.title} 프로젝트 보기`}><ProjectVisual project={project}/><div className={styles.meta}><span>{project.category}</span></div><Heading as="h3" scale="compact">{project.title}</Heading><Body size="small" className={styles.subtitle}>{project.subtitle}</Body></Link>;
+export function ProjectCard({ project, home = false }: { project: Project; home?: boolean }) {
+ return <Link className={styles.project} href={`/work/${project.slug}`} aria-label={`${project.title} 프로젝트 보기`}><ProjectVisual project={project} home={home}/><div className={styles.meta}><span>{project.category}</span></div><Heading as="h3" scale="compact">{project.title}</Heading><Body size="small" className={styles.subtitle}>{project.subtitle}</Body></Link>;
 }
-export function ProjectVisual({project,hero=false}:{project:Project;hero?:boolean}) {
+export function ProjectVisual({project,hero=false,home=false}:{project:Project;hero?:boolean;home?:boolean}) {
  const picture=pictures[project.image];
- const props={src:picture.src,alt:`${project.client} ${project.subtitle} 디자인`,sizes:hero?'(max-width:767px) 92vw, 1400px':'(max-width:619px) 92vw, (max-width:1099px) 46vw, 24vw'};
- return <div data-image={project.image} className={`${styles.visual} ${hero?styles.heroVisual:''} ${project.image==='mongdang'?styles.character:''}`}>{hero?<Image {...props} fill preload/>:<Image {...props} width={picture.width} height={picture.height}/>}</div>;
+ const props={src:picture.src,alt:`${project.client} ${project.subtitle} 디자인`,sizes:hero?'(max-width:767px) 92vw, 1400px':home?'(max-width:767px) calc(100vw - 48px), (max-width:1100px) calc((100vw - 144px) / 2), (max-width:1592px) calc((100vw - 240px) / 2), 676px':'(max-width:619px) 92vw, (max-width:1099px) 46vw, 24vw'};
+ return <div data-image={project.image} className={`${styles.visual} ${hero?styles.heroVisual:''} ${project.image==='mongdang'?styles.character:''}`}><span className={styles.imageFrame}>{hero?<Image {...props} fill preload/>:<Image {...props} width={picture.width} height={picture.height}/>}</span></div>;
 }

@@ -1,6 +1,21 @@
 # vinorleague 작업 인계
 
-최종 갱신: 2026-09-28 · 작업 폴더: E:\Work\vinorleague · 브랜치: master
+최종 갱신: 2026-09-29 · 작업 폴더: D:\Work\Vinorleague · 브랜치: master
+
+## 2026-09-29 — 스크롤 장면 전환 버전 저장
+
+- Motto 녹화를 분석한 뒤, 사용자가 원본 복제 대신 대안 구현을 선택. 첫 화면은 제목의 좌우 퇴장 → 중앙 이미지 펼침 → 소개 패널이 이미지를 덮는 순서이며, 기존 `growth-sculpture.webp`를 임시 비주얼로 사용.
+- `home-scroll-motion.tsx`의 일시 정지된 애니메이션 재생 위치를 스크롤 거리로 직접 제어. 정지·역스크롤 대응, 키보드 포커스 복구, reduced-motion/JS 비활성 시 일반 문서 흐름 지원. 전체 섹션 스크롤 스냅은 제거하고 작업 목록의 기본 스크롤을 유지.
+- 화면 높이에 비례해 글자를 축소하던 규칙 제거. 짧은 화면에서는 내용을 읽을 추가 스크롤 거리를 확보한 다음 전환. 홈 좌우 여백은 데스크톱 96px/태블릿 48px/모바일 24px 이상, 최대 컨테이너 1400px. 홈 작업 카드는 데스크톱 2열/모바일 1열, 행 간격 96px/64px로 확대하고 이미지 `sizes` 수정.
+- 홈 푸터는 어두운 배경 위에 전체 콘텐츠가 드러나는 스크롤 연동 전환 적용.
+- `npm run check`, `npm run build`, `git diff --check` 통과. `scripts/verify-home-scenes.cjs`로 320/390/768/1440/2540px 및 짧은 화면, 정지·역스크롤, 키보드, 페이지 이동, reduced-motion, JS 비활성 확인. Playwright가 외부에 설치된 경우 모듈 경로를 첫 인자로 전달. 검수 캡처는 Git 제외된 `output/home-scenes/`에 저장.
+- 아래 타이밍 조정 기록은 이전 중간 단계이며, 현재 진입·퇴장 모션은 시간 기반 자동 재생을 사용하지 않음.
+
+## 2026-09-29 — 메인 스크롤 인터랙션 타이밍 & 컨테이너 폭 수정
+
+- 사용자가 "섹션별 인터랙션이 중간에 멈춘다"고 지적. 진단 결과 코드 자체는 정상 동작했지만 `home-scroll-motion.tsx`의 reveal duration/delay/stagger 값이 일반적인 스크롤 속도보다 훨씬 길어(최대 1.4초+) 실사용 시 텍스트·카드가 중간 opacity에서 멈춘 것처럼 보였음. Codex에게 위임해 duration을 대략 절반(0.5~0.7초대)으로, stagger gap도 축소. 어두운 서비스(.methodRevised) 섹션의 보조 텍스트 색상도 대비를 약간 높임(#909090→#aaa 등).
+- 별개로 "메인/서브페이지 컨텐츠 폭이 다르다"는 지적 확인. `editorial-theme.css`의 `body:has(.editorial-home) .container { width:min(1600px,...) }` 규칙이 `.editorial-home` 래퍼가 있는 페이지(=홈)에서만 컨테이너를 1600px로 넓히고 있었음. 리팩터링으로 서브페이지들이 `.editorial-home` 래퍼를 더 이상 쓰지 않게 되면서 폭이 갈라진 것. `docs/design-system.md`에 명시된 "컨테이너 최대 1400px" 기준에 맞춰 해당 1600px 오버라이드를 제거.
+- 두 수정 모두 브라우저에서 실제 스크롤 검증 완료, `npx tsc --noEmit` 통과.
 
 ## 최신 요청 — 분석 우선
 

@@ -4,16 +4,34 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, List, X } from '@phosphor-icons/react';
 import { motion, useReducedMotion } from 'motion/react';
+import { Logo } from './logo';
 
 const links = [['/work', 'Experience'], ['/studio', 'Studio'], ['/news', 'Story']] as const;
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const reduce = useReducedMotion();
   const toggle = useRef<HTMLButtonElement>(null);
   useEffect(() => { if (!open) return; const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setOpen(false); toggle.current?.focus(); } }; document.addEventListener('keydown', onKey); return () => document.removeEventListener('keydown', onKey); }, [open]);
-  return <header className={`site-header editorial-header ${pathname === '/' ? 'concept-header' : ''}`}><div className="header-inner">
-    <Link href="/" className="wordmark" aria-label="vinorleague 홈" onClick={() => setOpen(false)}>vinorleague<span aria-hidden="true">*</span></Link>
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      setScrolled(window.scrollY > 48);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [pathname]);
+  return <header className={`site-header editorial-header ${pathname === '/' ? 'concept-header' : ''} ${scrolled ? 'is-scrolled' : ''}`}><div className="header-inner">
+    <Link href="/" className="wordmark" aria-label="vinorleague 홈" onClick={() => setOpen(false)}><Logo/></Link>
     <nav className="desktop-nav" aria-label="주 메뉴">{links.map(([href, label]) => <Link key={href} href={href} aria-current={pathname.startsWith(href) ? 'page' : undefined}>{label}</Link>)}</nav>
     <Link className="header-contact" href="/contact">Contact <ArrowUpRight size={18} /></Link>
     <button ref={toggle} className="menu-toggle btn btn-ghost" aria-label={open ? '메뉴 닫기' : '메뉴 열기'} aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen(!open)}>{open ? <X size={25} /> : <List size={25} />}</button>
