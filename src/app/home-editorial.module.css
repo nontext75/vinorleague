@@ -222,9 +222,12 @@
 .home .experience { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; border-top: 1px solid var(--line); padding-block: 24px 48px; }
 .home .workHeading { padding-block: 0 28px; }
 .home .workHeading :global(.section-header-copy) { margin-top: 12px; }
-.home .workHeading h2 { font-size: clamp(48px, 5vw, 80px); }
+.home .workHeading h2 { font-size: clamp(72px, 7vw, 112px); }
+.home .workHeading :global(.section-header-copy) p { max-width: 800px; font-size: clamp(20px, 1.55vw, 24px); line-height: 1.55; }
 .home .methodRevised { min-height: calc(100svh - 80px); display: flex; align-items: center; padding-block: 96px 72px; }
 .home .insights { min-height: calc(100svh - 80px); align-content: center; padding-block: 96px 64px; }
+.home .methodRevised .methodBody > p > span:nth-child(2) { font-size: clamp(20px, 1.5vw, 23px); line-height: 1.65; }
+.home .insights :global(.section-header-copy) p { font-size: clamp(20px, 1.5vw, 23px); line-height: 1.65; }
 .home .storyRow { grid-template-columns: 140px minmax(0, 1fr); }
 .home .sectionIntro { padding-bottom: 0; }
 @media(max-width:1100px) {
@@ -237,9 +240,11 @@
  .home .heroBottom { padding-bottom: 32px; }
  .home .philosophy { min-height: 80svh; padding-block: 64px 72px; }
  .home .experience { min-height: auto; padding-block: 24px 72px; }
- .home .workHeading h2 { font-size: var(--heading-section-size); }
+ .home .workHeading h2 { font-size: clamp(48px, 13vw, 66px); }
+ .home .workHeading :global(.section-header-copy) p { font-size: 18px; }
  .home .methodRevised { padding-block: 72px; }
  .home .insights { grid-template-columns: 1fr; padding-block: 64px; gap: 32px; }
+ .home .methodRevised .methodBody > p > span:nth-child(2), .home .insights :global(.section-header-copy) p { font-size: 18px; }
 .home .storyRow { grid-template-columns: 88px minmax(0, 1fr); }
 }
 
@@ -247,20 +252,55 @@
    Without JS/reduced motion these remain ordinary, fully readable document blocks. */
 .opening { position: relative; }
 .openingVisual { position: relative; margin: 0; aspect-ratio: 16 / 10; background: #e6e6e3; }
-.openingVisual img { object-fit: cover; object-position: center 54%; }
+.openingFrame { position: absolute; inset: 0; display: block; }
+.openingFrame:not(:first-child) { opacity: 0; }
+.openingFrame img { object-fit: cover; object-position: center 54%; }
 .statementPanel { position: relative; background: var(--paper); }
 .home[data-scroll-intro] .opening { height: calc(var(--opening-height) + var(--opening-distance)); }
 .home[data-scroll-intro] .openingStage { position: sticky; top: var(--opening-top); height: var(--opening-height); overflow: clip; isolation: isolate; }
 .home[data-scroll-intro] .openingVisual { position: absolute; inset: 0; z-index: 3; aspect-ratio: auto; pointer-events: none; clip-path: inset(50%); }
-.home[data-scroll-intro] .openingVisual img { will-change: transform; }
-.home[data-scroll-intro] .statementPanel { z-index: 4; margin-top: calc(-1 * var(--opening-height)); }
-.home[data-scroll-intro] .statementPanel .philosophy { min-height: var(--opening-height); }
+.home[data-scroll-intro] .openingFrame:not(:first-child) { opacity: 1; clip-path: inset(38% 50%); }
+.home[data-scroll-intro] .statementPanel { z-index: 4; margin-top: calc(-1 * var(--opening-height) - var(--scene-overlap)); background: transparent; }
+.home[data-scroll-intro] .statementPanel .philosophy { position: sticky; top: var(--opening-top); width: 100%; max-width: none; height: var(--opening-height); min-height: 0; justify-content: safe center; overflow: clip; padding: clamp(32px, 5vh, 64px) var(--scene-inset); background: var(--paper); clip-path: inset(100% 0 0); }
+.home[data-scroll-intro] [data-scene-content] { flex: 0 0 auto; min-width: 0; }
+
+.home .experience { display: block; padding: 0; min-height: 0; }
+.experienceStage { padding-block: 112px; }
+.home[data-scroll-intro] .experience { position: relative; z-index: 5; margin-top: calc(-1 * var(--opening-height) - var(--scene-overlap)); border-top: 0; padding: 0; }
+.experienceContent { width: 100%; }
+.home[data-scroll-intro] .experienceStage { position: sticky; top: var(--opening-top); height: var(--opening-height); display: flex; flex-direction: column; justify-content: safe center; overflow: clip; padding-block: clamp(24px, 3.5vh, 48px); background: var(--paper); opacity: 0; }
+.home[data-scroll-intro] .workHeading { padding-bottom: clamp(24px, 3vh, 40px); }
+.home[data-scroll-intro] .workHeading h2, .home[data-scroll-intro] .workHeading :global(.section-header-copy), .home[data-scroll-intro] .experience :global(ol[data-home="true"]), .home[data-scroll-intro] .experience :global(ol[data-home="true"] li) { opacity: 0; }
+.home[data-scroll-intro] .experience :global(ol[data-home="true"]) { width: max-content; max-width: none; grid-auto-columns: var(--experience-card-width); margin-left: var(--scene-inset); margin-right: 0; overflow: visible; scroll-snap-type: none; padding-bottom: 0; will-change: transform; }
+.experienceProgress { display: none; }
+.home[data-scroll-intro] .experienceProgress { display: flex; align-items: center; gap: 16px; margin-top: 24px; font-size: 11px; line-height: 16px; font-variant-numeric: tabular-nums; color: var(--muted); }
+.experienceProgressTrack { display: block; position: relative; width: 112px; height: 1px; background: var(--line); overflow: hidden; }
+.experienceProgressTrack > span { display: block; width: 100%; height: 100%; background: currentColor; transform: scaleX(0); transform-origin: left; }
+.home[data-scroll-intro] .methodPanel { position: relative; z-index: 6; margin-top: calc(-1 * var(--opening-height) - var(--scene-overlap)); }
+.home[data-scroll-intro] .methodPanel .methodRevised { position: sticky; top: var(--opening-top); height: var(--opening-height); min-height: 0; align-items: safe center; padding-block: 32px; clip-path: inset(0 0 100% 0); }
+.home[data-scroll-intro] .methodPanel .methodLine, .home[data-scroll-intro] .methodPanel .methodBody > p > span, .home[data-scroll-intro] .methodPanel .methodLinks { opacity: 0; }
+.home .insights { display: block; }
+.insightsContent { display: grid; grid-template-columns: 4fr 8fr; gap: 24px; align-items: start; width: 100%; }
+.home[data-scroll-intro] .insightsPanel { position: relative; z-index: 7; margin-top: calc(-1 * var(--opening-height) - var(--scene-overlap)); }
+.home[data-scroll-intro] .insightsPanel .insights { position: sticky; top: var(--opening-top); height: var(--opening-height); min-height: 0; width: 100%; max-width: none; display: flex; flex-direction: column; justify-content: safe center; overflow: clip; padding: 32px var(--scene-inset); background: var(--paper); clip-path: inset(50% 0); }
+.home[data-scroll-intro] .insightsPanel .insights h2, .home[data-scroll-intro] .insightsPanel .insights :global(.section-header-copy), .home[data-scroll-intro] .insightsPanel .storyRow { opacity: 0; }
+@media (max-width:1100px) { .insightsContent { grid-template-columns: 1fr 2fr; gap: 32px; } }
+@media (max-width:767px) {
+ .experienceStage { padding-block: 72px; }
+ .home[data-scroll-intro] .experienceStage { padding-block: 24px; }
+ .home[data-scroll-intro] .statementPanel .philosophy { padding: 32px 24px; }
+ .home[data-scroll-intro] .methodPanel .methodRevised { padding-block: 24px; }
+ .home[data-scroll-intro] .insightsPanel .insights { padding: 24px; }
+ .insightsContent { grid-template-columns: 1fr; gap: 32px; }
+ .home[data-scroll-intro] .experienceProgress { margin-top: 20px; }
+}
 
 /* Preserve the editorial scale and breathing room independently of screen height. */
 .home { --body-size: 17px; --body-small-size: 15px; }
 .home .manifestoTitle { font-size: clamp(64px, 7.2vw, 104px); line-height: 1.14; }
 .home .philosophy { padding-block: 128px; }
 .home .philosophyBody { margin-top: 64px; }
+.home .philosophyBody > div > p:not(.philosophyLead) { font-size: clamp(19px, 1.55vw, 22px); line-height: 1.75; }
 .home .philosophyBody > :global(.text-link) { margin-top: 48px; }
 .home .experience { padding-block: 128px; }
 .home .workHeading { padding-bottom: 64px; }
@@ -269,6 +309,7 @@
  .home .manifestoTitle { font-size: clamp(32px, 9.5vw, 60px); line-height: 1.2; }
  .home .philosophy { padding-block: 96px; }
  .home .philosophyBody { margin-top: 48px; }
+ .home .philosophyBody > div > p:not(.philosophyLead) { font-size: 18px; }
  .home .experience, .home .methodRevised, .home .insights { padding-block: 96px; }
  .home .workHeading { padding-bottom: 48px; }
 }

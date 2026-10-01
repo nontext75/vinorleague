@@ -1,27 +1,28 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { animate } from 'motion';
 import styles from '@/app/home-editorial.module.css';
 
-type Track = {
-  element: HTMLElement;
-  anchor: HTMLElement;
-  animation: Animation;
-  start: number;
-  end: number;
-  top: number;
-  from: number;
-  to: number;
-  forced: boolean;
-  intro: boolean;
-  focusProgress: number;
-  afterReading: boolean;
-  reading: boolean;
-};
-
 const clamp = (value: number) => Math.max(0, Math.min(1, value));
+const easeOut = (value: number) => 1 - (1 - clamp(value)) ** 3;
+const easeInOut = (value: number) => {
+  const progress = clamp(value);
+  return progress * progress * (3 - 2 * progress);
+};
+const RAIL_SPEED = 0.92;
+const RAIL_START = 1.8;
+const OVERLAP = 0.7;
+const MASK_DURATION = 0.72;
+const NEXT_CUT_START = 2.75;
+const CUT_INTERVAL = 1.85;
+const FINAL_CUT_HOLD = 1.1;
+const aperture = (): Keyframe[] => [
+  { clipPath: 'inset(38% 50%)', easing: 'cubic-bezier(.32,0,.22,1)' },
+  { clipPath: 'inset(0% 0%)' },
+];
 
-// Layout coordinates do not change when an animated child is translated or scaled.
+// Offset coordinates stay stable while children are transformed or pinned.
 function layoutTop(element: HTMLElement) {
   let top = 0;
   let current: HTMLElement | null = element;
@@ -32,309 +33,342 @@ function layoutTop(element: HTMLElement) {
   return top;
 }
 
-/** One paused animation per element, driven solely by the current scroll position. */
+type Scene = {
+  root: HTMLElement;
+  stage: HTMLElement;
+  content: HTMLElement;
+  distance: number;
+  start: number;
+  read: number;
+};
+
+/** Native page scroll owns navigation; only the gallery has a short visual settle. */
 export function HomeScrollMotion() {
   const curtain = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const home = document.querySelector<HTMLElement>('.editorial-home');
     if (!home) return;
 
-    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const compact = window.matchMedia('(max-width: 767px)');
+    const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
+    const resetOnReload = navigation?.type === 'reload';
+    const previousScrollRestoration = history.scrollRestoration;
+    if (resetOnReload) history.scrollRestoration = 'manual';
+    const resetReloadPosition = () => {
+      if (resetOnReload) window.scrollTo({ top: 0, behavior: 'instant' });
+    };
+    resetReloadPosition();
+    window.addEventListener('pageshow', resetReloadPosition);
+    const resetFrame = requestAnimationFrame(resetReloadPosition);
+
+    const preference = matchMedia('(prefers-reduced-motion: reduce)');
+    const compact = matchMedia('(max-width: 767px)');
+    const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+    let entered = false;
     let dispose = () => {};
 
     const setup = () => {
       dispose();
-      if (preference.matches) {
-        if (curtain.current) curtain.current.hidden = true;
-        return;
-      }
+      if (curtain.current) curtain.current.hidden = true;
+      if (preference.matches) return;
+
+      const select = (className: string) => home.querySelector<HTMLElement>(`.${className}`);
+      const opening = home.querySelector<HTMLElement>('[data-opening]');
+      const hero = select(styles.intro);
+      const heroContent = select(styles.heroInner);
+      const visual = home.querySelector<HTMLElement>('[data-opening-visual]');
+      const experience = select(styles.experience);
+      const experienceStage = home.querySelector<HTMLElement>('[data-experience-stage]');
+      const gallery = experience?.querySelector<HTMLOListElement>('ol[data-home="true"]');
+      if (!opening || !hero || !heroContent || !visual || !experience || !experienceStage || !gallery) return;
+      const openingPictures = [...visual.querySelectorAll<HTMLElement>('img')];
+      const lastCutStart = NEXT_CUT_START + Math.max(0, openingPictures.length - 2) * CUT_INTERVAL;
+      const openingDistance = lastCutStart + MASK_DURATION + FINAL_CUT_HOLD + OVERLAP;
+
+      const scene = (root: HTMLElement | null, stage: HTMLElement | null, distance: number): Scene | null => {
+        const content = stage?.querySelector<HTMLElement>('[data-scene-content]');
+        return root && stage && content ? { root, stage, content, distance, start: 0, read: 0 } : null;
+      };
+      const scenes = [
+        scene(home.querySelector('[data-statement-panel]'), select(styles.philosophy), 3.55),
+        scene(experience, experienceStage, 4),
+        scene(select(styles.methodPanel), select(styles.method), 3.8),
+        scene(select(styles.insightsPanel), select(styles.insights), 2.8),
+      ];
+      if (scenes.some(item => !item)) return;
+      const [statement, work, method, insights] = scenes as Scene[];
+      const chapters = [statement, work, method, insights];
+      const galleryCards = [...gallery.querySelectorAll<HTMLElement>('li')];
+      const workHeading = experienceStage.querySelector<HTMLElement>('.section-header');
+      const workTitle = experienceStage.querySelector<HTMLElement>('#experience-title');
+      const workCopy = experienceStage.querySelector<HTMLElement>('.section-header-copy');
+      const progressBar = experience.querySelector<HTMLElement>('[data-experience-progress]');
+      const progressCurrent = experience.querySelector<HTMLElement>('[data-experience-current]');
+      const progressTotal = experience.querySelector<HTMLElement>('[data-experience-total]');
+      const progressLabel = select(styles.experienceProgress);
+      if (progressTotal) progressTotal.textContent = String(galleryCards.length).padStart(2, '0');
+
+      const statementLines = [...statement.stage.querySelectorAll<HTMLElement>(`.${styles.statementLine}`)];
+      const statementCopy = [...statement.stage.querySelectorAll<HTMLElement>(`.${styles.philosophyBody} p, .${styles.philosophyBody} > a`)];
+      const methodLines = [...method.stage.querySelectorAll<HTMLElement>(`.${styles.methodLine}`)];
+      const methodCopy = [...method.stage.querySelectorAll<HTMLElement>(`.${styles.methodBody} > p > span, .${styles.methodLinks}`)];
+      const methodPicture = method.stage.querySelector<HTMLElement>(`.${styles.methodBg} img`);
+      const insightsTitle = insights.stage.querySelector<HTMLElement>('h2');
+      const insightsCopy = insights.stage.querySelector<HTMLElement>('.section-header-copy');
+      const stories = [...insights.stage.querySelectorAll<HTMLElement>(`.${styles.storyRow}`)];
+      const entranceElements = [workTitle, workCopy, progressLabel, ...galleryCards, ...statementLines, ...statementCopy, ...methodLines, ...methodCopy, insightsTitle, insightsCopy, ...stories];
+      const headerHeight = compact.matches ? 78 : 80;
+      let viewport = window.innerHeight;
+      let viewportWidth = document.documentElement.clientWidth;
+      let openingStart = 0;
+      let heroRead = 0;
+      let galleryTravel = 0;
+      let galleryStart = 0;
+      let galleryPosition = 0;
+      let frame = 0;
+      let previousTime = 0;
+      let previousScroll = window.scrollY;
+      let needsMeasure = true;
+      let instantRail = true;
+      let alive = true;
 
       home.dataset.scrollIntro = 'true';
-
-      const opening = home.querySelector<HTMLElement>('[data-opening]');
-      const visual = home.querySelector<HTMLElement>('[data-opening-visual]');
-      const heroContent = home.querySelector<HTMLElement>(`.${styles.heroInner}`);
-      const headerHeight = compact.matches ? 78 : 80;
-      let readingDistance = 0;
-      // The stage length is scroll distance, not an animation duration.
-      const sizeOpening = () => {
-        home.style.setProperty('--opening-top', `${headerHeight}px`);
-        const available = window.innerHeight - headerHeight;
-        home.style.setProperty('--opening-height', `${available}px`);
-        // Never shrink type to fit a short viewport. Let the user read the remaining
-        // content by scrolling it upward before the scene's exit can begin.
-        readingDistance = Math.max(0, (heroContent?.offsetHeight ?? available) - available);
-        home.style.setProperty('--opening-read-distance', `${readingDistance}px`);
-        home.style.setProperty('--opening-distance', `${window.innerHeight * 2.65 + readingDistance}px`);
-      };
-      sizeOpening();
-
-      const tracks: Track[] = [];
-      let frame = 0;
-      let alive = true;
-      let needsMeasure = true;
-      let viewport = window.innerHeight;
-      const distance = compact.matches ? 12 : 20;
-
-      const add = (
-        element: HTMLElement | null,
-        anchor: HTMLElement | null,
-        keyframes: Keyframe[],
-        start = 0.92,
-        end = 0.48,
-        intro = false,
-        options: { focusProgress?: number; afterReading?: boolean; reading?: boolean } = {},
-      ) => {
-        if (!element || !anchor) return;
+      const openingTracks: { animation: Animation; start: number; end: number }[] = [];
+      const openingTrack = (element: HTMLElement | null, keyframes: Keyframe[], start: number, end: number) => {
+        if (!element) return;
         const animation = element.animate(keyframes, { duration: 1000, fill: 'both' });
         animation.pause();
         animation.currentTime = 0;
-        tracks.push({ element, anchor, animation, start, end, top: 0, from: 0, to: 0, forced: false, intro, focusProgress: options.focusProgress ?? 1, afterReading: options.afterReading ?? false, reading: options.reading ?? false });
+        openingTracks.push({ animation, start, end });
       };
 
-      const reveal = (element: HTMLElement | null, anchor = element, order = 0) => {
-        add(element, anchor, [
-          { opacity: 0, transform: `translateY(${distance}px)`, offset: 0 },
-          { opacity: 1, transform: `translateY(${distance * 0.3}px)`, offset: 0.38 },
-          { opacity: 1, transform: 'translateY(0)', offset: 1 },
-        ], 0.84 - order * 0.055, 0.61 - order * 0.055);
-      };
-
-      const section = (className: string) => home.querySelector<HTMLElement>(`.${className}`);
-      const hero = section(styles.intro);
-      const philosophy = section(styles.philosophy);
-      const work = section(styles.experience);
-      const method = section(styles.method);
-      const insights = section(styles.insights);
-
-      // The first section is a scroll stage. Every beat is a distance, never a delay.
-      if (hero) {
-        const header = document.querySelector<HTMLElement>('.editorial-header');
-        const enter = (element: HTMLElement | null, start: number, end: number, travel = distance) => {
-          add(element, opening ?? hero, [
-            { opacity: 0, transform: `translateY(${travel}px)`, offset: 0 },
-            { opacity: 1, transform: `translateY(${travel * 0.24}px)`, offset: 0.4 },
-            { opacity: 1, transform: 'translateY(0)', offset: 1 },
-          ], start, end, true);
-        };
-        enter(header?.querySelector<HTMLElement>('.wordmark') ?? null, 0, 0.07, 0);
-        header?.querySelectorAll<HTMLElement>('.desktop-nav a, .header-contact, .menu-toggle')
-          .forEach(element => enter(element, 0.025, 0.11, 0));
-        hero.querySelectorAll<HTMLElement>(`.${styles.titleLine}`)
-          .forEach((line, index) => enter(line, 0.015 + index * 0.105, 0.19 + index * 0.11, compact.matches ? 24 : 44));
-        enter(hero.querySelector<HTMLElement>(`.${styles.heroSubtitle}`), 0.34, 0.48, 12);
-        const bottom = hero.querySelector<HTMLElement>(`.${styles.heroBottom}`);
-        bottom?.querySelectorAll<HTMLElement>(':scope > *').forEach((element, index) => enter(element, 0.43 + index * 0.07, 0.56 + index * 0.07, 8));
-
-        // Outer line wrappers own exits; inner spans retain independent entrance motion.
-        hero.querySelectorAll<HTMLElement>(`.${styles.lineMask}`).forEach((line, index) => {
-          add(line, opening, [
-            { transform: 'translateX(0)', easing: 'cubic-bezier(.55,0,.8,.45)' },
-            { transform: `translateX(${index % 2 ? '' : '-'}${compact.matches ? 32 : 96}px)` },
-          ], 0.78 + index * 0.035, 1.18 + index * 0.035, true, { focusProgress: 0, afterReading: true });
+      // Arrive automatically. Scrolling is only needed to explore the next scene.
+      const heroEntranceElements = [
+        ...hero.querySelectorAll<HTMLElement>(`.${styles.titleLine}`),
+        hero.querySelector<HTMLElement>(`.${styles.heroSubtitle}`),
+        ...hero.querySelectorAll<HTMLElement>(`.${styles.heroBottom} > *`),
+      ].filter((element): element is HTMLElement => !!element);
+      const entranceAnimations: { stop: () => void }[] = [];
+      if (!entered && window.scrollY < 20) {
+        heroEntranceElements.forEach((element, index) => {
+          entranceAnimations.push(animate(element, {
+            opacity: [0, 1], transform: [`translate3d(0, ${index < 3 ? 32 : 14}px, 0)`, 'translate3d(0, 0, 0)'],
+          }, { duration: index < 3 ? 0.85 : 0.65, delay: 0.06 + index * 0.09, ease: [0.22, 1, 0.36, 1] }));
         });
-        add(hero, opening, [{ opacity: 1 }, { opacity: 0 }], 0.86, 1.16, true, { focusProgress: 0, afterReading: true });
-        add(heroContent, opening, [{ transform: 'translateY(0)' }, { transform: `translateY(${-readingDistance}px)` }], 0.65, 0.65, true, { reading: true });
       }
+      entered = true;
 
-      // This is a new visual scene, not a copy of Motto's image-to-word morph.
-      // A central aperture opens only after the title starts leaving the stage.
-      add(visual, opening, [
-        { clipPath: 'inset(38% 50% 38% 50%)', easing: 'cubic-bezier(.32,0,.22,1)' },
-        { clipPath: 'inset(0% 0% 0% 0%)' },
-      ], 0.96, 1.62, true, { afterReading: true });
-      add(visual?.querySelector<HTMLElement>('img') ?? null, opening, [
-        { transform: 'scale(1.12)', easing: 'cubic-bezier(.2,.65,.3,1)' },
-        { transform: 'scale(1)' },
-      ], 0.96, 1.78, true, { afterReading: true });
-
-      if (philosophy) {
-        const heading = philosophy.querySelector<HTMLElement>('h2');
-        philosophy.querySelectorAll<HTMLElement>(`.${styles.statementLine}`).forEach((line, index) => {
-          add(line, heading, [
-            { opacity: 0, transform: 'translateY(16px)', offset: 0 },
-            { opacity: 1, transform: 'translateY(4px)', offset: 0.42 },
-            { opacity: 1, transform: 'translateY(0)', offset: 1 },
-          ], 0.9 - index * 0.085, 0.7 - index * 0.085);
-        });
-        philosophy.querySelectorAll<HTMLElement>(`.${styles.philosophyBody} p, .${styles.philosophyBody} > a`)
-          .forEach(element => reveal(element));
-      }
-
-      const revealHeading = (container: HTMLElement | null) => {
-        const heading = container?.querySelector<HTMLElement>('.section-header') ?? null;
-        if (!heading) return;
-        reveal(heading.querySelector<HTMLElement>('h2'), heading);
-        heading.querySelectorAll<HTMLElement>('.section-header-copy > *').forEach((element, index) => reveal(element, heading, index + 1));
-      };
-
-      revealHeading(work);
-      work?.querySelectorAll<HTMLElement>('article').forEach((card, index) => {
-        const visual = card.querySelector<HTMLElement>('[data-image]');
-        const picture = visual?.querySelector<HTMLElement>('img') ?? null;
-        // Only the image is masked. Captions and letter descenders remain unclipped.
-        const columnOffset = compact.matches ? 0 : (index % 2) * 0.035;
-        add(visual, card, [
-          { opacity: 0, clipPath: 'inset(12% 0 12% 0)', offset: 0 },
-          { opacity: 1, clipPath: 'inset(5% 0 5% 0)', offset: 0.32 },
-          { opacity: 1, clipPath: 'inset(0% 0 0% 0)', offset: 1 },
-        ], 0.94 - columnOffset, 0.6 - columnOffset);
-        add(picture, card, [
-          { transform: 'scale(1.045)' },
-          { transform: 'scale(1)' },
-        ], 0.94 - columnOffset, 0.55 - columnOffset);
-        // Captions arrive together so title, category and description read as one unit.
-        const caption = card.querySelector<HTMLElement>('[data-image] ~ *');
-        card.querySelectorAll<HTMLElement>('[data-image] ~ *').forEach(element => {
-          add(element, caption, [
-            { opacity: 0, transform: 'translateY(8px)', offset: 0 },
-            { opacity: 1, transform: 'translateY(2px)', offset: 0.35 },
-            { opacity: 1, transform: 'translateY(0)', offset: 1 },
-          ], 0.88, 0.7);
-        });
+      hero.querySelectorAll<HTMLElement>(`.${styles.lineMask}`).forEach((line, index) => {
+        openingTrack(line, [
+          { transform: 'translateX(0)', easing: 'cubic-bezier(.55,0,.8,.45)' },
+          { transform: `translateX(${index % 2 ? '' : '-'}${compact.matches ? 20 : 64}px)` },
+        ], 0.78 + index * 0.025, 1.2 + index * 0.025);
+      });
+      openingTrack(hero, [{ opacity: 1 }, { opacity: 0 }], 0.88, 1.2);
+      openingTrack(visual, aperture(), 0.98, 0.98 + MASK_DURATION);
+      openingPictures.forEach((picture, index) => {
+        const start = index === 0 ? 0.98 : NEXT_CUT_START + (index - 1) * CUT_INTERVAL;
+        openingTrack(picture, [{ transform: 'scale(1.065)' }, { transform: 'scale(1)' }], start, start + 1.3);
+      });
+      visual.querySelectorAll<HTMLElement>('[data-opening-frame]').forEach((picture, index) => {
+        const start = NEXT_CUT_START + index * CUT_INTERVAL;
+        openingTrack(picture, aperture(), start, start + MASK_DURATION);
       });
 
-      if (method) {
-        const heading = method.querySelector<HTMLElement>('h2');
-        method.querySelectorAll<HTMLElement>(`.${styles.methodLine}`).forEach((line, index) => reveal(line, heading, index));
-        method.querySelectorAll<HTMLElement>(`.${styles.methodBody} > p > span, .${styles.methodLinks}`)
-          .forEach(element => reveal(element));
-        const picture = method.querySelector<HTMLElement>(`.${styles.methodBg} img`);
-        // Fixed overscan prevents the image exposing an edge at either end of travel.
-        add(picture, method, [
-          { transform: 'translateY(2%) scale(1.08)' },
-          { transform: 'translateY(-2%) scale(1.08)' },
-        ], 1, -1);
-      }
+      const reveal = (element: HTMLElement | null | undefined, progress: number, start: number, duration: number, kind: 'title' | 'copy' | 'card' | 'row' = 'copy', index = 0) => {
+        if (!element) return;
+        const value = easeOut((progress - start) / duration);
+        element.style.opacity = String(value);
+        if (kind === 'title') {
+          element.style.clipPath = `inset(0 0 ${(1 - value) * 100}% 0)`;
+          element.style.transform = `translate3d(0, ${(1 - value) * 20}px, 0)`;
+        } else if (kind === 'card') {
+          element.style.transform = `translate3d(0, ${(1 - value) * 28}px, 0) scale(${0.975 + value * 0.025})`;
+        } else if (kind === 'row') {
+          element.style.transform = `translate3d(${(1 - value) * (index % 2 ? -16 : 16)}px, 0, 0)`;
+        } else {
+          element.style.transform = `translate3d(0, ${(1 - value) * 12}px, 0)`;
+        }
+      };
 
-      revealHeading(insights);
-      insights?.querySelectorAll<HTMLElement>(`.${styles.storyRow}`).forEach(row => {
-        const thumbnail = row.querySelector<HTMLElement>(`.${styles.storyThumb}`);
-        add(thumbnail, row, [
-          { opacity: 0, transform: 'translateY(12px)', offset: 0 },
-          { opacity: 1, transform: 'translateY(3px)', offset: 0.35 },
-          { opacity: 1, transform: 'translateY(0)', offset: 1 },
-        ], 0.88, 0.64);
-        reveal(row.querySelector<HTMLElement>(`.${styles.storyThumb} + div`), row, 0.6);
-      });
+      const measure = () => {
+        viewport = window.innerHeight;
+        viewportWidth = document.documentElement.clientWidth;
+        const available = viewport - headerHeight;
+        home.style.setProperty('--opening-top', `${headerHeight}px`);
+        home.style.setProperty('--opening-height', `${available}px`);
+        home.style.setProperty('--scene-overlap', `${viewport * OVERLAP}px`);
+        // Match the actual container instead of a separate, drifting gutter formula.
+        const inset = workHeading ? (viewportWidth - workHeading.offsetWidth) / 2 : 24;
+        home.style.setProperty('--scene-inset', `${inset}px`);
+        heroRead = Math.max(0, heroContent.offsetHeight - available);
+        home.style.setProperty('--opening-distance', `${viewport * openingDistance + heroRead}px`);
 
-      const footer = document.querySelector<HTMLElement>('.home-footer');
-      const footerContent = footer?.querySelector<HTMLElement>(':scope > .container') ?? null;
-      // The footer is revealed as one composition. No extra per-line fade on top.
-      add(footerContent, footer, [
-        { transform: 'translateY(-24vh)' },
-        { transform: 'translateY(0)' },
-      ], 1, 0.08);
+        const defaultWidth = compact.matches ? Math.min(viewportWidth * 0.7, 320) : Math.max(280, Math.min(viewportWidth * 0.31, 420));
+        home.style.setProperty('--experience-card-width', `${defaultWidth}px`);
+        const firstCard = galleryCards[0];
+        const cardVisual = firstCard?.querySelector<HTMLElement>('[data-image]');
+        const captionHeight = firstCard && cardVisual ? firstCard.offsetHeight - cardVisual.offsetHeight : 120;
+        const padding = getComputedStyle(experienceStage);
+        const cardSpace = available - parseFloat(padding.paddingTop) - parseFloat(padding.paddingBottom) - (workHeading?.offsetHeight ?? 0) - captionHeight - 44;
+        home.style.setProperty('--experience-card-width', `${Math.min(defaultWidth, Math.max(compact.matches ? 200 : 220, cardSpace * 0.75))}px`);
+        galleryTravel = Math.max(0, gallery.scrollWidth + inset * 2 - viewportWidth);
 
-      const render = () => {
+        chapters.forEach(chapter => {
+          const stageStyle = getComputedStyle(chapter.stage);
+          const innerHeight = available - parseFloat(stageStyle.paddingTop) - parseFloat(stageStyle.paddingBottom);
+          chapter.read = Math.max(0, chapter.content.offsetHeight - innerHeight);
+          chapter.root.style.height = `${available + viewport * chapter.distance + chapter.read + (chapter === work ? galleryTravel / RAIL_SPEED : 0)}px`;
+        });
+        // All writes finish before reading the new chapter offsets.
+        openingStart = layoutTop(opening) - headerHeight;
+        chapters.forEach(chapter => { chapter.start = layoutTop(chapter.root) - headerHeight; });
+        galleryStart = work.start + viewport * RAIL_START + work.read;
+        needsMeasure = false;
+      };
+
+      const render = (time = performance.now()) => {
         frame = 0;
-        if (needsMeasure) {
-          viewport = window.innerHeight;
-          sizeOpening();
-          const maxScroll = document.documentElement.scrollHeight - viewport;
-          tracks.forEach(track => {
-            track.top = layoutTop(track.anchor);
-            if (track.intro) {
-              const origin = track.top - (compact.matches ? 78 : 80);
-              track.from = origin + viewport * track.start + (track.afterReading ? readingDistance : 0);
-              track.to = origin + viewport * track.end + (track.afterReading ? readingDistance : 0);
-              if (track.reading) {
-                track.to = track.from + Math.max(1, readingDistance);
-                (track.animation.effect as KeyframeEffect).setKeyframes([
-                  { transform: 'translateY(0)' }, { transform: `translateY(${-readingDistance}px)` },
-                ]);
-              }
-              return;
-            }
-            track.from = track.top - viewport * track.start;
-            track.to = track.top - viewport * track.end;
-            const section = track.element.closest<HTMLElement>('section, footer');
-            // Content that fits in a section's first screen is readable at its snap stop.
-            // Long galleries retain independent progress for cards below the first screen.
-            if (section && track.end > 0) {
-              const boundary = layoutTop(section);
-              const bottom = layoutTop(track.element) + track.element.offsetHeight;
-              if (bottom <= boundary + viewport - 100) {
-                track.to = Math.min(track.to, boundary - 80);
-                track.from = Math.min(track.from, track.to - viewport * 0.25);
-              }
-            }
-            track.to = Math.min(track.to, maxScroll);
-          });
-          needsMeasure = false;
-        }
+        if (needsMeasure) measure();
         const position = window.scrollY;
-        tracks.forEach(track => {
-          const progress = track.forced ? track.focusProgress : clamp(
-            (position - track.from) / (track.to - track.from),
-          );
-          // Keyframes shape the movement in scroll space, with a crisp reveal and a soft landing.
-          // The playhead never advances on its own.
-          track.animation.currentTime = progress * 1000;
+        const elapsed = Math.min(64, time - (previousTime || time - 16));
+        const jumped = Math.abs(position - previousScroll) > viewport * 0.65;
+        previousScroll = position;
+        previousTime = time;
+        const openingProgress = (position - openingStart - heroRead) / viewport;
+        heroContent.style.transform = `translate3d(0, ${-Math.min(heroRead, Math.max(0, position - openingStart - viewport * 0.3))}px, 0)`;
+        openingTracks.forEach(track => {
+          const currentTime = clamp((openingProgress - track.start) / (track.end - track.start)) * 1000;
+          if (track.animation.currentTime !== currentTime) track.animation.currentTime = currentTime;
         });
-        // A fully covered hero must not retain invisible pointer targets.
-        if (hero && opening) {
-          hero.style.pointerEvents = position > layoutTop(opening) - headerHeight + viewport * 1.16 + readingDistance ? 'none' : '';
-        }
+        hero.style.pointerEvents = openingProgress > 1.2 ? 'none' : '';
+
+        chapters.forEach((chapter, index) => {
+          const progress = (position - chapter.start) / viewport;
+          const cover = easeInOut(progress / OVERLAP);
+          if (chapter === work) chapter.stage.style.opacity = String(cover);
+          else if (chapter === method) chapter.stage.style.clipPath = `inset(0 0 ${(1 - cover) * 100}% 0)`;
+          else if (chapter === insights) chapter.stage.style.clipPath = `inset(${(1 - cover) * 50}% 0)`;
+          else chapter.stage.style.clipPath = `inset(${(1 - cover) * 100}% 0 0)`;
+          const next = chapters[index + 1];
+          const exit = next ? easeInOut((position - next.start + viewport * 0.16) / (viewport * 0.46)) : 0;
+          chapter.content.style.opacity = String(1 - exit);
+          const read = Math.min(chapter.read, Math.max(0, position - chapter.start - viewport * 1.35));
+          chapter.content.style.transform = `translate3d(0, ${-read}px, 0)`;
+          chapter.stage.style.pointerEvents = progress < 0.45 || exit > 0.98 ? 'none' : '';
+        });
+
+        const statementProgress = (position - statement.start) / viewport;
+        statementLines.forEach((element, index) => reveal(element, statementProgress, 0.55 + index * 0.1, 0.4, 'title'));
+        statementCopy.forEach((element, index) => reveal(element, statementProgress, 0.9 + index * 0.08, 0.35));
+        const workProgress = (position - work.start) / viewport;
+        reveal(workTitle, workProgress, 0.24, 0.48, 'title');
+        reveal(workCopy, workProgress, 0.4, 0.48);
+        gallery.style.opacity = '1';
+        galleryCards.forEach((card, index) => reveal(card, workProgress, 0.56 + Math.min(index, 3) * 0.08, 0.46, 'card'));
+        reveal(progressLabel, workProgress, 0.85, 0.35);
+        const galleryTarget = Math.min(galleryTravel, Math.max(0, (position - galleryStart) * RAIL_SPEED));
+        // The page remains native. Settle just this rail, and snap on touch, focus or a jump.
+        galleryPosition = instantRail || jumped || !finePointer.matches ? galleryTarget : galleryPosition + (galleryTarget - galleryPosition) * (1 - Math.exp(-elapsed / 65));
+        if (Math.abs(galleryTarget - galleryPosition) < 0.1) galleryPosition = galleryTarget;
+        gallery.style.transform = `translate3d(${-galleryPosition}px, 0, 0)`;
+        const railProgress = galleryTravel ? galleryPosition / galleryTravel : 1;
+        if (progressBar) progressBar.style.transform = `scaleX(${railProgress})`;
+        if (progressCurrent) progressCurrent.textContent = String(1 + Math.round(railProgress * (galleryCards.length - 1))).padStart(2, '0');
+
+        const methodProgress = (position - method.start) / viewport;
+        methodLines.forEach((element, index) => reveal(element, methodProgress, 0.3 + index * 0.14, 0.5, 'title'));
+        methodCopy.forEach((element, index) => reveal(element, methodProgress, 0.68 + index * 0.12, 0.44));
+        if (methodPicture) methodPicture.style.transform = `scale(${1.06 - clamp(methodProgress / 2.8) * 0.06})`;
+        const insightsProgress = (position - insights.start) / viewport;
+        reveal(insightsTitle, insightsProgress, 0.24, 0.5, 'title');
+        reveal(insightsCopy, insightsProgress, 0.4, 0.48);
+        stories.forEach((element, index) => reveal(element, insightsProgress, 0.5 + index * 0.12, 0.48, 'row', index));
+        instantRail = false;
+        if (galleryPosition !== galleryTarget) frame = requestAnimationFrame(render);
       };
 
-      const schedule = () => {
-        if (!frame) frame = requestAnimationFrame(render);
-      };
-      const measure = () => { needsMeasure = true; schedule(); };
-      const onScroll = () => {
-        schedule();
+      const schedule = () => { if (!frame) frame = requestAnimationFrame(render); };
+      const onMeasure = () => { needsMeasure = true; instantRail = true; schedule(); };
+      const onResize = () => {
+        // Mobile browser chrome must not rebuild several screens of scroll distance.
+        if (compact.matches && viewportWidth === document.documentElement.clientWidth && Math.abs(innerHeight - viewport) < 120) return;
+        onMeasure();
       };
       const onFocus = (event: FocusEvent) => {
         const target = event.target;
-        if (!(target instanceof HTMLElement)) return;
-        if (hero?.contains(target) && opening) {
-          const origin = layoutTop(opening) - headerHeight;
-          if (window.scrollY < origin + viewport * 0.55 + readingDistance || window.scrollY > origin + viewport * 0.78 + readingDistance) {
-            window.scrollTo({ top: origin + viewport * 0.65 + readingDistance, behavior: 'instant' });
+        if (!(target instanceof HTMLElement) || !target.matches(':focus-visible')) return;
+        let destination: number | undefined;
+        if (hero.contains(target)) destination = openingStart + viewport * 0.3 + heroRead;
+        const chapter = chapters.find(item => item.stage.contains(target));
+        if (chapter) {
+          const padding = getComputedStyle(chapter.stage);
+          const visibleHeight = chapter.stage.clientHeight - parseFloat(padding.paddingTop) - parseFloat(padding.paddingBottom);
+          const targetBottom = layoutTop(target) - layoutTop(chapter.content) + target.offsetHeight;
+          const readToTarget = Math.min(chapter.read, Math.max(0, targetBottom - visibleHeight));
+          destination = chapter.start + viewport * 1.35 + readToTarget;
+          const card = galleryCards.find(item => item.contains(target));
+          if (chapter === work && card) {
+            const centered = card.offsetLeft - galleryCards[0].offsetLeft - (viewportWidth - card.offsetWidth) / 2 + parseFloat(getComputedStyle(gallery).marginLeft);
+            destination = galleryStart + Math.max(0, Math.min(galleryTravel, centered)) / RAIL_SPEED;
           }
         }
-        tracks.forEach(track => {
-          // A focused link also reveals its masked image and caption children.
-          track.forced = track.element.contains(target) || target.contains(track.element);
-        });
-        schedule();
+        if (destination !== undefined) {
+          instantRail = true;
+          window.scrollTo({ top: destination, behavior: 'instant' });
+          schedule();
+        }
       };
-      const onBlur = () => {
-        tracks.forEach(track => { track.forced = false; });
-        schedule();
+      const onWheel = (event: WheelEvent) => {
+        if (event.ctrlKey) return;
+        const horizontal = event.shiftKey ? event.deltaY : event.deltaX;
+        if (!horizontal || (!event.shiftKey && Math.abs(horizontal) <= Math.abs(event.deltaY))) return;
+        if (window.scrollY < galleryStart - viewport * 0.45 || window.scrollY > galleryStart + galleryTravel / RAIL_SPEED + viewport * 0.6) return;
+        const delta = horizontal * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? viewportWidth : 1);
+        const current = Math.min(galleryTravel, Math.max(0, (window.scrollY - galleryStart) * RAIL_SPEED));
+        const next = Math.min(galleryTravel, Math.max(0, current + delta));
+        if (next === current) return;
+        event.preventDefault();
+        window.scrollTo({ top: galleryStart + next / RAIL_SPEED, behavior: 'instant' });
       };
-
-      const resize = new ResizeObserver(measure);
-      resize.observe(home);
-      if (heroContent) resize.observe(heroContent);
-      const header = document.querySelector<HTMLElement>('.site-header');
-      if (header) resize.observe(header);
-      if (footer) resize.observe(footer);
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', measure);
-      window.addEventListener('pageshow', measure);
+      const onKey = () => { instantRail = true; };
+      const resize = new ResizeObserver(onMeasure);
+      resize.observe(heroContent);
+      chapters.forEach(chapter => resize.observe(chapter.content));
+      window.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', onResize);
+      window.addEventListener('pageshow', onMeasure);
       document.addEventListener('focusin', onFocus);
-      document.addEventListener('focusout', onBlur);
-      void document.fonts.ready.then(() => { if (alive) measure(); });
+      document.addEventListener('keydown', onKey);
+      experienceStage.addEventListener('wheel', onWheel, { passive: false });
+      void document.fonts.ready.then(() => { if (alive) onMeasure(); });
       render();
-      if (curtain.current) curtain.current.hidden = true;
 
       dispose = () => {
         alive = false;
         cancelAnimationFrame(frame);
         resize.disconnect();
-        window.removeEventListener('scroll', onScroll);
-        window.removeEventListener('resize', measure);
-        window.removeEventListener('pageshow', measure);
+        window.removeEventListener('scroll', schedule);
+        window.removeEventListener('resize', onResize);
+        window.removeEventListener('pageshow', onMeasure);
         document.removeEventListener('focusin', onFocus);
-        document.removeEventListener('focusout', onBlur);
-        // Cancelling releases every animated property, including on reduced-motion changes.
-        tracks.forEach(track => track.animation.cancel());
-        if (hero) hero.style.pointerEvents = '';
+        document.removeEventListener('keydown', onKey);
+        experienceStage.removeEventListener('wheel', onWheel);
+        openingTracks.forEach(track => track.animation.cancel());
+        entranceAnimations.forEach(animation => animation.stop());
+        [...entranceElements, ...heroEntranceElements, hero, heroContent, gallery, methodPicture].forEach(element => {
+          if (element) { element.style.opacity = ''; element.style.transform = ''; element.style.clipPath = ''; element.style.pointerEvents = ''; }
+        });
+        chapters.forEach(chapter => {
+          chapter.root.style.height = '';
+          chapter.stage.style.clipPath = '';
+          chapter.stage.style.opacity = '';
+          chapter.stage.style.pointerEvents = '';
+          chapter.content.style.opacity = '';
+          chapter.content.style.transform = '';
+        });
         delete home.dataset.scrollIntro;
-        ['--opening-top', '--opening-height', '--opening-distance', '--opening-read-distance'].forEach(property => home.style.removeProperty(property));
+        ['--opening-top', '--opening-height', '--opening-distance', '--scene-overlap', '--scene-inset', '--experience-card-width'].forEach(property => home.style.removeProperty(property));
       };
     };
 
@@ -343,6 +377,9 @@ export function HomeScrollMotion() {
     compact.addEventListener('change', setup);
     return () => {
       dispose();
+      cancelAnimationFrame(resetFrame);
+      window.removeEventListener('pageshow', resetReloadPosition);
+      if (resetOnReload) history.scrollRestoration = previousScrollRestoration;
       preference.removeEventListener('change', setup);
       compact.removeEventListener('change', setup);
     };

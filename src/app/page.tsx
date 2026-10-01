@@ -7,6 +7,15 @@ import { SectionHeader } from '@/components/editorial';
 import { StoryList } from '@/components/story-list';
 import { stories } from '@/lib/content';
 import styles from './home-editorial.module.css';
+
+const openingImages = [
+  '/images/growth-sculpture.webp',
+  '/images/studio-interior.png',
+  '/images/studio.webp',
+  '/images/story-colors.webp',
+  '/images/cinematic-hero.webp',
+];
+
 export default function Home() {
   return (
     <div className={`editorial-home ${styles.home}`}>
@@ -15,7 +24,9 @@ export default function Home() {
         <div className={styles.openingStage} data-opening-stage>
           <Hero />
           <figure className={styles.openingVisual} data-opening-visual aria-hidden="true">
-            <Image src="/images/growth-sculpture.webp" alt="" fill sizes="100vw" preload />
+            {openingImages.map((src, index) => <span className={styles.openingFrame} data-opening-frame={index > 0 ? true : undefined} key={src}>
+              <Image src={src} alt="" fill sizes="100vw" preload={index === 0} />
+            </span>)}
           </figure>
         </div>
       </div>
@@ -23,6 +34,8 @@ export default function Home() {
         <StatementSection />
       </div>
       <section className={styles.experience} id="work" aria-labelledby="experience-title">
+        <div className={styles.experienceStage} data-experience-stage>
+        <div className={styles.experienceContent} data-scene-content>
         <SectionHeader
           className={`container ${styles.workHeading}`}
           id="experience-title"
@@ -33,19 +46,32 @@ export default function Home() {
           label="전체 작업 보기"
         />
         <WorkGallery />
+        <div className={`container ${styles.experienceProgress}`} aria-hidden="true">
+          <span data-experience-current>01</span>
+          <span className={styles.experienceProgressTrack}><span data-experience-progress /></span>
+          <span data-experience-total />
+        </div>
+        </div>
+        </div>
       </section>
-      <ServicesSection />
+      <div className={styles.methodPanel} data-chapter-panel>
+        <ServicesSection />
+      </div>
+      <div className={styles.insightsPanel} data-chapter-panel>
       <section className={`${styles.insights} container`} aria-labelledby="insights-title">
+      <div className={styles.insightsContent} data-scene-content>
         <SectionHeader
           className={styles.sectionIntro}
           id="insights-title"
-          title={<>Ideas &<br />Insights</>}
+          title={<>Ideas &<br /> Insights</>}
           description={<>브랜드와 제품, 디자인을 바라보는 관점.<br />일하며 발견한 생각을 나눕니다.</>}
           href="/news"
           label="View all stories"
         />
         <StoryList items={stories.slice(0, 3)} />
+      </div>
       </section>
+      </div>
       {/* The shared footer completes the sixth section: project inquiry and wordmark. */}
     </div>
   );
