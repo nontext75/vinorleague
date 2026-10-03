@@ -201,7 +201,9 @@ export function HomeScrollMotion() {
         write(element, 'opacity', String(value));
         // Travel is large enough to read as an entrance, not a fade.
         if (kind === 'title') {
-          write(element, 'clipPath', `inset(0 0 ${round(rest * 100)}% 0)`);
+          // Poppins descenders can extend beyond the line box. Release the mask
+          // after the reveal, with a little glyph clearance as it finishes.
+          write(element, 'clipPath', value === 1 ? 'none' : `inset(-0.12em -0.08em calc(${round(rest * 100)}% - ${round(value * 0.16)}em) -0.08em)`);
           write(element, 'transform', `translate3d(0, ${round(rest * 0.55)}em, 0)`);
         } else if (kind === 'card') {
           write(element, 'transform', `translate3d(${round(rest * 96)}px, ${round(rest * 40)}px, 0) scale(${Math.round((0.96 + value * 0.04) * 1e4) / 1e4})`);

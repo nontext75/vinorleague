@@ -1,0 +1,854 @@
+{
+  "projects": [
+    {
+      "slug": "travel-service-character-yomo-199",
+      "title": "Travel Service Character YOMO",
+      "sourceId": "199",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=199&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/34321aa947c9cab4.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 15054
+      },
+      "category": "Character",
+      "subtitle": "여행서비스 캐릭터 요모",
+      "year": "2025"
+    },
+    {
+      "slug": "ksgi-sdgs-mobile-app-198",
+      "title": "KSGI - SDGS Mobile App.",
+      "sourceId": "198",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=198&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/b7cb9fbbe02b6fe7.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 8892
+      },
+      "category": "Mobile",
+      "subtitle": "한국SGI SDGS 모바일 어플리케이션",
+      "year": "2024"
+    },
+    {
+      "slug": "donga-on-book",
+      "title": "DongA Books - ONBOOK",
+      "sourceId": "197",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=197&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/ab3843af07f52890.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 4548
+      },
+      "category": "Web",
+      "subtitle": "동아출판 온북",
+      "year": "2024"
+    },
+    {
+      "slug": "daekyo-dreams-admin-196",
+      "title": "Daekyo Dreams Admin",
+      "sourceId": "196",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=196&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/b87da2761177d920.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 3922
+      },
+      "category": "Web",
+      "subtitle": "대교 드림스 어드민",
+      "year": "2024"
+    },
+    {
+      "slug": "samsung-display-ohb-pdp-169",
+      "title": "Samsung Display OHB PDP",
+      "sourceId": "169",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=169&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/6277c748ba821dee.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 15848
+      },
+      "category": "Etc",
+      "subtitle": "삼성 디스플레이 OHB",
+      "year": "2022"
+    },
+    {
+      "slug": "samsung-display-xhb-pdp-168",
+      "title": "Samsung Display XHB PDP",
+      "sourceId": "168",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=168&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/90230b54f65f5058.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 29174
+      },
+      "category": "Etc",
+      "subtitle": "삼성 디스플레이 XHB",
+      "year": "2022"
+    },
+    {
+      "slug": "minimalworks-global-jdo-121",
+      "title": "Minimalworks Global JDO",
+      "sourceId": "121",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=121&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/aefb669a7ac075cf.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 3626
+      },
+      "category": "Web",
+      "subtitle": "미니멀웍스 글로벌 프로모션 웹사이트",
+      "year": "2022"
+    },
+    {
+      "slug": "samsung-monitor-sr35-pdp-170",
+      "title": "Samsung Monitor SR35 PDP",
+      "sourceId": "170",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=170&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/5aad9dbd1c5073b9.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 59894
+      },
+      "category": "Etc",
+      "subtitle": "삼성 모니터 SR35",
+      "year": "2022"
+    },
+    {
+      "slug": "seoul-paik-hospital-design-proposal-157",
+      "title": "Seoul Paik Hospital Design Proposal",
+      "sourceId": "157",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=157&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/dc08fe35a3e62b44.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 6874
+      },
+      "category": "Web",
+      "subtitle": "서울 백병원 디자인 제안",
+      "year": "2021"
+    },
+    {
+      "slug": "shinhan-easy",
+      "title": "Shinhan Easy Education Platform",
+      "sourceId": "119",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=119&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/1d7e6f38e24d7252.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 5652
+      },
+      "category": "Web",
+      "subtitle": "신한 이지 금융교육 플랫폼 UI Design",
+      "year": "2021"
+    },
+    {
+      "slug": "ibtc-118",
+      "title": "IBTC",
+      "sourceId": "118",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=118&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/a0da32cdbe9eea81.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 59698
+      },
+      "category": "Web",
+      "subtitle": "국제 블록체인 기술거래소 제안 시안",
+      "year": "2021"
+    },
+    {
+      "slug": "cj-enm-learing-platform-website-135",
+      "title": "Cj ENM Learing Platform website",
+      "sourceId": "135",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=135&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/328d4799152f1ae9.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 6000
+      },
+      "category": "Web",
+      "subtitle": "씨제이 이엔엠 러닝플렛폼 웹사이트",
+      "year": "2021"
+    },
+    {
+      "slug": "samsung-hotel-tv-hq60a-pdp-176",
+      "title": "Samsung Hotel TV HQ60A PDP",
+      "sourceId": "176",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=176&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/201b6a4a63441ab9.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 39232
+      },
+      "category": "Etc",
+      "subtitle": "삼성 호텔 TV HQ60A",
+      "year": "2021"
+    },
+    {
+      "slug": "samsung-display-the-wall-pdp-172",
+      "title": "Samsung Display The Wall PDP",
+      "sourceId": "172",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=172&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/12ddbf75afe706e8.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 8368
+      },
+      "category": "Etc",
+      "subtitle": "삼성 디스플레이 The Wall",
+      "year": "2021"
+    },
+    {
+      "slug": "samsung-medical-hospital-center-app-177",
+      "title": "SAMSUNG Medical Hospital Center APP",
+      "sourceId": "177",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=177&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/cc5543d63a34b347.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 7728
+      },
+      "category": "Mobile",
+      "subtitle": "삼성서울병원 모바일진료예약",
+      "year": "2021"
+    },
+    {
+      "slug": "caremon-kt-health-care-app-158",
+      "title": "Caremon - KT Health care App",
+      "sourceId": "158",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=158&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/69689332976fc0f3.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 2812
+      },
+      "category": "Mobile",
+      "subtitle": "KT 헬스케어 앱 . 케어몬",
+      "year": "2021"
+    },
+    {
+      "slug": "kt-genie-air-admin-156",
+      "title": "KT Genie Air Admin",
+      "sourceId": "156",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=156&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/215d974894f48019.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 2480
+      },
+      "category": "Web",
+      "subtitle": "KT 지니에어 관리자페이지",
+      "year": "2021"
+    },
+    {
+      "slug": "samsung-display-wm75a-flip75-pdp-174",
+      "title": "Samsung Display WM75A Flip75 PDP",
+      "sourceId": "174",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=174&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/1c0abaaa33d37712.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 9912
+      },
+      "category": "Etc",
+      "subtitle": "삼성 디스플레이 WM75A Flip75",
+      "year": "2021"
+    },
+    {
+      "slug": "mongdang",
+      "title": "Daekyo Edu. Mongdang",
+      "sourceId": "193",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=193&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/0a6e982dfd4bddc1.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 12748
+      },
+      "category": "Character",
+      "subtitle": "대교 신(新)한자 학습도움용 캐릭터 ‘몽당’",
+      "year": "2021"
+    },
+    {
+      "slug": "budongsan114-mediate-bizsolution",
+      "title": "Budongsan114 Mediate BIZsolution UI Design",
+      "sourceId": "114",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=114&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/91cf2edfb0e64b14.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 3640
+      },
+      "category": "Web",
+      "subtitle": "부동산114 중개비즈솔루션 웹사이트 디자인",
+      "year": "2021"
+    },
+    {
+      "slug": "samsung-kiosk-kma-24-pdp-173",
+      "title": "Samsung Kiosk KMA 24 PDP",
+      "sourceId": "173",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=173&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/c671a8ded741fa27.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 10554
+      },
+      "category": "Etc",
+      "subtitle": "삼성 키오스크 KMA 24",
+      "year": "2020"
+    },
+    {
+      "slug": "samsung-refrigerator-rf5000-175",
+      "title": "Samsung Refrigerator RF5000",
+      "sourceId": "175",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=175&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/909adb6184178b56.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 28690
+      },
+      "category": "Etc",
+      "subtitle": "삼성 냉장고 RF5000",
+      "year": "2020"
+    },
+    {
+      "slug": "daekyo-new-chinese-character-app-113",
+      "title": "Daekyo new chinese character App",
+      "sourceId": "113",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=113&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/e26224397800807d.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 6570
+      },
+      "category": "Mobile",
+      "subtitle": "대교 신한자 학습앱 태블릿 Ver",
+      "year": "2020"
+    },
+    {
+      "slug": "lotte-flagship-store-chatbot-tablet-design-109",
+      "title": "LOTTE Flagship Store Chatbot Tablet Design",
+      "sourceId": "109",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=109&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/d3a65aa7ce1b5d77.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 16298
+      },
+      "category": "Web",
+      "subtitle": "롯데시네마 플래그쉽 스토어 태블릿 앱",
+      "year": "2020"
+    },
+    {
+      "slug": "macadamia-website",
+      "title": "Daekyo macadamia website",
+      "sourceId": "124",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=124&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/6ecd8f6a8499f18a.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 3306
+      },
+      "category": "Web",
+      "subtitle": "대교 마카다미아 웹사이트",
+      "year": "2020"
+    },
+    {
+      "slug": "samsung-heavy-industries-shi-monitoring-dashboard-123",
+      "title": "Samsung Heavy Industries SHI Monitoring dashboard",
+      "sourceId": "123",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=123&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/9d5eefc4126b6e4d.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 10202
+      },
+      "category": "Web",
+      "subtitle": "삼성중공업 스마트기술연구소 SHI 통합모니터링 데시보드",
+      "year": "2020"
+    },
+    {
+      "slug": "ksgi-120",
+      "title": "KSGI",
+      "sourceId": "120",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=120&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/78fa67392211c337.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 7808
+      },
+      "category": "Web",
+      "subtitle": "한국 SGI 웹사이트",
+      "year": "2020"
+    },
+    {
+      "slug": "woongjin-ai-edu-aroara-application-character-192",
+      "title": "Woongjin AI Edu. AroAra Application Character",
+      "sourceId": "192",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=192&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/c04fa5070598fcdc.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 19808
+      },
+      "category": "Character",
+      "subtitle": "웅진씽크빅 AI교육 어플리케이션 캐릭터",
+      "year": "2020"
+    },
+    {
+      "slug": "the-frame-artstore-catalogue",
+      "title": "The Frame Artstore Brochure",
+      "sourceId": "117",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=117&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/242b18cbd227777b.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 18462
+      },
+      "category": "Print",
+      "subtitle": "더 프레임 아트스토어  브로슈어",
+      "year": "2020"
+    },
+    {
+      "slug": "crowdsourcing-platform-crowd-oh",
+      "title": "Crowdsourcing Platform Crowd OH!",
+      "sourceId": "125",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=125&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/00139a077c59669e.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 15088
+      },
+      "category": "Web",
+      "subtitle": "온라인 기반의 아웃소싱 플렛폼 클라우드 오!",
+      "year": "2020"
+    },
+    {
+      "slug": "samyang-learing-platform-proposal-194",
+      "title": "samyang Learing Platform Proposal",
+      "sourceId": "194",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=194&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/82c0dd531b8ad4a5.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 4304
+      },
+      "category": "Mobile",
+      "subtitle": "삼양 인재교육 플랫폼 제안",
+      "year": "2019"
+    },
+    {
+      "slug": "smart-city-jungnang-112",
+      "title": "Smart City Jungnang",
+      "sourceId": "112",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=112&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/301342f2f33583b1.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 3768
+      },
+      "category": "Web",
+      "subtitle": "서울특별시 중랑구 스마트시티 웹사이트",
+      "year": "2019"
+    },
+    {
+      "slug": "samsung-display-the-wall-lux-pdp-171",
+      "title": "Samsung Display The Wall Lux PDP",
+      "sourceId": "171",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=171&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/0a58b8cbcc4cb6d4.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 3446
+      },
+      "category": "Etc",
+      "subtitle": "삼성 디스플레이 The Wall Lux",
+      "year": "2019"
+    },
+    {
+      "slug": "aliot-brand-identity",
+      "title": "Aliot",
+      "sourceId": "108",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=108&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/fb0fc1e79f435e27.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 4662
+      },
+      "category": "Etc",
+      "subtitle": "(주)그렉터의 IoT 통합솔루션 앨리엇 브랜딩",
+      "year": "2017"
+    },
+    {
+      "slug": "samsung-notebook-libero-110s1k-191",
+      "title": "Samsung Notebook Libero_110s1k",
+      "sourceId": "191",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=191&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/26b72574ee502106.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 26448
+      },
+      "category": "Etc",
+      "subtitle": "삼성 리베로 노트북",
+      "year": "2015"
+    },
+    {
+      "slug": "samsung-notebook-lampard-15-bdw-ext-270e5k-186",
+      "title": "Samsung Notebook Lampard-15 BDW EXT_270E5K",
+      "sourceId": "186",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=186&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/543ff4c6700dea90.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 27574
+      },
+      "category": "Etc",
+      "subtitle": "삼성 램퍼드 노트북",
+      "year": "2015"
+    },
+    {
+      "slug": "samsung-galaxy-j5-flip-wallet-185",
+      "title": "Samsung Galaxy J5 Flip Wallet",
+      "sourceId": "185",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=185&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/a3f48765bc2ba34f.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 22796
+      },
+      "category": "Etc",
+      "subtitle": "삼성 갤럭시 J5  플립 월렛",
+      "year": "2015"
+    },
+    {
+      "slug": "samsung-galaxy-on-series-184",
+      "title": "Samsung Galaxy On Series",
+      "sourceId": "184",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=184&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/3ab79d2e7b99aa32.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 14202
+      },
+      "category": "Etc",
+      "subtitle": "삼성 갤럭시 ON 시리즈",
+      "year": "2015"
+    },
+    {
+      "slug": "samsung-galaxy-s6-landing-page-189",
+      "title": "Samsung Galaxy S6 Landing Page",
+      "sourceId": "189",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=189&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/efba446cf37949de.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 35382
+      },
+      "category": "Etc",
+      "subtitle": "삼성 갤럭시  S6 랜딩페이지",
+      "year": "2015"
+    },
+    {
+      "slug": "samsung-bluetooth-headset-eo-mg920-pdp-187",
+      "title": "Samsung Bluetooth Headset EO-MG920 PDP",
+      "sourceId": "187",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=187&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/49987c120ae86c0c.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 21010
+      },
+      "category": "Etc",
+      "subtitle": "삼성 블루투스 헤드셋 EO-MG920 PDP",
+      "year": "2015"
+    },
+    {
+      "slug": "samsung-smartsleep-pdp-183",
+      "title": "Samsung Smartsleep PDP",
+      "sourceId": "183",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=183&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/86090f41a6497ac8.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 24864
+      },
+      "category": "Etc",
+      "subtitle": "삼성 스마트슬립 PDP",
+      "year": "2015"
+    },
+    {
+      "slug": "samsung-gear-vr-181",
+      "title": "Samsung Gear VR",
+      "sourceId": "181",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=181&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/aba44779e60cb572.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 21496
+      },
+      "category": "Etc",
+      "subtitle": "삼성 기어 VR",
+      "year": "2015"
+    },
+    {
+      "slug": "samsung-smartsleep-cover-page-180",
+      "title": "Samsung Smartsleep Cover page",
+      "sourceId": "180",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=180&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/9dd698093a4a5519.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 29134
+      },
+      "category": "Etc",
+      "subtitle": "삼성 스마트슬립 커버페이지",
+      "year": "2015"
+    },
+    {
+      "slug": "samsung-galaxy-designed-for-samsung-178",
+      "title": "Samsung Galaxy designed for samsung",
+      "sourceId": "178",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=178&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/6cbb868e097a5e02.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 31974
+      },
+      "category": "Etc",
+      "subtitle": "삼성 갤럭시 모바일 액세서리 페이지",
+      "year": "2015"
+    },
+    {
+      "slug": "samsung-xcover3-sm-g388f-pdp-188",
+      "title": "Samsung XCover3_SM-G388F PDP",
+      "sourceId": "188",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=188&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/39f63667c81d54e7.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 31616
+      },
+      "category": "Etc",
+      "subtitle": "삼성 Xcover PDP",
+      "year": "2015"
+    },
+    {
+      "slug": "samsung-galaxy-s6-landing-page-190",
+      "title": "Samsung Galaxy S6 Landing Page",
+      "sourceId": "190",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=190&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/14e2b696b82e697b.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 22332
+      },
+      "category": "Etc",
+      "subtitle": "삼성 갤럭시  S6 랜딩페이지",
+      "year": "2015"
+    },
+    {
+      "slug": "samsung-level-on-wiress-eo-pn900b-pdp-134",
+      "title": "Samsung Level On Wiress_EO-PN900B PDP",
+      "sourceId": "134",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=134&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/8e5489dafa26b428.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 15518
+      },
+      "category": "Etc",
+      "subtitle": "삼성 레벨온 무선 헤드폰",
+      "year": "2015"
+    },
+    {
+      "slug": "samsung-galaxy-s5-active-pdp-126",
+      "title": "Samsung Galaxy s5 active PDP",
+      "sourceId": "126",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=126&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/7c9fa5fcff1b3efe.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 11242
+      },
+      "category": "Etc",
+      "subtitle": "삼성 갤럭시 S5 액티브",
+      "year": "2014"
+    },
+    {
+      "slug": "institute-for-basic-science-illustration-122",
+      "title": "Institute for Basic Science illustration",
+      "sourceId": "122",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=work&md=view&bbs_seq=122&list_type=list_tile",
+      "image": {
+        "src": "/images/vinus/d7c5fe2279d3cdbc.webp",
+        "width": 480,
+        "height": 360,
+        "animated": false,
+        "bytes": 21436
+      },
+      "category": "Print",
+      "subtitle": "기초과학연구원 국가연구시설 장비 관리 표준지침 삽화 일러스트",
+      "year": "2014"
+    }
+  ],
+  "stories": [
+    {
+      "slug": "brain-cell-database",
+      "title": "뇌세포 데이터베이스의 정확도",
+      "sourceId": "164",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=story&md=view&bbs_seq=164&list_type=list",
+      "image": {
+        "src": "/images/vinus/9038bcfe54852451.webp",
+        "width": 571,
+        "height": 627,
+        "animated": false,
+        "bytes": 25682
+      },
+      "category": "Story",
+      "date": "2023.10.17",
+      "summary": "프로젝트를 진행하다 보면 다양한 사람들과 만나게 된다. 그들이 속한 회사의 규모나 이름, 브랜드 가치를 보고 그 사람을 평가할 때도 많다. 자연스럽게 생기는 선입견들이 우리의 시선을 흐리게 만드니까... 하지만 중요한 건 사람 자체에 집중해야 한다는 거다. 그럴 때 비"
+    },
+    {
+      "slug": "project-estimate-buffer",
+      "title": "프로젝트 견적에 버퍼를 넣어야 하는 이유",
+      "sourceId": "163",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=story&md=view&bbs_seq=163&list_type=list",
+      "image": {
+        "src": "/images/vinus/91673ec140577e85.webp",
+        "width": 548,
+        "height": 524,
+        "animated": false,
+        "bytes": 13454
+      },
+      "category": "Story",
+      "date": "2023.10.07",
+      "summary": "간혹 한 달짜리 프로젝트라고 연락이 올 때가 있다. 디자인만 하면 되니까. 한 달이면 충분하다며 한 달짜리 견적서를 보내달라고 한다. 자연스레 달 반 또는 두 달짜리 견적서를 보내준다. 그러면 둘 중 하나로 연락이 온다. 놀라거나? 열받거나!"
+    },
+    {
+      "slug": "working-with-the-right-client",
+      "title": "담당자와 궁합만 맞아도 절반은 먹고 들어간다.",
+      "sourceId": "132",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=story&md=view&bbs_seq=132&list_type=list",
+      "image": {
+        "src": "/images/vinus/db358c6baa0892dd.webp",
+        "width": 92,
+        "height": 92,
+        "animated": false,
+        "bytes": 3240
+      },
+      "category": "Story",
+      "date": "2023.03.28",
+      "summary": "오래전 이야기다."
+    },
+    {
+      "slug": "woongjin-character-design",
+      "title": "웅진씽크빅 캐릭터 개발 대환장 파티",
+      "sourceId": "105",
+      "sourceUrl": "https://vinus.co.kr/bbs.php?mc=story&md=view&bbs_seq=105&list_type=list",
+      "image": {
+        "src": "/images/vinus/662d3bce12389be9.webp",
+        "width": 144,
+        "height": 144,
+        "animated": false,
+        "bytes": 5854
+      },
+      "category": "Story",
+      "date": "2023.01.12",
+      "summary": "캐릭터 디자인은 참 어렵고 힘들다. 웹사이트를 디자인하는 것과는 그 결이 많이 다르다."
+    }
+  ]
+}

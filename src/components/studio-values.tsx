@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Heading, Body } from './typography';
 import { SectionHeader } from './editorial';
 
@@ -12,6 +13,9 @@ export function StudioValues() {
     <SectionHeader id="studio-values-title" kicker="How we think" title="A clear point of view." />
     <div className="values-grid" data-reveal-children>
       {values.map(({ label, title, text, quote }) => <section key={label}>
+        <div className="studio-value-image">
+          <Image src={`/images/studio-value-${label.toLowerCase()}.webp`} alt="" width={1200} height={900} sizes="(max-width: 767px) calc(100vw - 40px), (max-width: 1100px) calc((100vw - 208px) / 3), (max-width: 1528px) calc((100vw - 272px) / 3), 419px" />
+        </div>
         <Body size="small">{label}</Body>
         <Heading scale="compact" language="ko">{title}</Heading>
         <Body>{text}</Body>

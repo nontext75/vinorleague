@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { projects } from '@/lib/content';
 import { ProjectGrid } from './project-grid';
 import { FilterTabs } from './filter-tabs';
-const categories=['All','Digital','Branding','Character','Editorial'];
+const categories=['All',...new Set(projects.map(project=>project.category))];
 export function ProjectFilter() {
  const [active,setActive]=useState('All');
  const filtered=projects.filter(project=>active==='All'||project.category===active);

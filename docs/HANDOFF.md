@@ -1,6 +1,46 @@
 # vinorleague 작업 인계
 
-최종 갱신: 2026-10-01 · 작업 폴더: E:\Work\vinorleague · 브랜치: master
+최종 갱신: 2026-10-03 · 작업 폴더: E:\Work\vinorleague · 브랜치: master
+
+## 2026-10-03 — vinus.co.kr 콘텐츠 이식
+
+- 사용자 요청: 기존 사이트의 Story와 Portfolio 전체 이식. 순서는 무관. 공개 Work 49개, Story 4개를 모두 이식했으며 Downloads/관리자 페이지는 대상 아님.
+- `src/data/vinus-catalog.json`: 목록 메타데이터. `vinus-details.json`: 본문, 이미지, 이미지 묶음, 태그. 기존 임시 글 10개는 실제 Story 4개로 교체. 기존 작업 8개의 URL은 유지하고 원본의 프로젝트명·분류·연도로 정정(몽당은 대교 캐릭터, 웅진 아로아라는 별도 프로젝트).
+- 원본 본문에서 공백을 제외한 전체 텍스트와 상세 이미지 개수를 대조해 누락 없이 이식. 썸네일 53장 + 상세 378장 = 로컬 이미지 431장(약 52MB), 최대 가로 1800px WebP. 이미지 원래 비율 유지, 작은 원본은 과도하게 확대하지 않음. 원본 HTML/스크립트는 앱에 주입하지 않음.
+- Story는 900px 폭의 일반 블로그 템플릿 유지. 원본 4개 본문은 모두 텍스트로, 원본 썸네일은 목록에서만 사용. Portfolio는 본문 전체와 상세 이미지, 이미지 묶음을 표시. 원본 분류 Web/Mobile/Character/Print/Etc 필터 및 연도 표시. 홈 카드와 Story 목록도 실제 데이터 연결.
+- `scripts/import-vinus-content.cjs <playwright 경로>`: 공개 목록/상세 수집 및 이미지 저장을 재실행 가능. `--from-snapshot`은 Git 제외 `output/vinus-source`의 수집본 이용. 일반 모드와 스냅샷 모드 둘 다 실행 확인. `docs/vinus-migration.json`에 출처 URL·게시물 ID·로컬 이미지 대응표 기록.
+- 검수: `npm run check`, `npm run build` 성공(전체 62페이지 생성). `scripts/verify-vinus-content.cjs <playwright 경로>`로 53개 상세 HTTP 응답, 431장 파일 크기·이미지 치수, 1585/390/320px 화면, 전체 분야 필터, Story 본문 전문 일치, 대표 작업 상세 이미지 디코딩, 404·목록 복귀 확인. 브라우저 오류·가로 넘침·깨진 이미지 없음. 캡처 `output/playwright/vinus/`.
+- 로컬 서버 3000 포트 재실행. 이번 변경은 미커밋·미배포. 이전 Studio·블로그·공통 푸터 수정도 보존.
+
+## 2026-10-03 — 블로그 폭 확대
+
+### 공통 푸터 통일
+
+- 사용자 요청으로 모든 서브페이지 푸터를 홈과 같은 어두운 배경(#171717), 밝은 글자, 화면 높이 기준 여백, 동일 컨테이너 폭으로 통일. `editorial-theme.css`의 홈 한정 푸터 스타일을 공통 규칙으로 정리. 기존 공용 FooterMotion 유지. 어두운 배경에서 키보드 포커스 테두리가 보이도록 밝은 색 상속.
+- `output/playwright/review-footer.cjs`로 홈·Studio·Work·Story·Contact·작업 상세·글 상세·디자인 시스템을 1585×1407, 390×844, 1440×720에서 비교(24건). 크기·간격·색상·모션 완료 상태가 홈과 같음. reduced-motion, 키보드, 문의 이동, 맨 위 이동 확인. 오류 없음. `git diff --check` 통과. 캡처 `output/playwright/footer-studio-1585.png`, `footer-studio-390.png`.
+
+- 사용자가 블로그 폭이 좁다고 질문한 뒤 재개 요청. 공통 글 상세 최대 폭을 760px에서 900px로 확대하고 이미지 sizes를 맞춤. 모바일 여백과 단일 열 본문 구성 유지.
+- 꺼져 있던 로컬 서버를 3000 포트로 재실행. Playwright로 PC 1585px, 모바일 390/320px 및 다른 글·목록 링크 검수 통과. 가로 넘침·깨진 이미지·실행 오류 없음. `git diff --check` 통과. 커밋·푸시하지 않음.
+
+## 2026-10-02 — Studio 피드백 반영 및 재개 검수
+
+### 추가 피드백 — 홈 제목 잘림 / 브랜드 컬러 글 재디자인
+
+- 홈 `Ideas & Insights`에서 Poppins의 g 아래 부분이 잘림. `home-scroll-motion.tsx`의 공통 제목 reveal이 완료 후에도 `clip-path: inset(0)`을 남기던 것이 원인. 등장 중 글자 여유를 추가하고 완료 시 `clip-path: none`으로 해제. 사용자와 같은 1585×1407 화면에서 글자 아래 부분과 완료 상태 확인.
+- **최신 사용자 기준:** 글 상세는 일반 블로그이며 편집기로 작성 가능한 수준으로 구성. 별도의 랜딩페이지 같은 그래픽·분할 레이아웃은 원하지 않음. 이미지는 한두 컷 허용.
+- `/news/[slug]`를 제목·날짜·문단·소제목의 공통 단일 열 템플릿으로 정리. 현재 폭 900px(10월 3일 확대), 제목 30–44px, 본문 17–18px. 브랜드 컬러 글에는 기존 `studio-value-mind.webp` 이미지 한 컷만 삽입. 글 내용 보존. 전용 `color-story.tsx` 및 `.color-story*` 스타일은 삭제.
+- 최신 블로그 검수: `node output/playwright/review-studio.cjs --blog`, 1585/390/320px 및 다른 글 페이지·목록 링크 확인. `npm run check`, `git diff --check` 통과. 캡처: `output/playwright/blog-1585.png`, `blog-390.png`, 홈 수정 캡처 `home-insights-title-fixed.png`. 이전 color-story 캡처는 폐기된 시안. 프로덕션 빌드는 수행하지 않음.
+
+- 재개 시 작업 트리는 깨끗했고, 10월 1일 문서에 언급한 서브페이지 모션과 글 본문은 이미 코드에 반영돼 있었음. 아래의 과거 미커밋 상태 설명은 현재 상태가 아님.
+- Studio 영문 소개를 문장별 block span으로 나누고 소개 폭을 900px로 확장. 1585px 화면에서 문장마다 한 줄, 총 세 줄 확인. 한국어 설명 폭은 720px 유지.
+- Think / Mind / Behavior에 각각 협업, 소재 연구, 제품 프로토타이핑 이미지를 추가. 기존 3열 및 모바일 1열 구조 유지.
+- 사용자 최신 이미지 방향: 내추럴·우드·공예 느낌 대신 모던하고 현재적인 분위기, 뉴트럴 또는 살짝 쿨톤. 유리·메탈·디지털 작업 환경으로 새 이미지 네 장 생성. `studio-interior-modern.webp`는 Studio 공간 사진, 공통 Services 배경, 홈 오프닝에서 함께 사용. 기존 원본은 보존.
+- 고객사 소개 문구를 기존 15px에서 공통 lead 크기(20–25px)로 확대. 제목 폰트는 Poppins 그대로이며 브라우저 로딩 확인.
+- 이미지 경로와 최종 프롬프트: `docs/studio-image-prompts.json`. WebP 네 장 합계 약 270KB.
+- `npm run check`, `git diff --check` 통과. `output/playwright/review-studio.cjs`로 Studio 1585/768/390/320px, 홈·Work·Story·Contact·작업 상세·브랜드 컬러 글 검수. 가로 넘침, 깨진 로드 이미지, 브라우저 실행 오류 없음. Studio 키보드, reduced-motion, JS 비활성 표시 확인. 브랜드 컬러 글의 본문 두 섹션과 외부 원문 링크 제거 확인.
+- 캡처 및 결과: `output/playwright/studio-*.png`, `studio-review.json`. 출력 폴더는 Git 제외. 기존 `scripts/verify-home-scenes.cjs`는 이전 2열 구조와 모션 타이밍을 단정하므로 이번 검수에 사용하지 않음. 이번 작업에서는 프로덕션 빌드와 홈 전체 모션 타이밍 재검증은 수행하지 않았음.
+- 서버: `http://127.0.0.1:3000`. 최신 수정은 아직 커밋·푸시하지 않았으며 사용자 화면 리뷰 대기.
+- 사용자는 승인한 작업과 유사한 명령에 대해 재승인 없이 진행하길 요청함. 이미 승인된 명령 범위를 재사용하되 시스템이 별도 승인을 요구하는 경우에만 요청.
 
 ## 2026-10-01 — 모션 성능 수정 + 서브페이지 모션 확장 (작업 완료, 커밋 안 됨)
 

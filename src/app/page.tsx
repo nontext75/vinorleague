@@ -10,7 +10,7 @@ import styles from './home-editorial.module.css';
 
 const openingImages = [
   '/images/growth-sculpture.webp',
-  '/images/studio-interior.png',
+  '/images/studio-interior-modern.webp',
   '/images/studio.webp',
   '/images/story-colors.webp',
   '/images/cinematic-hero.webp',

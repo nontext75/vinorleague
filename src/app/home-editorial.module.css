@@ -35,6 +35,7 @@
 .serviceName { font-weight: var(--heading-compact-weight); letter-spacing: var(--heading-tracking); }
 .serviceTags { display: flex; flex-wrap: wrap; margin-top: 24px; }
 .clients { padding-block: 110px; border-bottom: 1px solid var(--line); }
+.clients .sectionIntro :global(.type-body-regular) { font-size: var(--body-lead-size); line-height: var(--body-lead-line); word-break: keep-all; }
 .logoGrid { display: grid; grid-template-columns: repeat(7, 1fr); margin-top: 35px; }
 .logoCell { display: flex; align-items: center; justify-content: center; min-width: 0; }
 .logoCell > img { object-fit: contain; filter: grayscale(1) brightness(.55); }
