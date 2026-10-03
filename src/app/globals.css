@@ -136,7 +136,7 @@ p { word-break: keep-all; }
 .story-list p { margin-top: 12px; color: var(--muted); max-width: 640px; }
 .story-list a:hover h2 { color: #666; }
 .article-page { max-width: 900px; }
-.article-back { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; color: var(--muted); text-decoration: underline; text-underline-offset: 5px; }
+.list-back-link { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; font-weight: 700; line-height: 1.85; color: var(--muted); text-decoration: underline; text-underline-offset: 5px; }
 .article-heading { margin-block: 32px 36px; padding-bottom: 32px; border-bottom: 1px solid var(--line); }
 .article-heading p { margin-bottom: 16px; color: var(--muted); }
 .article-heading h1 { font-size: clamp(30px, 3.5vw, 44px); line-height: 1.35; font-weight: 600; letter-spacing: -.045em; word-break: keep-all; }

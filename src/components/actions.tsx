@@ -1,5 +1,8 @@
 import Link from 'next/link';
 import type { ReactNode, ButtonHTMLAttributes } from 'react';
+export function ListBackLink({href,children}:{href:string;children:ReactNode}) {
+ return <Link href={href} className="list-back-link">{children}</Link>;
+}
 export function TextLink({href,children,className='',external=false}:{href:string;children:ReactNode;className?:string;external?:boolean}) {
  return <Link href={href} className={`text-link ${className}`} {...(external?{target:'_blank',rel:'noreferrer'}:{})}>{children}</Link>;
 }

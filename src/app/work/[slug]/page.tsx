@@ -5,7 +5,7 @@ import { projects } from '@/lib/content';
 import { contentDetails } from '@/lib/content-details';
 import { PageIntro } from '@/components/editorial';
 import { Heading, Body } from '@/components/typography';
-import { TextLink } from '@/components/actions';
+import { ListBackLink } from '@/components/actions';
 import { ContentBlocks } from '@/components/content-blocks';
 
 export function generateStaticParams() { return projects.map(({slug})=>({slug})); }
@@ -21,7 +21,7 @@ export default async function ProjectDetail({params}:{params:Promise<{slug:strin
  const project=projects[index],next=projects[(index+1)%projects.length];
  const detail=contentDetails[slug];
  return <article className="container page-content project-detail">
-  <TextLink href="/work">모든 프로젝트</TextLink>
+  <ListBackLink href="/work">모든 프로젝트</ListBackLink>
   <PageIntro title={project.title} kicker={`${project.category} · ${project.year}`} description={project.subtitle} className="detail-heading"/>
   <div className="project-body"><ContentBlocks blocks={detail.blocks} project/></div>
   {detail.tags.length>0&&<ul className="content-tags" aria-label="프로젝트 태그">{detail.tags.map(tag=><li key={tag}>#{tag}</li>)}</ul>}
