@@ -6,6 +6,7 @@ import { StatementSection, ServicesSection } from '@/components/editorial-sectio
 import { SectionHeader } from '@/components/editorial';
 import { StoryList } from '@/components/story-list';
 import { stories } from '@/lib/content';
+import { getWorkProjects } from '@/lib/work-content';
 import styles from './home-editorial.module.css';
 
 const openingImages = [
@@ -16,7 +17,10 @@ const openingImages = [
   '/images/cinematic-hero.webp',
 ];
 
-export default function Home() {
+export const revalidate = 60;
+
+export default async function Home() {
+  const workProjects = await getWorkProjects();
   return (
     <div className={`editorial-home ${styles.home}`}>
       <HomeScrollMotion />
@@ -45,7 +49,7 @@ export default function Home() {
           href="/work"
           label="전체 작업 보기"
         />
-        <WorkGallery />
+        <WorkGallery projects={workProjects.slice(0, 6)} />
         <div className={`container ${styles.experienceProgress}`} aria-hidden="true">
           <span data-experience-current>01</span>
           <span className={styles.experienceProgressTrack}><span data-experience-progress /></span>

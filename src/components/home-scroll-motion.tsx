@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { animate } from 'motion';
+import { animate, inView } from 'motion';
+import { readMotionEase, readMotionToken } from '@/lib/motion-tokens';
 import styles from '@/app/home-editorial.module.css';
 
 const clamp = (value: number) => Math.max(0, Math.min(1, value));
@@ -13,14 +14,14 @@ const easeInOut = (value: number) => {
 };
 const RAIL_SPEED = 0.92;
 const RAIL_START = 1.8;
-const OVERLAP = 0.7;
-const MASK_DURATION = 0.72;
-const NEXT_CUT_START = 2.6;
-const CUT_INTERVAL = 1.5;
+const OVERLAP = 0.36;
+const MASK_DURATION = 0.34;
+const NEXT_CUT_START = 1.35;
+const CUT_INTERVAL = 0.42;
 // Scene progress trails the native scroll with exponential damping (ms), so
 // reveals and wipes keep gliding briefly after the wheel stops. The page itself stays native.
 const INERTIA = 110;
-const FINAL_CUT_HOLD = 1.1;
+const FINAL_CUT_HOLD = 0.35;
 const aperture = (): Keyframe[] => [
   { clipPath: 'inset(38% 50%)', easing: 'cubic-bezier(.32,0,.22,1)' },
   { clipPath: 'inset(0% 0%)' },
@@ -68,13 +69,84 @@ export function HomeScrollMotion() {
     const preference = matchMedia('(prefers-reduced-motion: reduce)');
     const compact = matchMedia('(max-width: 767px)');
     const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+    const motionEase = readMotionEase();
+    const motionSettings = {
+      enterDuration: readMotionToken('--motion-home-enter-duration', 0.66),
+      enterDistance: readMotionToken('--motion-home-enter-distance', 38),
+      sectionHold: readMotionToken('--motion-home-section-hold', 0.3),
+      titleDistance: readMotionToken('--motion-home-title-distance', 0.72),
+      copyDistance: readMotionToken('--motion-home-copy-distance', 54),
+      cardX: readMotionToken('--motion-home-card-x-distance', 132),
+      cardY: readMotionToken('--motion-home-card-y-distance', 72),
+      cardScale: readMotionToken('--motion-home-card-scale', 0.92),
+      rowX: readMotionToken('--motion-home-row-x-distance', 80),
+      stagger: readMotionToken('--motion-reveal-stagger', 0.075),
+    };
     let entered = false;
     let dispose = () => {};
+
+    const setupMobile = () => {
+      const hero = home.querySelector<HTMLElement>(`.${styles.intro}`);
+      const heroEntranceElements = hero ? [
+        ...hero.querySelectorAll<HTMLElement>(`.${styles.titleLine}`),
+        hero.querySelector<HTMLElement>(`.${styles.heroSubtitle}`),
+        ...hero.querySelectorAll<HTMLElement>(`.${styles.heroBottom} > *`),
+      ].filter((element): element is HTMLElement => !!element) : [];
+
+      const anims: { stop: () => void }[] = [];
+      if (!entered && window.scrollY < 20) {
+        heroEntranceElements.forEach((element, index) => {
+          anims.push(animate(element, {
+            transform: [`translate3d(0, ${index < 3 ? motionSettings.enterDistance : motionSettings.enterDistance * 0.55}px, 0)`, 'translate3d(0, 0, 0)'],
+          }, { duration: motionSettings.enterDuration, delay: 0.03 + index * motionSettings.stagger * 0.7, ease: motionEase }));
+        });
+      }
+      entered = true;
+
+      const revealElements = [
+        ...home.querySelectorAll<HTMLElement>(`.${styles.statementLine}`),
+        ...home.querySelectorAll<HTMLElement>(`.${styles.philosophyBody} > *`),
+        home.querySelector<HTMLElement>('#experience-title'),
+        home.querySelector<HTMLElement>('.section-header-copy'),
+        ...home.querySelectorAll<HTMLElement>('ol[data-home="true"] li'),
+        ...home.querySelectorAll<HTMLElement>(`.${styles.methodLine}`),
+        ...home.querySelectorAll<HTMLElement>(`.${styles.methodBody} > *`),
+        ...home.querySelectorAll<HTMLElement>(`.${styles.service}`),
+        home.querySelector<HTMLElement>(`.${styles.insights} h2`),
+        home.querySelector<HTMLElement>(`.${styles.insights} .section-header-copy`),
+        ...home.querySelectorAll<HTMLElement>(`.${styles.storyRow}`),
+      ].filter((el): el is HTMLElement => !!el);
+
+      const stops: (() => void)[] = [];
+      revealElements.forEach(element => {
+        element.style.opacity = '0';
+        element.style.transform = 'translate3d(0, 20px, 0)';
+        element.style.transition = 'opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1)';
+        stops.push(inView(element, () => {
+          element.style.opacity = '1';
+          element.style.transform = 'translate3d(0, 0, 0)';
+        }, { margin: '0px 0px -10% 0px' }));
+      });
+
+      dispose = () => {
+        stops.forEach(stop => stop());
+        anims.forEach(a => a.stop());
+        revealElements.forEach(element => {
+          element.style.opacity = '';
+          element.style.transform = '';
+          element.style.transition = '';
+        });
+      };
+    };
 
     const setup = () => {
       dispose();
       if (curtain.current) curtain.current.hidden = true;
       if (preference.matches) return;
+      if (compact.matches) {
+        setupMobile();
+        return;
+      }
 
       const select = (className: string) => home.querySelector<HTMLElement>(`.${className}`);
       const opening = home.querySelector<HTMLElement>('[data-opening]');
@@ -94,10 +166,10 @@ export function HomeScrollMotion() {
         return root && stage && content ? { root, stage, content, distance, start: 0, read: 0 } : null;
       };
       const scenes = [
-        scene(home.querySelector('[data-statement-panel]'), select(styles.philosophy), 3),
-        scene(experience, experienceStage, 3.4),
-        scene(select(styles.methodPanel), select(styles.method), 3.2),
-        scene(select(styles.insightsPanel), select(styles.insights), 2.1),
+        scene(home.querySelector('[data-statement-panel]'), select(styles.philosophy), 1.1),
+        scene(experience, experienceStage, 2.0),
+        scene(select(styles.methodPanel), select(styles.method), 1.8),
+        scene(select(styles.insightsPanel), select(styles.insights), 1.4),
       ];
       if (scenes.some(item => !item)) return;
       const [statement, work, method, insights] = scenes as Scene[];
@@ -157,8 +229,8 @@ export function HomeScrollMotion() {
       if (!entered && window.scrollY < 20) {
         heroEntranceElements.forEach((element, index) => {
           entranceAnimations.push(animate(element, {
-            opacity: [0, 1], transform: [`translate3d(0, ${index < 3 ? 32 : 14}px, 0)`, 'translate3d(0, 0, 0)'],
-          }, { duration: index < 3 ? 0.85 : 0.65, delay: 0.06 + index * 0.09, ease: [0.22, 1, 0.36, 1] }));
+            transform: [`translate3d(0, ${index < 3 ? 32 : 14}px, 0)`, 'translate3d(0, 0, 0)'],
+          }, { duration: index < 3 ? motionSettings.enterDuration * 1.08 : motionSettings.enterDuration * 0.86, delay: 0.04 + index * motionSettings.stagger * 0.65, ease: motionEase }));
         });
       }
       entered = true;
@@ -201,16 +273,14 @@ export function HomeScrollMotion() {
         write(element, 'opacity', String(value));
         // Travel is large enough to read as an entrance, not a fade.
         if (kind === 'title') {
-          // Poppins descenders can extend beyond the line box. Release the mask
-          // after the reveal, with a little glyph clearance as it finishes.
-          write(element, 'clipPath', value === 1 ? 'none' : `inset(-0.12em -0.08em calc(${round(rest * 100)}% - ${round(value * 0.16)}em) -0.08em)`);
-          write(element, 'transform', `translate3d(0, ${round(rest * 0.55)}em, 0)`);
+          // Keep moving headings readable while the user pauses mid-scroll.
+          write(element, 'transform', `translate3d(0, ${round(rest * motionSettings.titleDistance)}em, 0) scale(${round(0.95 + value * 0.05)})`);
         } else if (kind === 'card') {
-          write(element, 'transform', `translate3d(${round(rest * 96)}px, ${round(rest * 40)}px, 0) scale(${Math.round((0.96 + value * 0.04) * 1e4) / 1e4})`);
+          write(element, 'transform', `translate3d(${round(rest * motionSettings.cardX)}px, ${round(rest * motionSettings.cardY)}px, 0) scale(${Math.round((motionSettings.cardScale + value * (1 - motionSettings.cardScale)) * 1e4) / 1e4})`);
         } else if (kind === 'row') {
-          write(element, 'transform', `translate3d(${round(rest * 56)}px, 0, 0)`);
+          write(element, 'transform', `translate3d(${round(rest * motionSettings.rowX)}px, ${round(rest * 18)}px, 0) scale(${round(0.96 + value * 0.04)})`);
         } else {
-          write(element, 'transform', `translate3d(0, ${round(rest * 32)}px, 0)`);
+          write(element, 'transform', `translate3d(0, ${round(rest * motionSettings.copyDistance)}px, 0) scale(${round(0.975 + value * 0.025)})`);
         }
       };
 
@@ -241,7 +311,8 @@ export function HomeScrollMotion() {
           const stageStyle = getComputedStyle(chapter.stage);
           const innerHeight = available - parseFloat(stageStyle.paddingTop) - parseFloat(stageStyle.paddingBottom);
           chapter.read = Math.max(0, chapter.content.offsetHeight - innerHeight);
-          chapter.root.style.height = `${available + viewport * chapter.distance + chapter.read + (chapter === work ? galleryTravel / RAIL_SPEED : 0)}px`;
+          // Leave a short, settled beat after each scene before the next wipe begins.
+          chapter.root.style.height = `${available + viewport * (chapter.distance + motionSettings.sectionHold) + chapter.read + (chapter === work ? galleryTravel / RAIL_SPEED : 0)}px`;
         });
         // All writes finish before reading the new chapter offsets.
         openingStart = layoutTop(opening) - headerHeight;
@@ -273,29 +344,29 @@ export function HomeScrollMotion() {
         chapters.forEach((chapter, index) => {
           const progress = (motion - chapter.start) / viewport;
           const hidden = round((1 - easeInOut(progress / OVERLAP)) * 100);
-          // Every scene arrives as a wipe; the work rail enters along its own horizontal axis.
-          if (chapter === work) write(chapter.stage, 'clipPath', `inset(0 0 0 ${hidden}%)`);
+          // Every scene arrives as a vertical wipe from bottom.
+          if (chapter === work) write(chapter.stage, 'clipPath', `inset(${hidden}% 0 0)`);
           else if (chapter === method) write(chapter.stage, 'clipPath', `inset(0 0 ${hidden}% 0)`);
           else if (chapter === insights) write(chapter.stage, 'clipPath', `inset(${hidden / 2}% 0)`);
           else write(chapter.stage, 'clipPath', `inset(${hidden}% 0 0)`);
           const next = chapters[index + 1];
           const exit = next ? round(easeInOut((motion - next.start + viewport * 0.16) / (viewport * 0.46)) * 1000) / 1000 : 0;
-          // Outgoing content recedes upward under the incoming wipe instead of blanking first.
-          write(chapter.content, 'opacity', String(1 - exit * 0.75));
+          // Outgoing content recedes upward and cleanly fades out under incoming wipe.
+          write(chapter.content, 'opacity', String(Math.max(0, round((1 - exit * 1.25) * 1000) / 1000)));
           const read = Math.min(chapter.read, Math.max(0, position - chapter.start - viewport * 1.35));
           write(chapter.content, 'transform', `translate3d(0, ${-round(read + exit * 72)}px, 0)`);
           write(chapter.stage, 'pointerEvents', progress < 0.45 || exit > 0.98 ? 'none' : '');
         });
 
         const statementProgress = (motion - statement.start) / viewport;
-        statementLines.forEach((element, index) => reveal(element, statementProgress, 0.55 + index * 0.1, 0.4, 'title'));
-        statementCopy.forEach((element, index) => reveal(element, statementProgress, 0.9 + index * 0.08, 0.35));
+        statementLines.forEach((element, index) => reveal(element, statementProgress, 0.12 + index * 0.07, 0.28, 'title'));
+        statementCopy.forEach((element, index) => reveal(element, statementProgress, 0.28 + index * 0.06, 0.25));
         const workProgress = (motion - work.start) / viewport;
-        reveal(workTitle, workProgress, 0.24, 0.48, 'title');
-        reveal(workCopy, workProgress, 0.4, 0.48);
+        reveal(workTitle, workProgress, 0.12, 0.32, 'title');
+        reveal(workCopy, workProgress, 0.22, 0.3);
         write(gallery, 'opacity', '1');
-        galleryCards.forEach((card, index) => reveal(card, workProgress, 0.56 + Math.min(index, 3) * 0.08, 0.46, 'card'));
-        reveal(progressLabel, workProgress, 0.85, 0.35);
+        galleryCards.forEach((card, index) => reveal(card, workProgress, 0.38 + Math.min(index, 3) * 0.07, 0.38, 'card'));
+        reveal(progressLabel, workProgress, 0.62, 0.25);
         const galleryTarget = Math.min(galleryTravel, Math.max(0, (position - galleryStart) * RAIL_SPEED));
         // The page remains native. Settle just this rail, and snap on touch, focus or a jump.
         galleryPosition = instantRail || jumped || !finePointer.matches ? galleryTarget : galleryPosition + (galleryTarget - galleryPosition) * (1 - Math.exp(-elapsed / 65));
@@ -307,13 +378,13 @@ export function HomeScrollMotion() {
         if (progressCurrent && progressCurrent.textContent !== current) progressCurrent.textContent = current;
 
         const methodProgress = (motion - method.start) / viewport;
-        methodLines.forEach((element, index) => reveal(element, methodProgress, 0.3 + index * 0.14, 0.5, 'title'));
-        methodCopy.forEach((element, index) => reveal(element, methodProgress, 0.68 + index * 0.12, 0.44));
+        methodLines.forEach((element, index) => reveal(element, methodProgress, 0.12 + index * 0.09, 0.3, 'title'));
+        methodCopy.forEach((element, index) => reveal(element, methodProgress, 0.26 + index * 0.07, 0.26));
         write(methodPicture, 'transform', `scale(${Math.round((1.06 - clamp(methodProgress / 2.8) * 0.06) * 1e4) / 1e4})`);
         const insightsProgress = (motion - insights.start) / viewport;
-        reveal(insightsTitle, insightsProgress, 0.24, 0.5, 'title');
-        reveal(insightsCopy, insightsProgress, 0.4, 0.48);
-        stories.forEach((element, index) => reveal(element, insightsProgress, 0.5 + index * 0.12, 0.48, 'row'));
+        reveal(insightsTitle, insightsProgress, 0.12, 0.3, 'title');
+        reveal(insightsCopy, insightsProgress, 0.25, 0.28);
+        stories.forEach((element, index) => reveal(element, insightsProgress, 0.36 + index * 0.08, 0.3, 'row'));
         instantRail = false;
         if (galleryPosition !== galleryTarget || smoothScroll !== position) frame = requestAnimationFrame(render);
       };

@@ -77,7 +77,7 @@
 @media (max-width:1100px) { .methodLayout { gap: 50px; grid-template-columns: 1fr 1.25fr; } .insights { gap: 40px; grid-template-columns: 1fr 1.5fr; } .storyRow { grid-template-columns: 100px 1fr 20px; gap: 20px; } .storyThumb { width: 100px; } .storySummary { display: none; } }
 @media (max-width:767px) {
  .methodLayout { grid-template-columns: 1fr; gap: 38px; } .methodEditorial { position: static; } .methodHeading h2 { font-size: var(--heading-section-size); } .methodLinks a { } .serviceList { margin-top: 0; } .serviceName { font-size: var(--heading-compact-size); }
- .insights { grid-template-columns: 1fr; gap: 0; } .insights h2 br { display: none; } .insights h2 { font-size: 42px; } .storyRow { grid-template-columns: 88px 1fr 20px; gap: 17px; padding-block: 23px; } .storyThumb { width: 88px; } .storyRow h3 { font-size: var(--heading-compact-size); line-height: var(--heading-compact-line); } .storyRow .storySummary { display: none; } .storyMeta { gap: 10px; font-size: var(--body-small-size); } .typeArtwork { font-size: 46px; }
+ .insights { grid-template-columns: 1fr; gap: 0; } .insights h2 br { display: none; } .insights h2 { font-size: var(--heading-section-size); } .storyRow { grid-template-columns: 88px 1fr 20px; gap: 17px; padding-block: 23px; } .storyThumb { width: 88px; } .storyRow h3 { font-size: var(--heading-compact-size); line-height: var(--heading-compact-line); } .storyRow .storySummary { display: none; } .storyMeta { gap: 10px; font-size: var(--body-small-size); } .typeArtwork { font-size: 46px; }
 }
 @media (prefers-reduced-motion:reduce) { .storyThumb img { transition: none; } }
 @media (max-width:1100px) { .methodEditorial { padding-right: 20px; } }
@@ -202,7 +202,7 @@
 
 /* The home page follows the six reference sections; studio keeps its own spacing. */
 .home .heroInner { min-height: max(720px, 88svh); height: auto; }
-.home .heroTitle { font-size: clamp(102px, 14.4vw, 216px); }
+.home .heroTitle { font-size: clamp(80px, 11vw, 180px); line-height: 1.02; }
 .home .heroBottom { padding-bottom: 24px; }
 .home[data-scroll-intro] .intro { min-height: 0; height: 100%; }
 .home[data-scroll-intro] .heroInner { position: relative; top: 0; height: auto; min-height: var(--opening-height); padding-top: 64px; }
@@ -223,7 +223,7 @@
 .home .experience { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; border-top: 1px solid var(--line); padding-block: 24px 48px; }
 .home .workHeading { padding-block: 0 28px; }
 .home .workHeading :global(.section-header-copy) { margin-top: 12px; }
-.home .workHeading h2 { font-size: clamp(72px, 7vw, 112px); }
+.home .workHeading h2 { font-size: var(--heading-section-size); }
 .home .workHeading :global(.section-header-copy) p { max-width: 800px; font-size: clamp(20px, 1.55vw, 24px); line-height: 1.55; }
 .home .methodRevised { min-height: calc(100svh - 80px); display: flex; align-items: center; padding-block: 96px 72px; }
 .home .insights { min-height: calc(100svh - 80px); align-content: center; padding-block: 96px 64px; }
@@ -237,11 +237,11 @@
 }
 @media(max-width:767px) {
  .home .heroInner { min-height: max(650px, 100svh); padding-top: 120px; }
- .home .heroTitle { font-size: clamp(54px, 15.5vw, 112px); }
+ .home .heroTitle { font-size: clamp(44px, 12.5vw, 68px); line-height: 1.08; }
  .home .heroBottom { padding-bottom: 32px; }
  .home .philosophy { min-height: 80svh; padding-block: 64px 72px; }
  .home .experience { min-height: auto; padding-block: 24px 72px; }
- .home .workHeading h2 { font-size: clamp(48px, 13vw, 66px); }
+ .home .workHeading h2 { font-size: var(--heading-section-size); }
  .home .workHeading :global(.section-header-copy) p { font-size: 18px; }
  .home .methodRevised { padding-block: 72px; }
  .home .insights { grid-template-columns: 1fr; padding-block: 64px; gap: 32px; }
@@ -257,8 +257,9 @@
 .openingFrame:not(:first-child) { opacity: 0; }
 .openingFrame img { object-fit: cover; object-position: center 54%; }
 .statementPanel { position: relative; background: var(--paper); }
-.home[data-scroll-intro] .opening { height: calc(var(--opening-height) + var(--opening-distance)); }
-.home[data-scroll-intro] .openingStage { position: sticky; top: var(--opening-top); height: var(--opening-height); overflow: clip; isolation: isolate; }
+@media (min-width: 768px) {
+.home[data-scroll-intro] .opening { height: calc(var(--opening-height) + var(--opening-top) + var(--opening-distance)); }
+.home[data-scroll-intro] .openingStage { position: sticky; top: 0; height: calc(var(--opening-height) + var(--opening-top)); overflow: clip; isolation: isolate; }
 .home[data-scroll-intro] .openingVisual { position: absolute; inset: 0; z-index: 3; aspect-ratio: auto; pointer-events: none; clip-path: inset(50%); }
 .home[data-scroll-intro] .openingFrame:not(:first-child) { opacity: 1; clip-path: inset(38% 50%); }
 /* Scroll-scaled full-bleed images keep their own layer instead of repainting each frame. */
@@ -271,7 +272,7 @@
 .experienceStage { padding-block: 112px; }
 .home[data-scroll-intro] .experience { position: relative; z-index: 5; margin-top: calc(-1 * var(--opening-height) - var(--scene-overlap)); border-top: 0; padding: 0; }
 .experienceContent { width: 100%; }
-.home[data-scroll-intro] .experienceStage { position: sticky; top: var(--opening-top); height: var(--opening-height); display: flex; flex-direction: column; justify-content: safe center; overflow: clip; padding-block: clamp(24px, 3.5vh, 48px); background: var(--paper); clip-path: inset(0 0 0 100%); }
+.home[data-scroll-intro] .experienceStage { position: sticky; top: var(--opening-top); height: var(--opening-height); display: flex; flex-direction: column; justify-content: safe center; overflow: clip; padding-block: clamp(24px, 3.5vh, 48px); background: var(--paper); clip-path: inset(100% 0 0); }
 .home[data-scroll-intro] .workHeading { padding-bottom: clamp(24px, 3vh, 40px); }
 .home[data-scroll-intro] .workHeading h2, .home[data-scroll-intro] .workHeading :global(.section-header-copy), .home[data-scroll-intro] .experience :global(ol[data-home="true"]), .home[data-scroll-intro] .experience :global(ol[data-home="true"] li) { opacity: 0; }
 .home[data-scroll-intro] .experience :global(ol[data-home="true"]) { width: max-content; max-width: none; grid-auto-columns: var(--experience-card-width); margin-left: var(--scene-inset); margin-right: 0; overflow: visible; scroll-snap-type: none; padding-bottom: 0; will-change: transform; }
@@ -287,20 +288,21 @@
 .home[data-scroll-intro] .insightsPanel { position: relative; z-index: 7; margin-top: calc(-1 * var(--opening-height) - var(--scene-overlap)); }
 .home[data-scroll-intro] .insightsPanel .insights { position: sticky; top: var(--opening-top); height: var(--opening-height); min-height: 0; width: 100%; max-width: none; display: flex; flex-direction: column; justify-content: safe center; overflow: clip; padding: 32px var(--scene-inset); background: #fff; clip-path: inset(50% 0); }
 .home[data-scroll-intro] .insightsPanel .insights h2, .home[data-scroll-intro] .insightsPanel .insights :global(.section-header-copy), .home[data-scroll-intro] .insightsPanel .storyRow { opacity: 0; }
+}
 @media (max-width:1100px) { .insightsContent { grid-template-columns: 1fr 2fr; gap: 32px; } }
 @media (max-width:767px) {
  .experienceStage { padding-block: 72px; }
- .home[data-scroll-intro] .experienceStage { padding-block: 24px; }
- .home[data-scroll-intro] .statementPanel .philosophy { padding: 32px 24px; }
- .home[data-scroll-intro] .methodPanel .methodRevised { padding-block: 24px; }
- .home[data-scroll-intro] .insightsPanel .insights { padding: 24px; }
+
+
+
+
  .insightsContent { grid-template-columns: 1fr; gap: 32px; }
- .home[data-scroll-intro] .experienceProgress { margin-top: 20px; }
+
 }
 
 /* Preserve the editorial scale and breathing room independently of screen height. */
 .home { --body-size: 17px; --body-small-size: 15px; }
-.home .manifestoTitle { font-size: clamp(64px, 7.2vw, 104px); line-height: 1.14; }
+.home .manifestoTitle { font-size: var(--heading-section-size); line-height: var(--heading-line); }
 .home .philosophy { padding-block: 128px; }
 .home .philosophyBody { margin-top: 64px; }
 .home .philosophyBody > div > p:not(.philosophyLead) { font-size: clamp(19px, 1.55vw, 22px); line-height: 1.75; }
@@ -309,7 +311,7 @@
 .home .workHeading { padding-bottom: 64px; }
 .home .methodRevised, .home .insights { padding-block: 128px; }
 @media(max-width:767px) {
- .home .manifestoTitle { font-size: clamp(32px, 9.5vw, 60px); line-height: 1.2; }
+ .home .manifestoTitle { font-size: var(--heading-section-size); line-height: var(--heading-line); }
  .home .philosophy { padding-block: 96px; }
  .home .philosophyBody { margin-top: 48px; }
  .home .philosophyBody > div > p:not(.philosophyLead) { font-size: 18px; }

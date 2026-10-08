@@ -5,12 +5,13 @@ import type { Project } from '@/lib/content';
 import { ProjectCard } from './project-card';
 import styles from './work-gallery.module.css';
 
-export function ProjectGrid({ items, home = false, className = '' }: {
-  items: readonly Project[]; home?: boolean; className?: string;
+export function ProjectGrid({ items, home = false, archive = false, className = '' }: {
+  items: readonly Project[]; home?: boolean; archive?: boolean; className?: string;
 }) {
   const grid = useRef<HTMLOListElement>(null);
+  const masonry = !home && !archive;
   useLayoutEffect(() => {
-    if (home) return;
+    if (!masonry) return;
     const list = grid.current;
     if (!list) return;
     const cards = [...list.querySelectorAll('article')];
@@ -30,7 +31,7 @@ export function ProjectGrid({ items, home = false, className = '' }: {
     measure();
     for (const card of cards) observer.observe(card);
     return () => { observer.disconnect(); cancelAnimationFrame(frame); };
-  }, [items, home]);
+  }, [items, masonry]);
 
-  return <ol ref={grid} className={`${styles.gallery} ${className}`} data-home={home} aria-label={home ? '주요 프로젝트' : '프로젝트 목록'} data-reveal-children>{items.map(project => <li key={project.slug}><article><ProjectCard project={project} home={home} /></article></li>)}</ol>;
+  return <ol ref={grid} className={`${styles.gallery} ${className}`} data-home={home} data-archive={archive} aria-label={home ? '주요 프로젝트' : '프로젝트 목록'} data-reveal-children>{items.map(project => <li key={project.slug} data-reveal="card"><article><ProjectCard project={project} home={home} archive={archive}/></article></li>)}</ol>;
 }

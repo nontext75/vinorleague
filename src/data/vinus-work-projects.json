@@ -1,0 +1,98 @@
+[
+  {
+    "slug": "mongdang",
+    "title": "Mongdang",
+    "subtitle": "대교 신(新)한자 학습도움용 캐릭터 ‘몽당’",
+    "category": "Character",
+    "year": "2021",
+    "client": "대교",
+    "period": "",
+    "overview": "대교가 선보인 온라인 한자 학습 애플리케이션 ‘신(新)한자’. 학습 여정 곳곳에서 아이들과 함께할 캐릭터가 필요했습니다. 텍스트 위주의 학습 콘텐츠 사이에서 딱딱해질 수 있는 분위기를 부드럽게 풀고, 안내와 설명을 친근한 목소리로 전하는 가이드 역할을 맡았습니다.",
+    "image": { "src": "/images/mongdang.webp", "width": 480, "height": 360, "animated": false },
+    "hero": { "src": "/images/details/mongdang-0.webp", "alt": "대교 신한자 학습 캐릭터 몽돌과 몽식", "position": "right center" }
+  },
+  {
+    "slug": "shinhan-easy",
+    "title": "Shinhan Easy",
+    "subtitle": "신한 이지 금융교육 플랫폼",
+    "category": "Web",
+    "year": "2021",
+    "client": "신한금융희망재단",
+    "period": "2021.07",
+    "overview": "신한금융그룹의 통합 금융교육 플랫폼 ‘신한이지(easy)’ 웹사이트 디자인 프로젝트. 신한은행, 신한카드, 신한금융투자, 신한라이프 계열사가 각자 쌓아 온 금융교육 노하우를 하나의 플랫폼에 모았습니다. 어린이부터 실버 세대까지, 전 세대가 자신의 생애주기에 맞는 금융교육을 찾을 수 있도록 설계했습니다.",
+    "image": { "src": "/images/shinhan.webp", "width": 480, "height": 360, "animated": false },
+    "hero": { "src": "/images/details/shinhan-0.webp", "alt": "신한이지 금융교육 플랫폼의 첫 화면과 생애주기별 인물 일러스트", "position": "center" }
+  },
+  {
+    "slug": "crowdsourcing-platform-crowd-oh",
+    "title": "Crowdsourcing Platform Crowd OH!",
+    "subtitle": "클라우드 오!",
+    "category": "Web",
+    "year": "2020",
+    "client": "㈜클라우드오",
+    "period": "2020.06",
+    "overview": "온라인 기반 크라우드소싱 플랫폼 ‘Crowd Oh!’의 웹·모바일 UI 디자인 프로젝트. AI 데이터 라벨링부터 공모전, 투표, 아이디어 공모까지 다양한 마이크로 워크를 한 플랫폼에서 풀어내는 B2C 서비스로, 전체 화면 UI 디자인을 진행했습니다.",
+    "image": { "src": "/images/crowd.webp", "width": 480, "height": 360, "animated": false },
+    "hero": { "src": "/images/details/crowd-0.webp", "alt": "Crowd OH! 크라우드소싱 플랫폼의 주요 화면과 참여 흐름", "position": "top" }
+  },
+  {
+    "slug": "macadamia-website",
+    "title": "macadamia",
+    "subtitle": "대교 마카다미아 웹사이트",
+    "category": "Web",
+    "year": "2020",
+    "client": "대교",
+    "period": "2020.04",
+    "overview": "대교의 통합 교육 서비스 플랫폼 ‘마카다미아(macadamia)’ 디자인 프로젝트. 선생님이 학부모의 상담 요청을 한 화면에서 효율적으로 관리할 수 있도록, 매칭부터 결제까지 이어지는 상담 여정 전체를 시각화했습니다.",
+    "image": { "src": "/images/macadamia.webp", "width": 480, "height": 360, "animated": false },
+    "hero": { "src": "/images/details/macadamia-0.webp", "alt": "대교 마카다미아 웹사이트의 교육 콘텐츠와 브랜드 화면", "position": "top" }
+  },
+  {
+    "slug": "budongsan114-mediate-bizsolution",
+    "title": "Budongsan114 Mediate BIZsolution",
+    "subtitle": "부동산114 중개비즈솔루션",
+    "category": "Web",
+    "year": "2022",
+    "client": "부동산114",
+    "period": "2022.05",
+    "overview": "부동산114의 중개사업자용 통합 업무 솔루션 ‘Mediate BIZsolution’ 디자인 프로젝트. 매물 관리부터 고객 응대, 시세 분석까지 공인중개사의 업무 전반을 하나의 플랫폼에서 풀어낼 수 있도록 설계하고 전체 화면 UI를 디자인했습니다.",
+    "image": { "src": "/images/budongsan.webp", "width": 480, "height": 360, "animated": false },
+    "hero": { "src": "/images/vinus/fceda994e2927449.webp", "alt": "부동산114 중개비즈솔루션의 통합 업무 화면", "position": "top" }
+  },
+  {
+    "slug": "donga-on-book",
+    "title": "Donga On book",
+    "subtitle": "동아출판 온북",
+    "category": "Web",
+    "year": "2021",
+    "client": "동아출판",
+    "period": "2021.07",
+    "overview": "동아출판이 새롭게 선보인 독서 수업 플랫폼 ‘온북’ 웹사이트 디자인 프로젝트. ‘책으로 온 세상을 밝히다’라는 슬로건 아래, 초등 교사가 ‘온 책 읽기’ 수업을 준비하고 운영하는 과정을 한자리에서 풀어냈습니다.",
+    "image": { "src": "/images/donga.webp", "width": 480, "height": 360, "animated": false },
+    "hero": { "src": "/images/details/donga-0.webp", "alt": "동아출판 온북 독서 수업 플랫폼의 책과 교육 자료 화면", "position": "top" }
+  },
+  {
+    "slug": "aliot-brand-identity",
+    "title": "Aliot Brand Identity",
+    "subtitle": "(주)그렉터의 IoT 통합솔루션 앨리엇 브랜딩",
+    "category": "Web",
+    "year": "2018",
+    "client": "㈜그렉터",
+    "period": "2018.03",
+    "overview": "사물인터넷 기반 개발 전문기업 그렉터의 IoT 제품 브랜드 ‘Aliot’ 브랜드 아이덴티티 디자인 프로젝트. 스마트홈, 스마트팜, 스마트팩토리 등 다양한 영역의 제품을 하나의 브랜드로 묶고, ‘영역’과 ‘연결’이라는 두 가치를 하나의 형태에 담았습니다.",
+    "image": { "src": "/images/aliot.webp", "width": 480, "height": 360, "animated": false },
+    "hero": { "src": "/images/vinus/c9265c0c9c5dc7f8.webp", "alt": "Aliot IoT 브랜드 아이덴티티와 심볼 디자인", "position": "center" }
+  },
+  {
+    "slug": "the-frame-artstore-catalogue",
+    "title": "The Frame Artstore Catalogue",
+    "subtitle": "더 프레임 아트스토어 카탈로그",
+    "category": "Web",
+    "year": "2022",
+    "client": "삼성전자",
+    "period": "2022.04",
+    "overview": "삼성전자 The Frame TV의 디지털 콘텐츠 플랫폼 ‘Art Store’ 작품을 정리한 카탈로그 디자인 프로젝트. 디지털 인쇄물 안에 종이 카탈로그의 무게감과 도록의 호흡을 담아, 제품의 고급스러운 결을 온전히 전했습니다.",
+    "image": { "src": "/images/frame.webp", "width": 480, "height": 360, "animated": false },
+    "hero": { "src": "/images/details/frame-0.webp", "alt": "The Frame Art Store 작품이 놓인 차분한 거실 공간", "position": "center" }
+  }
+]

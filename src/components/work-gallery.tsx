@@ -1,3 +1,3 @@
-import { projects } from '@/lib/content';
+import type { Project } from '@/lib/content';
 import { ProjectGrid } from './project-grid';
-export function WorkGallery() { return <ProjectGrid items={projects.slice(0,6)} home className="container"/>; }
+export function WorkGallery({ projects }: { projects: readonly Project[] }) { return <ProjectGrid items={projects} home className="container"/>; }

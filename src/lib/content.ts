@@ -1,7 +1,22 @@
 import catalog from '@/data/vinus-catalog.json';
+import workProjects from '@/data/vinus-work-projects.json';
 
-export const projects = catalog.projects;
-export type Project = (typeof projects)[number];
+export type Project = {
+  slug: string;
+  title: string;
+  subtitle: string;
+  category: string;
+  year: string;
+  client: string;
+  period: string;
+  overview: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  sortOrder?: number;
+  image: { src: string; width: number; height: number; animated: boolean; alt?: string };
+  hero: { src: string; alt: string; position: string; width?: number; height?: number };
+};
+export const projects = workProjects as Project[];
 export const stories = catalog.stories;
 
 export const services = [

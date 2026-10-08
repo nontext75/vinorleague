@@ -1,0 +1,17 @@
+.shell { position: fixed; z-index: 1000; inset: 0; overflow: auto; background: #fff; color: #171717; }
+.setup { box-sizing: border-box; width: min(760px, calc(100% - 48px)); min-height: 100%; margin-inline: auto; padding: clamp(64px, 10vw, 132px) 0 48px; }
+.kicker { font-size: 11px; letter-spacing: .14em; }
+.setup h1 { margin-top: 22px; font-size: clamp(40px, 7vw, 76px); font-weight: 400; letter-spacing: -.06em; line-height: 1.05; }
+.lead { max-width: 560px; margin-top: 20px; color: #555; font-size: 18px; line-height: 1.7; }
+.steps { margin-top: 62px; padding-top: 22px; border-top: 1px solid #d2d2d2; }
+.steps h2 { font-size: 22px; font-weight: 500; }
+.steps ol { display: grid; gap: 14px; margin: 22px 0 0; padding-left: 22px; color: #444; line-height: 1.7; }
+.steps a, .back { text-decoration: underline; text-underline-offset: 4px; }
+.steps pre { overflow-x: auto; margin-top: 22px; padding: 18px 20px; background: #f2f2f0; font-size: 13px; line-height: 1.8; }
+.note { margin-top: 17px; color: #666; font-size: 14px; line-height: 1.7; }
+.back { display: inline-block; margin-top: 42px; font-size: 14px; }
+body:has([data-admin-root]) { overflow: hidden; }
+body:has([data-admin-root]) :global(.site-header),
+body:has([data-admin-root]) :global(.site-footer),
+body:has([data-admin-root]) :global(.skip-link) { display: none; }
+@media (max-width: 600px) { .setup { padding-top: 52px; } .steps { margin-top: 42px; } }

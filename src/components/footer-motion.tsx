@@ -3,8 +3,7 @@
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { animate, inView } from 'motion';
-
-const ease = [0.22, 1, 0.36, 1] as const;
+import { readMotionEase, readMotionToken } from '@/lib/motion-tokens';
 
 /** Each group finishes its entrance even when the visitor stops scrolling. */
 export function FooterMotion() {
@@ -14,6 +13,11 @@ export function FooterMotion() {
     const footer = document.querySelector<HTMLElement>('.home-footer');
     if (!footer) return;
     const preference = matchMedia('(prefers-reduced-motion: reduce)');
+    const ease = readMotionEase();
+    const enterDuration = readMotionToken('--motion-footer-enter-duration', 0.82);
+    const titleStagger = readMotionToken('--motion-footer-title-stagger', 0.11);
+    const detailStagger = readMotionToken('--motion-footer-detail-stagger', 0.08);
+    const detailDelay = readMotionToken('--motion-footer-detail-delay', 0.32);
     const invitation = footer.querySelector<HTMLElement>('.home-footer-invitation');
     const bottom = footer.querySelector<HTMLElement>('.footer-bottom');
     if (!invitation || !bottom) return;
@@ -30,7 +34,7 @@ export function FooterMotion() {
       if (preference.matches) return;
       const animations: { stop: () => void }[] = [];
       footer.dataset.footerMotion = 'ready';
-      const rise = (element: HTMLElement | null, delay: number, travel: string, duration = 0.85) => {
+      const rise = (element: HTMLElement | null, delay: number, travel: string, duration = enterDuration) => {
         if (!element) return;
         animations.push(animate(element, {
           opacity: [0, 1],
@@ -39,13 +43,13 @@ export function FooterMotion() {
       };
       // Independent visibility thresholds also work on a footer taller than the screen.
       const stopInvitation = inView(invitation, () => {
-        titleLines.forEach((line, index) => rise(line, index * 0.11, '110%'));
-        rise(link, 0.28, '16px', 0.6);
+        titleLines.forEach((line, index) => rise(line, index * titleStagger, '115%'));
+        rise(link, titleStagger * 2.5, '18px', enterDuration * 0.74);
       }, { amount: 0.25 });
       const stopBottom = inView(bottom, () => {
-        if (rule) animations.push(animate(rule, { transform: ['scaleX(0)', 'scaleX(1)'] }, { duration: 0.9, ease }));
-        letters.forEach((letter, index) => rise(letter, 0.08 + index * 0.035, '110%', 0.95));
-        details.forEach((element, index) => rise(element, 0.42 + index * 0.08, '10px', 0.5));
+        if (rule) animations.push(animate(rule, { transform: ['scaleX(0)', 'scaleX(1)'] }, { duration: enterDuration * 1.08, ease }));
+        letters.forEach((letter, index) => rise(letter, 0.08 + index * 0.035, '115%', enterDuration * 1.16));
+        details.forEach((element, index) => rise(element, detailDelay + index * detailStagger, '12px', enterDuration * 0.68));
       }, { amount: 0.2 });
       const finish = () => {
         stopInvitation();
