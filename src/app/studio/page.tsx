@@ -1,10 +1,11 @@
-import type {Metadata} from 'next';
+import { pageMetadata } from '@/lib/seo';
+import { pageContent } from '@/lib/site-content';
 import Image from 'next/image';
 import { ServicesSection,ClientsSection } from '@/components/editorial-sections';
 import { PageIntro,SplitTitle } from '@/components/editorial';
 import { StudioValues } from '@/components/studio-values';
 
-export const metadata:Metadata={title:'Studio'};
+export const metadata = pageMetadata(pageContent.studio);
 
 export default function Studio(){
   return <>

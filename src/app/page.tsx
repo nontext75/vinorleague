@@ -8,6 +8,11 @@ import { StoryList } from '@/components/story-list';
 import { stories } from '@/lib/content';
 import { getWorkProjects } from '@/lib/work-content';
 import styles from './home-editorial.module.css';
+import { JsonLd } from '@/components/json-ld';
+import { organizationData, pageMetadata } from '@/lib/seo';
+import { pageContent } from '@/lib/site-content';
+
+export const metadata = pageMetadata(pageContent.home);
 
 const openingImages = [
   '/images/growth-sculpture.webp',
@@ -23,6 +28,7 @@ export default async function Home() {
   const workProjects = await getWorkProjects();
   return (
     <div className={`editorial-home ${styles.home}`}>
+      <JsonLd data={organizationData()} />
       <HomeScrollMotion />
       <div className={styles.opening} data-opening>
         <div className={styles.openingStage} data-opening-stage>

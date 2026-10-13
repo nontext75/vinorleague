@@ -9,6 +9,8 @@ import { projects as localProjects } from '@/lib/content';
 import { workDetails } from '@/lib/content-details';
 import { getWorkDetail, getWorkProjects, legacyMedia } from '@/lib/work-content';
 import styles from './work-detail.module.css';
+import { JsonLd } from '@/components/json-ld';
+import { pageMetadata, makeDescription, breadcrumbData } from '@/lib/seo';
 
 export function generateStaticParams() {
   return localProjects.map(({ slug }) => ({ slug }));
@@ -22,32 +24,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const projects = await getWorkProjects();
   const project = projects.find(item => item.slug === slug);
 
-  if (!project) return { title: 'Project' };
+  if (!project || !await getWorkDetail(slug)) notFound();
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-  const description = project.seoDescription || makeDescription(project.overview);
-  const imageUrl = project.hero.src.startsWith('http')
-    ? project.hero.src
-    : siteUrl ? new URL(project.hero.src, siteUrl).toString() : undefined;
-
-  return {
-    title: project.seoTitle || project.title,
-    description,
-    openGraph: {
-      title: project.seoTitle || project.title,
-      description,
-      type: 'article',
-      ...(imageUrl ? { images: [imageUrl] } : {}),
-    },
-  };
-}
-
-function makeDescription(overview: string) {
-  const clean = overview.replace(/\s+/g, ' ').trim();
-  if (clean.length <= 160) return clean;
-  const clipped = clean.slice(0, 157);
-  const lastSpace = clipped.lastIndexOf(' ');
-  return `${(lastSpace > 110 ? clipped.slice(0, lastSpace) : clipped).trimEnd()}…`;
+  return pageMetadata({
+    path: `/work/${project.slug}`,
+    title: project.seoTitle || `${project.title}${project.subtitle ? ` | ${project.subtitle}` : ''}`,
+    description: makeDescription(project.seoDescription || project.overview),
+    image: project.hero,
+  });
 }
 
 export default async function ProjectDetail({ params }: { params: Promise<{ slug: string }> }) {
@@ -67,6 +51,11 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
 
   return (
     <article className={styles.detail}>
+      <JsonLd data={breadcrumbData([
+        { name: '홈', path: '/' },
+        { name: 'Experience', path: '/work' },
+        { name: project.title, path: `/work/${project.slug}` },
+      ])} />
       <div className={`container ${styles.frame}`}>
         <Link className={styles.backLink} href="/work" data-reveal="copy">
           <ArrowLeft size={16} aria-hidden="true" />

@@ -1,9 +1,10 @@
-import type {Metadata} from 'next';
+import { pageMetadata } from '@/lib/seo';
+import { pageContent } from '@/lib/site-content';
 import { ProjectFilter } from '@/components/project-filter';
 import { PageIntro,SplitTitle } from '@/components/editorial';
 import { getWorkProjects } from '@/lib/work-content';
 
-export const metadata:Metadata={title:'Work'};
+export const metadata = pageMetadata(pageContent.work);
 export const revalidate = 60;
 
 export default async function Work(){

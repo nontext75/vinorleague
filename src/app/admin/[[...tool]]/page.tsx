@@ -5,7 +5,7 @@ import config from '../../../../sanity.config';
 import styles from './admin.module.css';
 
 export const dynamic = 'force-static';
-export const metadata: Metadata = { ...studioMetadata, title: { absolute: '포트폴리오 관리자' } };
+export const metadata: Metadata = { ...studioMetadata, title: { absolute: '포트폴리오 관리자' }, robots: { index: false, follow: false } };
 export const viewport: Viewport = studioViewport;
 
 export default function AdminPage() {

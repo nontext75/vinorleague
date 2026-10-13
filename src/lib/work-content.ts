@@ -1,4 +1,5 @@
 import { defineQuery } from 'next-sanity';
+import { cache } from 'react';
 import { projects as localProjects, type Project } from '@/lib/content';
 import { contentDetails, workDetails, type ContentBlock, type WorkDetail } from '@/lib/content-details';
 import { isSanityConfigured, sanityClient } from '@/sanity/lib/client';
@@ -52,7 +53,7 @@ const WORK_DETAIL_QUERY = defineQuery(`
 type WorkDocument = Partial<Project> & { slug?: string; visible?: boolean };
 type DetailDocument = { sections?: WorkDetail['sections']; media?: Omit<Extract<ContentBlock, { type: 'image' }>, 'type'>[]; overview?: string };
 
-export async function getWorkProjects(): Promise<Project[]> {
+export const getWorkProjects = cache(async (): Promise<Project[]> => {
   if (!isSanityConfigured) return localProjects;
 
   try {
@@ -95,13 +96,13 @@ export async function getWorkProjects(): Promise<Project[]> {
   } catch {
     return localProjects;
   }
-}
+});
 
 function legacyMedia(slug: string): ContentBlock[] {
   return (contentDetails[slug]?.blocks ?? []).filter(block => block.type === 'image' || block.type === 'gallery').slice(0, 4);
 }
 
-export async function getWorkDetail(slug: string): Promise<WorkDetail | undefined> {
+export const getWorkDetail = cache(async (slug: string): Promise<WorkDetail | undefined> => {
   const fallback = workDetails[slug];
   if (!isSanityConfigured) return fallback;
 
@@ -118,6 +119,6 @@ export async function getWorkDetail(slug: string): Promise<WorkDetail | undefine
   } catch {
     return fallback;
   }
-}
+});
 
 export { legacyMedia };

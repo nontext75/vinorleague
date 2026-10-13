@@ -3,7 +3,7 @@
 .gallery[data-archive="true"] .visual,.gallery[data-home="true"] .visual { aspect-ratio: 4 / 3; }
 .gallery[data-archive="true"] .visual img,.gallery[data-home="true"] .visual img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .gallery[data-archive="true"] .meta { margin-top: 15px; text-transform: uppercase; letter-spacing: .08em; }
-.gallery[data-archive="true"] .project h3 { margin-top: 7px; font-size: clamp(16px, 1.35vw, 20px); }
+.gallery[data-archive="true"] .project :is(h2, h3) { margin-top: 7px; font-size: clamp(16px, 1.35vw, 20px); }
 .gallery[data-masonry="true"] { grid-auto-rows: 8px; row-gap: 0; align-items: start; }
 .gallery[data-home="true"] { display: grid; grid-auto-flow: column; grid-auto-columns: clamp(280px, 31vw, 420px); grid-template-columns: none; gap: 48px; overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x mandatory; padding-bottom: 20px; }
 .gallery[data-home="true"] li { scroll-snap-align: start; }
@@ -20,12 +20,12 @@
 .heroVisual img { object-fit: cover; object-position: top; height: 100%; }
 .heroVisual.character img { object-fit: contain; object-position: center; padding: 7%; }
 .meta { margin-top: 12px; color: var(--muted); font-size: var(--body-small-size); line-height: var(--body-compact-line); }
-.project h3 { margin-top: 8px; font-size: 19px; font-weight: var(--heading-compact-weight); line-height: var(--heading-compact-line); letter-spacing: var(--heading-tracking); }
+.project :is(h2, h3) { margin-top: 8px; font-size: 19px; font-weight: var(--heading-compact-weight); line-height: var(--heading-compact-line); letter-spacing: var(--heading-tracking); }
 .gallery[data-home="true"] .meta { margin-top: 24px; }
-.gallery[data-home="true"] .project h3 { margin-top: 12px; font-size: 24px; }
+.gallery[data-home="true"] .project :is(h2, h3) { margin-top: 12px; font-size: 24px; }
 .gallery[data-home="true"] .subtitle { margin-top: 12px; }
 .subtitle { margin-top: 5px; color: var(--muted); }
-.project:focus-visible h3 { text-decoration: underline; text-underline-offset: 5px; }
+.project:focus-visible :is(h2, h3) { text-decoration: underline; text-underline-offset: 5px; }
 .project:focus-visible .visual::after { opacity: 1; transform: none; }
 @media (hover:hover) and (pointer:fine) {
   .project:hover .imageFrame { transform: scale(1.04); }

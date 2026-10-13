@@ -14,6 +14,9 @@ Next.js App Router, Tailwind CSS v4, DaisyUI v5, Motion, Outfit.
 기획과 콘텐츠 확인 항목: [docs/site-plan.md](docs/site-plan.md).
 문의는 메일 앱 연동 방식이며 서버에 저장하거나 자동으로 전송하지 않습니다.
 
+검색 최적화와 운영 공개 설정: [검색 최적화 안내](docs/search-optimization.md).
+도메인이 정해지기 전에는 로컬·미리보기의 검색 제외 상태를 유지합니다.
+
 ```sh
 npm run build
 npm run check

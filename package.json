@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start --hostname 127.0.0.1",
     "check": "tsc --noEmit",
+    "test:seo": "node --test scripts/seo.test.mjs",
     "sanity:import-work": "node scripts/import-work-to-sanity.mjs"
   },
   "dependencies": {
